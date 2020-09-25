@@ -1,11 +1,11 @@
 import React from 'react'
 import { Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import './index.scss'
 
-const MyButton = ({ style: userStyle = {}, className: userClassName = "", children }) => {
+const MyButton = ({ onClick, style: userStyle = {}, className: userClassName = "", children }) => {
     return (
         <Button
+            onClick={onClick}
             classes={{
                 root: "btn-grad",
             }}

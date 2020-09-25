@@ -1,0 +1,1 @@
+export const CREATE_USER = 'SIGN_UP:CREATE_USER';

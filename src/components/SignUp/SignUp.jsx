@@ -1,38 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import '../../app.scss';
 import '../../styles/inputText.scss'
-import './SignIn.scss'
+import './SignUp.scss'
 import { Container, InputAdornment, IconButton, InputLabel, OutlinedInput, FormControl } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Link } from 'react-router-dom';
 import MyButton from '../smallComponents/Button'
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { createUser } from '../../actions/usersActionCreator';
 
 
 export default props => {
-    const { myUser: { login = "", password = "" } } = useSelector(state => state.users)
-    const [values, setValues] = React.useState({
-        login,
-        password,
-        showPassword: false,
+    const dispatch = useDispatch()
+    const [inputValues, setInputValues] = useState({
+        login: '',
+        password: '',
+        firstName: '',
+        lastName: ''
     });
+    const [spy, setSpy] = useState(false);
 
     const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
+        setInputValues({ ...inputValues, [prop]: event.target.value });
+      };
 
     const handleClickShowPassword = () => {
-        setValues({ ...values, showPassword: !values.showPassword });
+        setSpy(!spy);
     };
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
 
+    const handleSupmitButton = () => {
+        dispatch(createUser(inputValues));
+        props.history.push('/signin')
+    }
+
     return (
-        <Container className="card sign-in-page" >
+        <Container className="card sign-up-page" >
             <div className="card-body">
                 <h2 className="card-tytle">Welcome</h2>
                 <TextField
@@ -40,15 +48,15 @@ export default props => {
                     id="outlined-login-input"
                     label="Login"
                     variant="outlined"
-                    value={values.login}
+                    value={inputValues.login}
                     onChange={handleChange('login')}
                 />
                 <FormControl variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
-                        type={values.showPassword ? 'text' : 'password'}
-                        value={values.password}
+                        type={spy ? 'text' : 'password'}
+                        value={inputValues.password}
                         onChange={handleChange('password')}
                         endAdornment={
                             <InputAdornment position="end">
@@ -58,18 +66,36 @@ export default props => {
                                     onMouseDown={handleMouseDownPassword}
                                     edge="end"
                                 >
-                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                    {spy ? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
                             </InputAdornment>
                         }
                         labelWidth={70}
                     />
                 </FormControl>
-                <MyButton>LOGIN</MyButton>
-                <div className="link-to-sing-up">
-                    <p className="card-text" style={{ display: "inline" }}>Don't have an account? </p>
-                    <Link to="/signup">Sign Up</Link>
+                <TextField
+                    // required
+                    id="outlined-first-name-input"
+                    label="First name"
+                    variant="outlined"
+                    value={inputValues.firstName}
+                    onChange={handleChange('firstName')}
+                />
+                <TextField
+                    // required
+                    id="outlined-last-name-input"
+                    label="LastName"
+                    variant="outlined"
+                    value={inputValues.lastName}
+                    onChange={handleChange('lastName')}
+                />
+                <MyButton onClick={handleSupmitButton}>REGISTER</MyButton>
+                <div className="link-to-sing-in">
+                    <p className="card-text" style={{ display: "inline" }}>Have an account? </p>
+                    <Link to="/signin">Sign In</Link>
                 </div>
+
+
             </div>
         </Container>
     )

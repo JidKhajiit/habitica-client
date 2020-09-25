@@ -1,0 +1,37 @@
+.card {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 200px;
+}
+
+.MuiContainer-root.card {
+  box-shadow: 0 3px 5px 2px #3fb9e9;
+  border-radius: 8px;
+}
+
+.card .MuiFormControl-root {
+  margin: 8px 0;
+}
+
+.MuiTypography-root.MuiLink-root.MuiLink-underlineHover.MuiTypography-colorPrimary {
+  &:hover {
+      cursor: pointer;
+  }
+}
+
+.MuiButtonBase-root.MuiButton-root.btn-grad {
+  margin: 10px 0;
+  outline: none;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+@media(min-width: 1280px) {
+  .MuiContainer-maxWidthLg.MuiContainer-maxWidthLg {
+    max-width: 400px; 
+ }}

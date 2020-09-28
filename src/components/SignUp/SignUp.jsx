@@ -9,7 +9,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Link } from 'react-router-dom';
 import MyButton from '../smallComponents/Button'
 import { useDispatch } from 'react-redux';
-import { createUser } from '../../actions/usersActionCreator';
+import { createUser } from '../../redux/actions/userActionCreator';
 
 
 export default props => {

@@ -6,32 +6,40 @@ import './SignIn.scss'
 import { Container, InputAdornment, IconButton, InputLabel, OutlinedInput, FormControl } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { Link } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import MyButton from '../smallComponents/Button'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { authUser } from '../../redux/actions/userActionCreator';
 
 
 export default props => {
-    const { myUser: { login = "", password = "" } } = useSelector(state => state.users)
-    const [values, setValues] = React.useState({
+    const dispatch = useDispatch();
+    const { personalInfo: { login = "", password = "" }, isAuth } = useSelector(state => state.user)
+    const [inputValues, setInputValues] = React.useState({
         login,
         password,
         showPassword: false,
     });
 
     const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
+        setInputValues({ ...inputValues, [prop]: event.target.value });
     };
 
     const handleClickShowPassword = () => {
-        setValues({ ...values, showPassword: !values.showPassword });
+        setInputValues({ ...inputValues, showPassword: !inputValues.showPassword });
     };
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
 
+    const handleSupmitButton = () => {
+        dispatch(authUser(inputValues));
+    }
+
     return (
+        isAuth ?
+        <Redirect to='private' /> :
         <Container className="card sign-in-page" >
             <div className="card-body">
                 <h2 className="card-tytle">Welcome</h2>
@@ -40,15 +48,15 @@ export default props => {
                     id="outlined-login-input"
                     label="Login"
                     variant="outlined"
-                    value={values.login}
+                    value={inputValues.login}
                     onChange={handleChange('login')}
                 />
                 <FormControl variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
-                        type={values.showPassword ? 'text' : 'password'}
-                        value={values.password}
+                        type={inputValues.showPassword ? 'text' : 'password'}
+                        value={inputValues.password}
                         onChange={handleChange('password')}
                         endAdornment={
                             <InputAdornment position="end">
@@ -58,14 +66,14 @@ export default props => {
                                     onMouseDown={handleMouseDownPassword}
                                     edge="end"
                                 >
-                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                    {inputValues.showPassword ? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
                             </InputAdornment>
                         }
                         labelWidth={70}
                     />
                 </FormControl>
-                <MyButton>LOGIN</MyButton>
+                <MyButton onClick={handleSupmitButton}>LOGIN</MyButton>
                 <div className="link-to-sing-up">
                     <p className="card-text" style={{ display: "inline" }}>Don't have an account? </p>
                     <Link to="/signup">Sign Up</Link>

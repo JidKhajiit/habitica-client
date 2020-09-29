@@ -4,8 +4,15 @@ import {
     SET_USER,
     SET_AUTH_LOADING,
     CHECK_AUTH_USER,
-    SET_AUTH
-} from '../reducers/types';
+    SET_AUTH,
+    RESET_AUTH
+} from '../types';
+
+export const resetAuth = () => {
+    return {
+        type: RESET_AUTH
+    }
+}
 
 export const createUser = (newUser) => {
     return {

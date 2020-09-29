@@ -1,0 +1,26 @@
+.nav {
+    background: #432874 100% 0 no-repeat;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.nav div {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+// .nav-link {
+//     text-decoration-color: white !important;
+// }
+li.nav-item a.nav-link {
+    color: white;
+}
+
+li.nav-item a.nav-link.active, .nav-item.nav-link.btn.btn-secondary {
+    background-color: #432874;
+    color: white;
+}
+
+ 

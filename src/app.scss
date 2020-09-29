@@ -1,4 +1,4 @@
-.card {
+.card.auth {
     width: 100%;
     max-width: 400px;
     margin-top: 200px;
@@ -35,3 +35,8 @@
   .MuiContainer-maxWidthLg.MuiContainer-maxWidthLg {
     max-width: 400px; 
  }}
+
+ .content-width {
+   width: 90vw;
+   margin: 0 auto;
+ }

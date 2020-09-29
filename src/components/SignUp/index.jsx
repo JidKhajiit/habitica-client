@@ -1,32 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import '../../app.scss';
-import '../../styles/inputText.scss'
-import './SignIn.scss'
+import '../../styles/inputText.scss';
+import './index.scss';
 import { Container, InputAdornment, IconButton, InputLabel, OutlinedInput, FormControl } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { Link, Redirect, useHistory } from 'react-router-dom';
-import MyButton from '../smallComponents/Button'
-import { useDispatch, useSelector } from 'react-redux';
-import { authUser } from '../../redux/actions/userActionCreator';
+import { Link } from 'react-router-dom';
+import MyButton from '../smallComponents/SubmitButton'
+import { useDispatch } from 'react-redux';
+import { createUser } from '../../redux/actions/userActionCreator';
 
 
 export default props => {
-    const dispatch = useDispatch();
-    const { personalInfo: { login = "", password = "" }, isAuth } = useSelector(state => state.user)
-    const [inputValues, setInputValues] = React.useState({
-        login,
-        password,
-        showPassword: false,
+    const dispatch = useDispatch()
+    const [inputValues, setInputValues] = useState({
+        login: '',
+        password: '',
+        firstName: '',
+        lastName: ''
     });
+    const [spy, setSpy] = useState(false);
 
     const handleChange = (prop) => (event) => {
         setInputValues({ ...inputValues, [prop]: event.target.value });
-    };
+      };
 
     const handleClickShowPassword = () => {
-        setInputValues({ ...inputValues, showPassword: !inputValues.showPassword });
+        setSpy(!spy);
     };
 
     const handleMouseDownPassword = (event) => {
@@ -34,13 +35,12 @@ export default props => {
     };
 
     const handleSupmitButton = () => {
-        dispatch(authUser(inputValues));
+        dispatch(createUser(inputValues));
+        props.history.push('/signin')
     }
 
     return (
-        isAuth ?
-        <Redirect to='private' /> :
-        <Container className="card sign-in-page" >
+        <Container className="card auth sign-up-page" >
             <div className="card-body">
                 <h2 className="card-tytle">Welcome</h2>
                 <TextField
@@ -55,7 +55,7 @@ export default props => {
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
-                        type={inputValues.showPassword ? 'text' : 'password'}
+                        type={spy ? 'text' : 'password'}
                         value={inputValues.password}
                         onChange={handleChange('password')}
                         endAdornment={
@@ -66,18 +66,36 @@ export default props => {
                                     onMouseDown={handleMouseDownPassword}
                                     edge="end"
                                 >
-                                    {inputValues.showPassword ? <Visibility /> : <VisibilityOff />}
+                                    {spy ? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
                             </InputAdornment>
                         }
                         labelWidth={70}
                     />
                 </FormControl>
-                <MyButton onClick={handleSupmitButton}>LOGIN</MyButton>
-                <div className="link-to-sing-up">
-                    <p className="card-text" style={{ display: "inline" }}>Don't have an account? </p>
-                    <Link to="/signup">Sign Up</Link>
+                <TextField
+                    // required
+                    id="outlined-first-name-input"
+                    label="First name"
+                    variant="outlined"
+                    value={inputValues.firstName}
+                    onChange={handleChange('firstName')}
+                />
+                <TextField
+                    // required
+                    id="outlined-last-name-input"
+                    label="LastName"
+                    variant="outlined"
+                    value={inputValues.lastName}
+                    onChange={handleChange('lastName')}
+                />
+                <MyButton onClick={handleSupmitButton}>REGISTER</MyButton>
+                <div className="link-to-sing-in">
+                    <p className="card-text" style={{ display: "inline" }}>Have an account? </p>
+                    <Link to="/signin">Sign In</Link>
                 </div>
+
+
             </div>
         </Container>
     )

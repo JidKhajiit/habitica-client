@@ -1,26 +1,41 @@
 import React from 'react';
-import SignIn from './components/SignIn/SignIn';
+import SignIn from './components/SignIn/';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
-import SignUp from './components/SignUp/SignUp';
+import SignUp from './components/SignUp/';
 import { Provider } from 'react-redux';
 import { store } from './redux/store/configureStore';
 import { PrivateRoute } from './components/PrivateRoute';
-import Private from './components/Private/Private';
-import taskBoards from './components/taskBoards/taskBoards';
-import Header from './components/Header/Header';
+import Home from './components/Home/';
+import Groups from './components/Groups/';
+import Header from './components/Header/';
+import Group from './components/Group';
 
+
+const routesWithHeader = () => {
+  return (
+    <>
+      <Header />
+      <Switch>
+        <Route path='/home' component={Home} />
+        <Route exact path='/groups' component={Groups} />
+        <Route path='/groups/:id' render={({match}) => {
+          const { params: { id } } = match;
+          return <Group groupId={id} />
+        }} />
+        <Redirect to="/home" />
+      </Switch>
+    </>
+  )
+}
 function App() {
+
   return (
     <Provider store={store}>
       <Router>
-        
-        <Route path='/' component={Header} />
         <Switch>
           <Route exact path='/signin' component={SignIn} />
           <Route exact path='/signup' component={SignUp} />
-          <PrivateRoute path='/private' component={Private} />
-          <PrivateRoute path='/task-boards' component={taskBoards} />
-          <Redirect to="/private" />
+          <PrivateRoute path='/' component={routesWithHeader} />
         </Switch>
       </Router>
     </Provider>

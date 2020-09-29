@@ -1,4 +1,4 @@
-import { SET_USER, SET_AUTH_LOADING, SET_AUTH } from './types'
+import { SET_USER, SET_AUTH_LOADING, SET_AUTH, RESET_AUTH } from '../types'
 import jwt_decode from "jwt-decode";
 
 const initialState = {
@@ -9,11 +9,9 @@ const initialState = {
     },
     token: localStorage.getItem('token'),
     isAuth: false,
-    authLoading: true
+    authLoading: false
 
 }
-
-console.log(initialState.token);
 
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -33,6 +31,10 @@ export default (state = initialState, action) => {
         }
         case SET_AUTH: {
             return { ...state, isAuth: action.payload }
+        }
+        case RESET_AUTH: {
+            localStorage.removeItem('token');
+            return { ...state, isAuth: false, authLoading: false, token: null, personalInfo: {} }
         }
         default: return state
     }

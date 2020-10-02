@@ -1,5 +1,5 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
-import { setUser, setAuth, setIsAuthLoading } from '../actions/userActionCreator';
+import { setUser, setAuth, setIsAuthLoading } from '../actions/myUserActionCreator';
 import  { CREATE_USER_REQ, AUTH_USER_REQ, CHECK_AUTH_USER  } from '../types';
 import axios from 'axios';
 import { URL } from '../../config/constants';

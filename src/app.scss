@@ -1,7 +1,7 @@
 .card.auth {
-    width: 100%;
-    max-width: 400px;
-    margin-top: 200px;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 200px;
 }
 
 .MuiContainer-root.card {
@@ -15,7 +15,7 @@
 
 .MuiTypography-root.MuiLink-root.MuiLink-underlineHover.MuiTypography-colorPrimary {
   &:hover {
-      cursor: pointer;
+    cursor: pointer;
   }
 }
 
@@ -24,19 +24,147 @@
   outline: none;
 }
 
-.card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
+.card__custom.card-body {
+  background-color: rgb(215, 190, 240);
+  text-align: left;
+  margin: 5px 0;
+  position: relative;
+
+  &:hover {
+    background-color: rgb(197, 150, 243);
+  }
+
+  .card_item__custom {
+    background-color: rgb(243, 217, 250);
+    margin: 0 4px 0 4px;
+    padding: 2px 2px 2px 5px;
+    position: relative;
+
+    .card-item-article {
+      position: absolute;
+      font-size: small;
+      left: 6px;
+      top: -18px;
+      white-space: nowrap;
+    }
+  }
+
+  .card-title {
+    margin-bottom: 16px;
+
+    .task-title,
+    .group-title {
+      width: 100%;
+    }
+
+    .task-tags,
+    .group-tags {
+      width: 35%;
+      white-space: nowrap;
+    }
+
+    .users {
+      width: 20%;
+      white-space: nowrap;
+    }
+  }
 }
 
-@media(min-width: 1280px) {
-  .MuiContainer-maxWidthLg.MuiContainer-maxWidthLg {
-    max-width: 400px; 
- }}
+.add-button {
+  background-color: rgb(215, 190, 240);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  color: black;
+  height: 36px;
+  &:hover {
+    background: rgb(197, 150, 243);
+  }
+  svg {
+    position: relative;
+    top: -2px;
+  }
+}
 
- .content-width {
-   width: 90vw;
-   margin: 0 auto;
- }
+.position_center {
+  margin: 0 auto !important;
+}
+
+.flex-space-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+
+  .left-item {
+    width: 100%;
+  }
+
+  .right-item {
+    width: 250px;
+  }
+}
+
+.flex-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}
+
+@media (min-width: 1280px) {
+  .MuiContainer-maxWidthLg.MuiContainer-maxWidthLg {
+    max-width: 400px;
+  }
+}
+
+.content-width {
+  width: 90vw;
+  margin: 0 auto;
+}
+
+
+.rotate-icon {
+
+  transform: rotate(180deg);
+}
+
+.invisible {
+  display: none;
+}
+
+.close-cross {
+  z-index: 1;
+  position: absolute;
+  top: 1px;
+  right: -9px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+  color: red;
+
+  &:hover {
+  opacity: 1;
+  }
+
+  // &:before {
+  // transform: rotate(45deg);
+  // }
+  // &:after {
+  //   transform: rotate(-45deg);
+  // }
+  // &:before, &:after {
+  //   position: absolute;
+  //   left: 13px;
+  //   top: 2px;
+  //   content: ' ';
+  //   height: 14px;
+  //   width: 2px;
+  //   background-color: red;
+  // }
+}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { NavItem, NavLink } from 'reactstrap';
 import './index.scss'
 
@@ -10,15 +11,23 @@ const MyNavItem = ({
     children,
     disabled = false
 }) => {
-    const { activeHeaderTab } = useSelector(state => state.app);
-    const isActive = href === activeHeaderTab ? true : false;
-    const isHref = isActive ? '#' : href;
+    const history = useHistory();
+    console.log(history)
+    const activeHeaderTab = history.location.pathname;
+    // const { activeHeaderTab } = useSelector(state => state.app);
+    const isActive = activeHeaderTab.includes(href);
+
+    const handleLinkClick = () => {
+        history.push(href);
+    }
+
     return (
         <NavItem id={id} className={userClassName}>
             <NavLink 
                 disabled={disabled}
                 active={isActive}
-                href={isHref}
+                href='#'
+                onClick={handleLinkClick}
             >
                 {children}
             </NavLink>

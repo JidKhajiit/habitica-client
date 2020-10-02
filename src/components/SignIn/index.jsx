@@ -9,12 +9,12 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Link, Redirect } from 'react-router-dom';
 import MyButton from '../smallComponents/SubmitButton'
 import { useDispatch, useSelector } from 'react-redux';
-import { authUser } from '../../redux/actions/userActionCreator';
+import { authUser } from '../../redux/actions/myUserActionCreator';
 
 
 export default props => {
     const dispatch = useDispatch();
-    const { personalInfo: { login = "", password = "" }, isAuth } = useSelector(state => state.user)
+    const { personalInfo: { login = "", password = "" }, isAuth } = useSelector(state => state.myUser)
     const [inputValues, setInputValues] = React.useState({
         login,
         password,

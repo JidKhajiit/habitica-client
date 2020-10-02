@@ -1,43 +1,8 @@
 .groups-card.card.card-body {
-    background-color: rgb(215, 190, 240);
-    text-align: left;
-    margin: 5px 0;
-    position: relative;
-
-    &:hover {
-        background-color: rgb(197, 150, 243);
-    }
-
-    .card-item-div {
-        background-color: rgb(243, 217, 250);
-        margin: 0 4px;
-        padding: 2px;
-        position: relative;
-
-        .card-item-article {
-            position: absolute;
-            font-size: small;
-            left: 6px;
-            top: -18px;
-            white-space: nowrap;
-        }
-    }
 
     .card-title {
-        margin-bottom: 16px;
-
-        .group-title {
-            width: 100%;
-        }
-
-        .group-tags {
-            width: 35%;
-            white-space: nowrap;
-        }
-
         .users {
             width: 6%;
-            white-space: nowrap;
         }
     }
 
@@ -59,23 +24,6 @@
 
 .group-header {
     align-items: flex-end;
-
-    .add-group-button {
-        background-color: rgb(215, 190, 240);
-        border: 1px solid rgba(0, 0, 0, 0.125);
-        color: black;
-        // position: relative;
-        // top: -5px;
-        height: 36px;
-        &:hover {
-            background: rgb(197, 150, 243);
-        }
-
-        svg {
-            position: relative;
-            top: -2px;
-        }
-    }
 
     h1 {
         display: inline;

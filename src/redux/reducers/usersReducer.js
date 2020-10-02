@@ -1,15 +1,15 @@
-import { SET_GROUPS } from "../types";
+import { SET_USERS } from "../types";
 
 const initialState = {
-    groups: []
+    users: []
 
 }
 
 export default (state = initialState, action) => {
     const { payload } = action;
     switch (action.type) {
-        case SET_GROUPS:
-            return { ...state, groups: payload }
+        case SET_USERS:
+            return { ...state, users: payload }
 
         default: return state
     }

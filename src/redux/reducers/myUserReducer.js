@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
             }
             return { ...state, personalInfo, token: action.payload }
         case SET_AUTH_LOADING: {
-            console.log("slava что ты сделал")
+
             return { ...state, authLoading: action.payload }
         }
         case SET_AUTH: {

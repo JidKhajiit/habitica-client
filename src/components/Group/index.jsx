@@ -1,70 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Button, CardTitle } from 'reactstrap';
+import { Card, Button } from 'reactstrap';
 import { setHeaderTab } from '../../redux/actions/appActionCreator';
 import './index.scss';
 import '../../app.scss';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import { useHistory } from 'react-router-dom';
 import CreatingForm from '../CreatingForm';
+import TasksList from '../TasksList';
+import { MySpinner } from '../smallComponents/Spinner';
+import axios from 'axios';
+import { getGroupReq, setOpenedGroup } from '../../redux/actions/groupActionCreator';
 
 export default props => {
     const dispatch = useDispatch();
     const history = useHistory();
-
-    // const [inputValues, setInputValues] = useState({
-    //     title: '',
-    //     description: '',
-    //     firstName: '',
-    //     lastName: ''
-    // });
-    const { groups: groupsArr } = useSelector(state => state.groups);
+    const { openedGroup: currentGroup } = useSelector(state => state.groups);
     const { groupId } = props;
-    const currentGroup = groupsArr.filter((group) => group._id === groupId)[0];
+
+    useEffect(() => {
+        // dispatch(setOpenedGroup(null));
+        dispatch(setHeaderTab(`/groups`));
+        dispatch(getGroupReq(groupId));
+    }, []);
 
     const handleBackButton = () => {
         history.push('/groups');
     }
 
-    useEffect(() => {
-        dispatch(setHeaderTab(`/groups`));
-    }, []);
-
-    // const handleChange = (prop) => (event) => {
-    //     setInputValues({ ...inputValues, [prop]: event.target.value });
-    //   };
-
-
-
-    const tasksRender = currentGroup.tasks.map((task) => {
-        const workers = task.workers.map((worker) => <div key={worker._id}>{worker.nickName}</div>)
-        return (
-            <Card className="task-card card__custom flex-space-between" body key={task._id}>
-
-                <div className="left-item">
-                    <CardTitle className="flex-space-between">
-                        <div className="task-title card_item__custom">
-                            {task.title}
-                            <span className="card-item-article">task title</span>
-                        </div>
-                    </CardTitle>
-                    <div className="task-body flex-space-between">
-                        <div className="body card_item__custom">
-                            {task.body}
-                            <span className="card-item-article">description</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="right-item users card_item__custom">
-                    <span>{workers}</span>
-                    <span className="card-item-article">workers</span>
-                </div>
-            </Card>
-        )
-    })
 
     return (
-        <div className="content-width">
+        currentGroup && currentGroup._id === groupId ? <div className="content-width">
             <div className="group-header flex-space-between">
                 <h1>Group</h1>
                 <Button onClick={handleBackButton} className="back-button"><KeyboardBackspaceIcon />Back</Button>
@@ -86,7 +52,7 @@ export default props => {
                         </div>
                     </div>
                     <div className="right-item card_item__custom">
-                        {currentGroup.users.map((user, index) => <div key={user._id}>{user.nickName}</div>)}
+                        {currentGroup.users.map((user) => <div key={user._id}>{user.nickName}</div>)}
                         <span className="card-item-article">users</span>
                     </div>
                 </div>
@@ -94,11 +60,11 @@ export default props => {
 
             <CreatingForm task groupId={groupId} users={currentGroup.users} />
 
-            {tasksRender}
+            <TasksList tasks={currentGroup.tasks} users={currentGroup.users}/>
             <div className="active-tasks card_item__custom">
-                <span className="card-item-article">active tasks</span>
-                {currentGroup.tasks.filter((task) => task.checked === false).length} of {currentGroup.tasks.length}
+                <span className="card-item-article">active tasks </span>
+                {currentGroup.tasks.filter((task) => task.completed === false).length} of {currentGroup.tasks.length}
             </div>
-        </div>
+        </div> : <MySpinner fullSize/>
     )
 }

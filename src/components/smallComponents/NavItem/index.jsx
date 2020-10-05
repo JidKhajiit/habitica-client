@@ -12,7 +12,6 @@ const MyNavItem = ({
     disabled = false
 }) => {
     const history = useHistory();
-    console.log(history)
     const activeHeaderTab = history.location.pathname;
     // const { activeHeaderTab } = useSelector(state => state.app);
     const isActive = activeHeaderTab.includes(href);

@@ -15,7 +15,6 @@ function *AuthorizationRequest(action) {
 
     yield put(setUser(res.data));
     yield put(setAuth(true));
-    console.log('ответ пришёл', res.data);
     // yield put(switchLoginFormController(false));
   } catch (error) {
     // yield put(renderMessage(error.request.response));
@@ -52,7 +51,7 @@ function *CheckAuthUserRequest(action) {
       url: `${URL}auth/verify`,
       headers: { authorization: action.payload },
     });
-    console.log('res', res);
+    
     yield put(setAuth(true));
     yield put(setIsAuthLoading(false));
   } catch(error) {

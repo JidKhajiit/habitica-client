@@ -18,11 +18,10 @@ export default props => {
     const [someValue, setSomeValue] = useState(false)
 
     const handleGroupClick = (id) => {
-        // console.log(event.target.id);
         history.push(`/groups/${id}`);
     }
 
-    useEffect(async () => {
+    useEffect(() => {
         dispatch(setHeaderTab('/groups'));
         dispatch(getGroupsReq());
         dispatch(getUsersReq())
@@ -66,8 +65,6 @@ export default props => {
         )
     })
 
-    console.log("render", someValue)
-
     return (
         <div className="content-width">
             <div className="group-header flex-space-between">
@@ -75,7 +72,10 @@ export default props => {
                 <Button className="add-button"><AddIcon />New Group</Button>
             </div>
             <CreatingForm group />
-            {groupsRender}
+            <div style={{display: "flex", flexDirection: "column-reverse"}}>
+                {groupsRender}
+            </div>
+            
         </div>
     )
 }

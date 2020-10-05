@@ -4,11 +4,12 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import SignUp from './components/SignUp/';
 import { Provider } from 'react-redux';
 import { store } from './redux/store/configureStore';
-import { PrivateRoute } from './components/PrivateRoute';
+import { PrivateRoute } from './components/helpers/PrivateRoute';
 import Home from './components/Home/';
 import Groups from './components/Groups/';
 import Header from './components/Header/';
 import Group from './components/Group';
+
 
 
 const routesWithHeader = () => {

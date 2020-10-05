@@ -2,8 +2,8 @@ import React from 'react';
 import { Spinner } from 'reactstrap';
 import './index.scss'
 
-export const MySpinner = ({ isFullSize = false, style: userStyle = {}, className: userClassName = "" }) => {
-    if (isFullSize) {
+export const MySpinner = ({ fullSize, style: userStyle = {}, className: userClassName = "" }) => {
+    if (fullSize) {
         userClassName += " full-size-spinner"
     }
     return (

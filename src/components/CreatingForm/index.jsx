@@ -17,20 +17,19 @@ import { createTaskOrGroupReq } from '../../redux/actions/tasksActionCreator';
 export default ({ users = useSelector(state => state.users.users), group, task, groupId }) => {
     const dispatch = useDispatch();
     const object = group ? 'Group' :
-        task ? 'Task' : 'Item'
-    const [isFormVisible, setIsFormVisible] = useState(false);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [inputValues, setInputValues] = useState({
+        task ? 'Task' : 'Item';
+    const initInputValues = {
         title: '',
         tags: '',
         description: '',
-        restmen: users,
+        restmen: users.map((user) => ({_id: user._id})),
         workers: []
-    });
+    }
+    const [isFormVisible, setIsFormVisible] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [inputValues, setInputValues] = useState(initInputValues);
 
-    useEffect(() => { setInputValues({ ...inputValues, restmen: users.map((user) => user._id) }) }, [users])
-
-    console.log('azazazaz', inputValues.restmen, users);
+    useEffect(() => { setInputValues({ ...inputValues, restmen: users.map((user) => ({_id: user._id})) }) }, [users])
 
     const handleChange = (prop) => (event) => {
         setInputValues({ ...inputValues, [prop]: event.target.value });
@@ -41,8 +40,8 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
     const moveUser = (id, fromArr, toArr) => {
         setInputValues({
             ...inputValues,
-            [toArr]: [...inputValues[toArr], ...inputValues[fromArr].filter((userId) => userId === id)],
-            [fromArr]: inputValues[fromArr].filter((userId) => userId !== id)
+            [toArr]: [...inputValues[toArr], ...inputValues[fromArr].filter((user) => user._id === id)],
+            [fromArr]: inputValues[fromArr].filter((user) => user._id !== id)
         });
     }
 
@@ -63,9 +62,10 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                 }
             if (group) delete requestData.data.workers;
             delete requestData.data.restmen;
-            console.log(requestData);
+            
             dispatch(createTaskOrGroupReq(requestData));
-            changeFormVisibility()
+            changeFormVisibility();
+            setInputValues(initInputValues);
         }
     }
 
@@ -85,14 +85,14 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                     <InputGroupButtonDropdown addonType="append" isOpen={dropdownOpen} toggle={toggleDropDown}>
                         <DropdownToggle caret className="group-button-size">Add workers</DropdownToggle>
                         <DropdownMenu>
-                            {inputValues.restmen.map((userId) => <DropdownItem onClick={() => moveUser(userId, 'restmen', 'workers')} key={userId} >{users.find((item) => item._id == userId).nickName}</DropdownItem>)}
+                            {inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >{users.find((item) => item._id == user._id).nickName}</DropdownItem>)}
                         </DropdownMenu>
                     </InputGroupButtonDropdown>
                 </InputGroup>
                 <InputGroup className="">
                     <Input className="input-size" type="textarea" value={inputValues.description} onChange={handleChange('description')} name="description" placeholder="Description..." />
                     <Paper elevation={0} className="form-control group-input-area group-button-size">
-                        {inputValues.workers.map((workerId) => <div key={workerId}><span>{users.find((item) => item._id == workerId).nickName}</span><div onClick={() => moveUser(workerId, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
+                        {inputValues.workers.map((worker) => <div key={worker._id}><span>{users.find((item) => item._id == worker._id).nickName}</span><div onClick={() => moveUser(worker._id, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
                     </Paper>
                 </InputGroup>
             </Card>

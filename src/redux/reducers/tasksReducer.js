@@ -1,4 +1,4 @@
-import { SAVE_NEW_TASK } from "../types";
+import { SET_TASKS } from "../types";
 
 const initialState = {
     tasks: [],
@@ -8,9 +8,9 @@ const initialState = {
 export default (state = initialState, action) => {
     const { payload } = action;
     switch (action.type) {
-        case SAVE_NEW_TASK:
+        case SET_TASKS:
 
-            return { ...state, tasks: [ ...state.tasks, payload ] }
+            return { ...state, tasks: payload }
 
         default: return state
     }

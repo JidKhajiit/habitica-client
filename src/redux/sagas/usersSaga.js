@@ -19,8 +19,6 @@ function* GetUsersRequest() {
         });
 
         yield put(setUsers(res.data));
-
-        console.log('ответ пришёл', res.data);
         // yield put(switchLoginFormController(false));
     } catch (error) {
         // yield put(renderMessage(error.request.response));

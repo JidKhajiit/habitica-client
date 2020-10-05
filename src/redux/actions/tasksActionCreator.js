@@ -1,6 +1,6 @@
 import {
     CREATE_TASK_OR_GROUP_REQ,
-    SAVE_NEW_TASK
+    SET_TASKS
 } from '../types';
 
 
@@ -11,9 +11,9 @@ export const createTaskOrGroupReq = (payload) => {
     }
 }
 
-export const saveNewTask = (payload) => {
+export const setTasks = (payload) => {
     return {
-        type: SAVE_NEW_TASK,
+        type: SET_TASKS,
         payload
     }
 }

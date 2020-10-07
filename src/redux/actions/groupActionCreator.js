@@ -3,7 +3,8 @@ import {
     GET_GROUPS_REQ,
     GET_GROUP_REQ,
     SET_OPENED_GROUP,
-    RESET_OPENED_GROUP
+    RESET_OPENED_GROUP,
+    SET_EDITING_GROUP_ID
 } from '../types';
 
 
@@ -31,3 +32,8 @@ export const getGroupReq = (payload) => {
         payload
     }
 }
+
+export const setEditingGroupId = (payload) => ({
+    type: SET_EDITING_GROUP_ID,
+    payload: payload || null
+})

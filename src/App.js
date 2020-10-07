@@ -9,6 +9,7 @@ import Home from './components/Home/';
 import Groups from './components/Groups/';
 import Header from './components/Header/';
 import Group from './components/Group';
+import MyAlert from './components/helpers/MyAlert';
 
 
 
@@ -33,6 +34,7 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
+        <MyAlert />
         <Switch>
           <Route exact path='/signin' component={SignIn} />
           <Route exact path='/signup' component={SignUp} />

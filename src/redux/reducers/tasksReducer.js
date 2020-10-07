@@ -1,7 +1,8 @@
-import { SET_TASKS } from "../types";
+import { SET_TASKS, SET_EDITING_TASK_ID } from "../types";
 
 const initialState = {
     tasks: [],
+    editingTaskId: null
 
 }
 
@@ -11,7 +12,9 @@ export default (state = initialState, action) => {
         case SET_TASKS:
 
             return { ...state, tasks: payload }
-
+        case SET_EDITING_TASK_ID:
+            // console.log(payload)
+            return { ...state, editingTaskId: payload }
         default: return state
     }
 }

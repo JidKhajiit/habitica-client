@@ -1,0 +1,29 @@
+.custom-card__control-button {
+    position: absolute;
+    top: 2px;
+    .btn {
+        height: 23px;
+        padding-top: 1px;
+        width: 63px;
+
+        &:focus {
+            box-shadow: none
+        }
+
+        &.edit-button:focus {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        &.delete-button:focus {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+    }
+    &.card-task {
+        right: 24px;
+    }
+    &.card-group {
+        right: 72px;
+    }
+}

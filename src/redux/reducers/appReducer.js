@@ -1,10 +1,18 @@
-import { SET_HEADER_TAB } from '../types'
+import { SET_HEADER_TAB, SET_ALERT, SET_MODAL } from '../types'
 
 
 const initialState = {
 
     activeHeaderTab: "/home",
-    // blockActiveHeaderTab: true
+    alert: {
+        message: null,
+        isRender: false,
+    },
+    // modal: {
+    //     message: null,
+    //     isRender: false,
+    // },
+
 
 }
 
@@ -14,8 +22,11 @@ export default (state = initialState, action) => {
         case SET_HEADER_TAB: {
             return { ...state, activeHeaderTab: action.payload }
         }
-        // case BLOCK_ACTIVE_TAB: {
-        //     return { ...state, blockActiveHeaderTab: action.payload }
+        case SET_ALERT: {
+            return { ...state, alert: action.payload }
+        }
+        // case SET_MODAL: {
+        //     return { ...state, modal: action.payload}
         // }
         default: return state
     }

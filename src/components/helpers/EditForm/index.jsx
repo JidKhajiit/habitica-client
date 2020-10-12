@@ -1,5 +1,6 @@
 import { Paper } from '@material-ui/core';
 import './index.scss';
+import '../../../app.scss'
 import { Card, Button, InputGroup, Input } from 'reactstrap';
 import {
     InputGroupButtonDropdown,
@@ -12,29 +13,54 @@ import AddIcon from '@material-ui/icons/Add';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTaskOrGroupReq } from '../../redux/actions/tasksActionCreator';
-import { showAlert } from '../../redux/actions/appActionCreator';
+import { editItem, setEditingTaskId } from '../../../redux/actions/tasksActionCreator';
+import { showAlert } from '../../../redux/actions/appActionCreator';
+import { setEditingGroupId } from '../../../redux/actions/groupActionCreator';
 
-export default ({ users = useSelector(state => state.users.users), group, task, groupId }) => {
+export default ({ users = useSelector(state => state.users.users), group, task, className }) => {
     const dispatch = useDispatch();
-    // const = useSelector((state => state.myUser))
     const type = group ? 'Group' :
         task ? 'Task' : 'Item';
-    const initInputValues = {
-        title: '',
-        description: '',
-        restmen: users.map((user) => ({_id: user._id})),
-        workers: []
-    }
-    if(group) {
-        initInputValues.tags = '';
-        
-    }
-    const [isFormVisible, setIsFormVisible] = useState(false);
+    const initInputValues = task ? {
+        title: task.title,
+        description: task.description,
+        restmen: users.map((user) => ({ _id: user._id })).filter((user) => !task.workers.some(worker => worker._id === user._id)),
+        workers: task.workers.map((worker) => ({ _id: worker._id }))
+    } : group ? {
+        title: group.title,
+        tags: group.tags.join(' '),
+        description: group.description,
+        restmen: users.map((user) => ({ _id: user._id })).filter((user) => !group.users.some(workerId => workerId === user._id)),
+        workers: group.users.map((workerId) => ({ _id: workerId }))
+    } : {
+                title: '',
+                tags: '',
+                description: '',
+                restmen: users.map((user) => ({ _id: user._id })),
+                workers: []
+            }
+    const groupId = task ? task.groupId : group._id;
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [inputValues, setInputValues] = useState(initInputValues);
 
-    useEffect(() => { setInputValues({ ...inputValues, restmen: users.map((user) => ({_id: user._id})) }) }, [users])
+    // useEffect(() => {
+    //     // if(task) {
+    //     setInputValues({
+    //         ...inputValues,
+    //         restmen: users
+    //             .map((user) => ({ _id: user._id }))
+    //             .filter((user) => {
+    //                 if (task) {
+    //                     return !task.workers
+    //                         .some(worker => worker._id === user._id)
+    //                 } else {
+    //                     return !group.users
+    //                         .some(workerId => workerId === user._id)
+    //                 }
+
+    //             })
+    //     })
+    // }, [users])
 
     const handleChange = (prop) => (event) => {
         setInputValues({ ...inputValues, [prop]: event.target.value });
@@ -50,38 +76,39 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
         });
     }
 
-    const setVisibility = isVisible => isVisible ? '' : ' invisible';
-
-    const changeFormVisibility = () => {
-        setIsFormVisible(!isFormVisible);
-    }
-
     const sendRequest = () => {
+        console.log(inputValues)
         if (inputValues.title && inputValues.workers.length) {
             const requestData = group ? {
                 data: { ...inputValues, users: [...inputValues.workers], tags: [...inputValues.tags.split(' ')] },
-                type: type.toLowerCase()
+                id: group._id
             } : {
-                    data: { ...inputValues, groupId },
-                    type: type.toLowerCase()
-                }
+                    data: { ...inputValues },
+                    id: task._id,
+                    groupId
+                };
+            requestData.type = type.toLowerCase();
+
             if (group) delete requestData.data.workers;
             delete requestData.data.restmen;
-            
-            dispatch(createTaskOrGroupReq(requestData));
-            changeFormVisibility();
+
+            dispatch(editItem(requestData));
             setInputValues(initInputValues);
         } else {
-            const { workers } = inputValues
-            
-            console.log('title', inputValues.title, 'workers', workers)
-            if(!inputValues.title && !!inputValues.workers) {
+            const { workers } = inputValues //?????????????????????????>
+
+            if (!inputValues.title && !!inputValues.workers) {
                 dispatch(showAlert("Need to fill title and workers."));
             } else if (!inputValues.title) {
                 dispatch(showAlert("Need to fill title."));
             }
             dispatch(showAlert("Need to add at least one worker."));
         }
+    }
+
+    const closeEditForm = () => {
+        if (task) dispatch(setEditingTaskId())
+        else dispatch(setEditingGroupId())
     }
 
     const ifGroup = () => {
@@ -91,10 +118,9 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
     }
 
     return (
-        <>
-            <Card className={setVisibility(isFormVisible)}>
+        <div>
+            <Card body className="task-card card__custom list-item-card">
                 <InputGroup className="new-task-area">
-
                     <Input className="input-size" value={inputValues.title} onChange={handleChange('title')} name="title" placeholder={`${type} title...`} />
                     {ifGroup()}
                     <InputGroupButtonDropdown addonType="append" isOpen={dropdownOpen} toggle={toggleDropDown}>
@@ -112,11 +138,10 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                 </InputGroup>
             </Card>
             <div className="flex-center">
-                <Button onClick={changeFormVisibility} className={'add-button' + setVisibility(!isFormVisible)}><AddIcon />New {type}</Button>
-                <Button onClick={changeFormVisibility} className={'add-button' + setVisibility(isFormVisible)}><KeyboardBackspaceIcon />Close</Button>
-                <Button onClick={sendRequest} className={'add-button' + setVisibility(isFormVisible)}>Create<KeyboardBackspaceIcon className="rotate-icon" /></Button>
+                <Button onClick={closeEditForm} className={'add-button'}><KeyboardBackspaceIcon />Close</Button>
+                <Button onClick={sendRequest} className={'add-button'}>Save<KeyboardBackspaceIcon className="rotate-icon" /></Button>
             </div>
-        </>
+        </div>
 
     )
 }

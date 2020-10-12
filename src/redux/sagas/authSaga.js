@@ -3,6 +3,7 @@ import { setUser, setAuth, setIsAuthLoading } from '../actions/myUserActionCreat
 import  { CREATE_USER_REQ, AUTH_USER_REQ, CHECK_AUTH_USER  } from '../types';
 import axios from 'axios';
 import { URL } from '../../config/constants';
+import { showAlert } from '../actions/appActionCreator';
 
 
 function *AuthorizationRequest(action) {
@@ -17,7 +18,7 @@ function *AuthorizationRequest(action) {
     yield put(setAuth(true));
     // yield put(switchLoginFormController(false));
   } catch (error) {
-    // yield put(renderMessage(error.request.response));
+    yield put(showAlert(error.request.response));
     console.log('her', error.request.response);
   }
 }
@@ -39,7 +40,7 @@ function *RegistrationRequest(action) {
     yield put(setAuth(true));
     // yield put(switchLoginFormController(false)); //
   } catch (error) {
-    // yield put(renderMessage(error.request.response));
+    yield put(showAlert(error.request.response));
     console.log('error', error.request.response);
   }
 }
@@ -55,6 +56,7 @@ function *CheckAuthUserRequest(action) {
     yield put(setAuth(true));
     yield put(setIsAuthLoading(false));
   } catch(error) {
+    yield put(showAlert(error.request.response));
     // yield delay(4000);
     yield put(setAuth(false));
     yield put(setIsAuthLoading(false));   
@@ -67,4 +69,3 @@ export default function *watchAuth() {
   yield takeEvery(CREATE_USER_REQ, RegistrationRequest);
   yield takeEvery(CHECK_AUTH_USER, CheckAuthUserRequest);
 }
-

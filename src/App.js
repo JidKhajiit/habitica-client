@@ -10,6 +10,7 @@ import Groups from './components/Groups/';
 import Header from './components/Header/';
 import Group from './components/Group';
 import MyAlert from './components/helpers/MyAlert';
+import Friends from './components/Friends';
 
 
 
@@ -20,10 +21,11 @@ const routesWithHeader = () => {
       <Switch>
         <Route path='/home' component={Home} />
         <Route exact path='/groups' component={Groups} />
-        <Route path='/groups/:id' render={({match}) => {
+        <Route path='/groups/:id' render={({ match }) => {
           const { params: { id } } = match;
           return <Group groupId={id} />
         }} />
+        <Route exact path='/friends' component={Friends} />
         <Redirect to="/home" />
       </Switch>
     </>

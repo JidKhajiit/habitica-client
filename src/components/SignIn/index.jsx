@@ -10,6 +10,7 @@ import { Link, Redirect } from 'react-router-dom';
 import MyButton from '../smallComponents/SubmitButton'
 import { useDispatch, useSelector } from 'react-redux';
 import { authUser } from '../../redux/actions/myUserActionCreator';
+import { showAlert } from '../../redux/actions/appActionCreator';
 
 
 export default props => {
@@ -34,7 +35,12 @@ export default props => {
     };
 
     const handleSupmitButton = () => {
-        dispatch(authUser(inputValues));
+        if(inputValues.login.trim() && inputValues.password.trim()) {
+            dispatch(authUser(inputValues));
+        } else {
+            dispatch(showAlert('Please, enter login and password.'));
+        }
+        
     }
 
     return (

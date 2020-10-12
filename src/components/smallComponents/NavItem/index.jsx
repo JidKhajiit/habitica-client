@@ -13,7 +13,6 @@ const MyNavItem = ({
 }) => {
     const history = useHistory();
     const activeHeaderTab = history.location.pathname;
-    // const { activeHeaderTab } = useSelector(state => state.app);
     const isActive = activeHeaderTab.includes(href);
 
     const handleLinkClick = () => {

@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setHeaderTab } from '../../redux/actions/appActionCreator';
 
 export default props => {
 
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(setHeaderTab('/home'));
-    }, []);
 
     return (
 

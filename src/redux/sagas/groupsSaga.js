@@ -3,11 +3,10 @@ import { GET_GROUP_REQ, GET_GROUPS_REQ } from '../types';
 import axios from 'axios';
 import { URL } from '../../config/constants';
 import { setGroups, setOpenedGroup } from '../actions/groupActionCreator.js';
-
-const token = localStorage.getItem('token');
+import { showAlert } from '../actions/appActionCreator';
 
 function* GetGroupsRequest() {
-
+    const token = localStorage.getItem('token');
     try {
 
         const res = yield call(axios, {
@@ -23,12 +22,13 @@ function* GetGroupsRequest() {
         
         // yield put(switchLoginFormController(false));
     } catch (error) {
-        // yield put(renderMessage(error.request.response));
+        yield put(showAlert(error.request.response));
         console.log('her', error.request.response);
     }
 }
 
 function* GetGroupRequest({ payload: groupId }) {
+    const token = localStorage.getItem('token');
     try {
 
         const response = yield call(axios, {
@@ -39,6 +39,7 @@ function* GetGroupRequest({ payload: groupId }) {
         // console.log("it's me, response!!", response.data)
         yield put(setOpenedGroup(response.data));
     } catch (error) {
+        yield put(showAlert(error.request.response));
         console.log(error.message);
     }
 }

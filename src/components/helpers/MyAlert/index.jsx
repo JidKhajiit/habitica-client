@@ -5,10 +5,10 @@ import './index.scss'
 
 
 export default props => {
-    const { alert: { isRender, message } } = useSelector(state => state.app)
+    const { alert: { isVisible, message } } = useSelector(state => state.app)
 
     return (
-        <Alert className="alert-message" color="danger" fade={true} isOpen={isRender}>
+        <Alert className="alert-message" color="danger" fade={true} isOpen={isVisible}>
             {message}
         </Alert>
     )

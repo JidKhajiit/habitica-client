@@ -4,6 +4,7 @@ import axios from 'axios';
 import { URL } from '../../config/constants';
 import { setGroups, getGroupReq, getGroupsReq, setEditingGroupId } from '../actions/groupActionCreator.js';
 import { setEditingTaskId } from '../actions/tasksActionCreator';
+import { showAlert } from '../actions/appActionCreator';
 
 const token = localStorage.getItem('token');
 
@@ -28,7 +29,7 @@ function* CreatingItemRequest({ payload: { data, type } }) {
             throw new Error("Invalide object.");
         }
     } catch (error) {
-
+        yield put(showAlert(error.request.response));
         console.log('her', error.request.response);
     }
 }
@@ -46,6 +47,7 @@ function* checkTaskReq({ payload: { _id, completed, groupId } }) {
         yield put(getGroupReq(groupId));
 
     } catch (error) {
+        yield put(showAlert(error.request.response));
         console.log('her', error.request.response);
     }
 }
@@ -69,6 +71,7 @@ function* editItemReq({ payload: { id, data, type, groupId } }) {
             yield put(setEditingGroupId())
         }
     } catch (error) {
+        yield put(showAlert(error.request.response));
         console.log('her', error.request.response);
     }
 }
@@ -90,6 +93,7 @@ function* deleteItemReq({ payload }) {
 
 
     } catch (error) {
+        yield put(showAlert(error.request.response));
         console.log('her', error.request.response);
     }
 }

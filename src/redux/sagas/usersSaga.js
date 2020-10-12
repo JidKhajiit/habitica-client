@@ -4,10 +4,9 @@ import axios from 'axios';
 import { URL } from '../../config/constants';
 import { setUsers } from '../actions/usersActionCreator.js';
 
-const token = localStorage.getItem('token');
-
 function* GetUsersRequest() {
-
+    const token = localStorage.getItem('token');
+    console.log('token', token)
     try {
 
         const res = yield call(axios, {

@@ -10,7 +10,6 @@ const token = localStorage.getItem('token');
 function* ShowAlert({payload}) {
     try {
         yield put(setAlert(true, payload));
-        console.log('complete', payload)
         yield delay(4000);
         yield put(setAlert());
         

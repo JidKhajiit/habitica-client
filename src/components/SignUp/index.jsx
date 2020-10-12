@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import MyButton from '../smallComponents/SubmitButton'
 import { useDispatch } from 'react-redux';
 import { createUser } from '../../redux/actions/myUserActionCreator';
+import { showAlert } from '../../redux/actions/appActionCreator';
 
 
 export default props => {
@@ -35,8 +36,9 @@ export default props => {
     };
 
     const handleSupmitButton = () => {
-        dispatch(createUser(inputValues));
-        props.history.push('/signin')
+        if(inputValues.login && inputValues.password) dispatch(createUser(inputValues));
+        else dispatch(showAlert('Please, enter login and password.'));
+        // props.history.push('/signin')
     }
 
     return (

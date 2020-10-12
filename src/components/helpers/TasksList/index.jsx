@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, CardTitle, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-import { checkTask } from '../../redux/actions/tasksActionCreator';
-import ListItemCard from '../helpers/ListItemCard';
+import { CardTitle, InputGroupAddon, InputGroupText } from 'reactstrap';
+import { checkTask } from '../../../redux/actions/tasksActionCreator';
+import ListItemCard from '../ListItemCard';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import EditForm from '../EditForm';
-import '../../app.scss'
+import '../../../app.scss'
 
 export default ({ tasks, users }) => {
     const dispatch = useDispatch();

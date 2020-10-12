@@ -1,23 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Button, CardTitle } from 'reactstrap';
-import { setHeaderTab } from '../../redux/actions/appActionCreator';
+import { CardTitle } from 'reactstrap';
+
 import { getGroupsReq } from '../../redux/actions/groupActionCreator';
 import './index.scss';
 import '../../app.scss';
 import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
-import AddIcon from '@material-ui/icons/Add';
 import { useHistory } from 'react-router-dom';
-import CreatingForm from '../CreatingForm';
+import CreatingForm from '../helpers/CreatingForm';
 import { getUsersReq } from '../../redux/actions/usersActionCreator';
 import ListItemCard from '../helpers/ListItemCard';
-import EditForm from '../EditForm';
+import EditForm from '../helpers/EditForm';
 
 export default props => {
     const dispatch = useDispatch();
     const { groups: groupsArr, editingGroupId } = useSelector(state => state.groups);
     const history = useHistory();
-    const [someValue, setSomeValue] = useState(false)
 
     const handleGroupClick = (event, id) => {
         if (event.target.type !== "button") {
@@ -26,7 +24,7 @@ export default props => {
     }
 
     useEffect(() => {
-        dispatch(setHeaderTab('/groups'));
+
         dispatch(getGroupsReq());
         dispatch(getUsersReq())
     }, []);

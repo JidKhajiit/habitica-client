@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Button } from 'reactstrap';
-import { setHeaderTab } from '../../redux/actions/appActionCreator';
+
 import './index.scss';
 import '../../app.scss';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import { useHistory } from 'react-router-dom';
-import CreatingForm from '../CreatingForm';
-import TasksList from '../TasksList';
+import CreatingForm from '../helpers/CreatingForm';
+import TasksList from '../helpers/TasksList';
 import { MySpinner } from '../smallComponents/Spinner';
-import axios from 'axios';
 import { getGroupReq, setOpenedGroup } from '../../redux/actions/groupActionCreator';
 
 export default props => {
@@ -20,7 +19,6 @@ export default props => {
 
     useEffect(() => {
         // dispatch(setOpenedGroup(null));
-        dispatch(setHeaderTab(`/groups`));
         dispatch(getGroupReq(groupId));
     }, []);
 

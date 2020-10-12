@@ -1,19 +1,26 @@
 import { SET_USER, SET_AUTH_LOADING, SET_AUTH, RESET_AUTH } from '../types'
 import jwt_decode from "jwt-decode";
 
-const user = jwt_decode(localStorage.getItem('token'));
-const { login, nickName, firstName, lastName } = user;
-const personalInfo = user ? {
-    login,
-    nickName,
-    firstName,
-    lastName
-} : {
-    login: "",
-    nickName: "Anonimous",
-    firstName: "",
-    lastName: ""
-};
+let user, personalInfo;
+
+if (localStorage.getItem('token')) {
+    user = jwt_decode(localStorage.getItem('token'));
+    const { login, nickName, firstName, lastName } = user;
+    personalInfo = {
+        login,
+        nickName,
+        firstName,
+        lastName
+    }
+} else {
+    personalInfo = {
+        login: "",
+        nickName: "Anonimous",
+        firstName: "",
+        lastName: ""
+    };
+}
+
 
 const initialState = {
     personalInfo,
@@ -28,7 +35,8 @@ export default (state = initialState, action) => {
         case SET_USER:
             const user = jwt_decode(action.payload);
             localStorage.setItem('token', action.payload);
-            console.log(user);
+            console.log('user', user);
+            console.log('add token', localStorage.getItem('token'))
             const { login, nickName, firstName, lastName } = user;
             const personalInfo = {
                 login,

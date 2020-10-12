@@ -1,19 +1,7 @@
 import {
-    SET_HEADER_TAB,
-    BLOCK_ACTIVE_TAB,
     SHOW_ALERT,
-    SET_ALERT,
-    SHOW_MODAL,
-    SET_MODAL
+    SET_ALERT
 } from '../types';
-
-
-export const setHeaderTab = (activeTab) => {
-    return {
-        type: SET_HEADER_TAB,
-        payload: activeTab
-    }
-}
 
 export const showAlert = (message) => {
     return {

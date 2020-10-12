@@ -1,6 +1,5 @@
 import { Paper } from '@material-ui/core';
 import './index.scss';
-import '../../app.scss'
 import { Card, Button, InputGroup, Input } from 'reactstrap';
 import {
     InputGroupButtonDropdown,
@@ -13,54 +12,34 @@ import AddIcon from '@material-ui/icons/Add';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { editItem, setEditingTaskId } from '../../redux/actions/tasksActionCreator';
-import { showAlert } from '../../redux/actions/appActionCreator';
-import { setEditingGroupId } from '../../redux/actions/groupActionCreator';
+import { createTaskOrGroupReq } from '../../../redux/actions/tasksActionCreator';
+import { showAlert } from '../../../redux/actions/appActionCreator';
 
-export default ({ users = useSelector(state => state.users.users), group, task, className }) => {
+export default ({ users = useSelector(state => state.users.users), group, task, groupId }) => {
     const dispatch = useDispatch();
+    const { personalInfo: { nickName: myUserNickName } } = useSelector((state => state.myUser))
     const type = group ? 'Group' :
         task ? 'Task' : 'Item';
-    const initInputValues = task ? {
-        title: task.title,
-        description: task.description,
-        restmen: users.map((user) => ({ _id: user._id })).filter((user) => !task.workers.some(worker => worker._id === user._id)),
-        workers: task.workers.map((worker) => ({ _id: worker._id }))
-    } : group ? {
-        title: group.title,
-        tags: group.tags.join(' '),
-        description: group.description,
-        restmen: users.map((user) => ({ _id: user._id })).filter((user) => !group.users.some(workerId => workerId === user._id)),
-        workers: group.users.map((workerId) => ({ _id: workerId }))
-    } : {
-                title: '',
-                tags: '',
-                description: '',
-                restmen: users.map((user) => ({ _id: user._id })),
-                workers: []
-            }
-    const groupId = task ? task.groupId : group._id;
+    const restmen = group ? users.filter((user) => user.nickName !== myUserNickName).map((user) => ({ _id: user._id })) : users.map((user) => ({ _id: user._id }));
+    const initInputValues = {
+        title: '',
+        description: '',
+        restmen,
+        workers: []
+    }
+    if (group) {
+        initInputValues.tags = '';
+        // const myIndex = initInputValues.restmen.indexOf({_id: group._id})
+        // console.log(group)
+        // console.log(initInputValues.restmen)
+        // console.log(myIndex)
+        // initInputValues.restmen.splice(initInputValues.restmen, 1)
+    }
+    const [isFormVisible, setIsFormVisible] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [inputValues, setInputValues] = useState(initInputValues);
-
-    // useEffect(() => {
-    //     // if(task) {
-    //     setInputValues({
-    //         ...inputValues,
-    //         restmen: users
-    //             .map((user) => ({ _id: user._id }))
-    //             .filter((user) => {
-    //                 if (task) {
-    //                     return !task.workers
-    //                         .some(worker => worker._id === user._id)
-    //                 } else {
-    //                     return !group.users
-    //                         .some(workerId => workerId === user._id)
-    //                 }
-
-    //             })
-    //     })
-    // }, [users])
+    const [gotUsers, setGotUsers] = useState(false);
+    const [myUserId, setMyUserId] = useState(null)
 
     const handleChange = (prop) => (event) => {
         setInputValues({ ...inputValues, [prop]: event.target.value });
@@ -74,41 +53,42 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
             [toArr]: [...inputValues[toArr], ...inputValues[fromArr].filter((user) => user._id === id)],
             [fromArr]: inputValues[fromArr].filter((user) => user._id !== id)
         });
+        console.log(inputValues)
+    }
+
+    const setVisibility = isVisible => isVisible ? '' : ' invisible';
+
+    const changeFormVisibility = () => {
+        setIsFormVisible(!isFormVisible);
     }
 
     const sendRequest = () => {
-        console.log(inputValues)
-        if (inputValues.title && inputValues.workers.length) {
+        const { workers, title, tags } = inputValues
+        if (title && group || title && workers.length && task) {
             const requestData = group ? {
-                data: { ...inputValues, users: [...inputValues.workers], tags: [...inputValues.tags.split(' ')] },
-                id: group._id
+                data: { ...inputValues, users: [...workers, {_id: myUserId}], tags: [...tags.split(' ')] },
+                type: type.toLowerCase()
             } : {
-                    data: { ...inputValues },
-                    id: task._id,
-                    groupId
-                };
-            requestData.type = type.toLowerCase();
-
+                    data: { ...inputValues, groupId },
+                    type: type.toLowerCase()
+                }
             if (group) delete requestData.data.workers;
             delete requestData.data.restmen;
 
-            dispatch(editItem(requestData));
+            dispatch(createTaskOrGroupReq(requestData));
+            changeFormVisibility();
             setInputValues(initInputValues);
         } else {
-            const { workers } = inputValues //?????????????????????????>
-
-            if (!inputValues.title && !!inputValues.workers) {
+            console.log('title', !title, 'workers', !workers.length)
+            if (!title && !workers.length && task) {
                 dispatch(showAlert("Need to fill title and workers."));
-            } else if (!inputValues.title) {
+            } else if (!title) {
                 dispatch(showAlert("Need to fill title."));
+            } else {
+                dispatch(showAlert("Need to add at least one worker."));
             }
-            dispatch(showAlert("Need to add at least one worker."));
+            
         }
-    }
-
-    const closeEditForm = () => {
-        if (task) dispatch(setEditingTaskId())
-        else dispatch(setEditingGroupId())
     }
 
     const ifGroup = () => {
@@ -117,10 +97,31 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
             <div></div>
     }
 
+    useEffect(() => {
+        console.log(users)
+        const restmen = group ? users.filter((user) => user.nickName !== myUserNickName).map((user) => ({ _id: user._id })) : users.map((user) => ({ _id: user._id })); // repeat
+        setInputValues({ ...inputValues, restmen })
+        setGotUsers(true)
+
+    }, [users])
+
+    useEffect(() => {
+        if (group && gotUsers === true) {
+            const myUser = users.find(user => user.nickName === myUserNickName)
+            if (myUser) {
+                // moveUser(myUser._id, 'restmen', 'workers');
+                setMyUserId(myUser._id);
+            }
+            setGotUsers(false);
+        }
+    }, [gotUsers])
+
+
     return (
-        <div>
-            <Card body className="task-card card__custom list-item-card">
+        <>
+            <Card className={setVisibility(isFormVisible)}>
                 <InputGroup className="new-task-area">
+
                     <Input className="input-size" value={inputValues.title} onChange={handleChange('title')} name="title" placeholder={`${type} title...`} />
                     {ifGroup()}
                     <InputGroupButtonDropdown addonType="append" isOpen={dropdownOpen} toggle={toggleDropDown}>
@@ -133,15 +134,18 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                 <InputGroup className="">
                     <Input className="input-size" type="textarea" value={inputValues.description} onChange={handleChange('description')} name="description" placeholder="Description..." />
                     <Paper elevation={0} className="form-control group-input-area group-button-size">
+                        {group ? <div ><span>{myUserNickName}</span> <hr/></div> : <></>}
                         {inputValues.workers.map((worker) => <div key={worker._id}><span>{users.find((item) => item._id == worker._id).nickName}</span><div onClick={() => moveUser(worker._id, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
                     </Paper>
                 </InputGroup>
             </Card>
             <div className="flex-center">
-                <Button onClick={closeEditForm} className={'add-button'}><KeyboardBackspaceIcon />Close</Button>
-                <Button onClick={sendRequest} className={'add-button'}>Save<KeyboardBackspaceIcon className="rotate-icon" /></Button>
+                <Button onClick={changeFormVisibility} className={'add-button' + setVisibility(!isFormVisible)}><AddIcon />New {type}</Button>
+                <Button onClick={changeFormVisibility} className={'add-button' + setVisibility(isFormVisible)}><KeyboardBackspaceIcon />Close</Button>
+                <Button onClick={() => setInputValues(initInputValues)} className={'add-button' + setVisibility(isFormVisible)}>Clean</Button>
+                <Button onClick={sendRequest} className={'add-button' + setVisibility(isFormVisible)}>Create<KeyboardBackspaceIcon className="rotate-icon" /></Button>
             </div>
-        </div>
+        </>
 
     )
 }

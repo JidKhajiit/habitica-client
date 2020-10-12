@@ -1,17 +1,14 @@
-import { SET_HEADER_TAB, SET_ALERT, SET_MODAL } from '../types'
+import { SET_ALERT } from '../types'
 
 
 const initialState = {
 
-    activeHeaderTab: "/home",
+    // activeHeaderTab: "/home",
     alert: {
         message: null,
-        isRender: false,
+        isVisible: false,
     },
-    // modal: {
-    //     message: null,
-    //     isRender: false,
-    // },
+
 
 
 }
@@ -19,9 +16,6 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
 
-        case SET_HEADER_TAB: {
-            return { ...state, activeHeaderTab: action.payload }
-        }
         case SET_ALERT: {
             return { ...state, alert: action.payload }
         }

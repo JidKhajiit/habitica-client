@@ -10,6 +10,7 @@ import CreatingForm from '../helpers/CreatingForm';
 import TasksList from '../helpers/TasksList';
 import { MySpinner } from '../smallComponents/Spinner';
 import { getGroupReq, setOpenedGroup } from '../../redux/actions/groupActionCreator';
+import { setEditingTaskId } from '../../redux/actions/tasksActionCreator';
 
 export default props => {
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ export default props => {
     const { groupId } = props;
 
     useEffect(() => {
-        // dispatch(setOpenedGroup(null));
+        dispatch(setEditingTaskId());
         dispatch(getGroupReq(groupId));
     }, []);
 

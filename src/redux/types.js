@@ -6,7 +6,7 @@ export const CREATE_USER_REQ = 'SIGN_UP:SEND_CREATE_USER_REQUEST', //my user's t
     SET_AUTH = "SET_AUTH_TOGGLE",
     RESET_AUTH = "RESET_AUTH_USER"
 
-export const  //app types
+export const SET_FRIEND_TAB = "SET_FRIEND_TAB", //app types
     BLOCK_ACTIVE_TAB = "HEADER:BLOCK_ACTIVE_TAB",
     SHOW_ALERT = "SHOW_ALERT",
     SET_ALERT = "SET_ALERT",

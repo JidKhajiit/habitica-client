@@ -1,66 +1,60 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, CardTitle } from 'reactstrap';
-
-import { getGroupsReq } from '../../redux/actions/groupActionCreator';
+import { Button, Card, CardTitle, Input, InputGroup, InputGroupAddon, Nav, NavItem, NavLink } from 'reactstrap';
 import './index.scss';
 import '../../app.scss';
-import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
 import { useHistory } from 'react-router-dom';
-import CreatingForm from '../helpers/CreatingForm';
-import { getUsersReq } from '../../redux/actions/usersActionCreator';
-import ListItemCard from '../helpers/ListItemCard';
+import MyFriends from './MyFriends';
+import MyNavItem from '../smallComponents/NavItem';
+import { setFriendTab } from '../../redux/actions/appActionCreator';
+import AddNewFriend from './AddNewFriend';
+
 
 export default props => {
     const dispatch = useDispatch();
-    let { users } = useSelector(state => state.users);
-    const { personalInfo: { nickName: myUserNickName } } = useSelector((state => state.myUser))
+
+    const { friendTab } = useSelector((state => state.app))
     const history = useHistory();
 
-    users = users.filter((user) => user.nickName !== myUserNickName)
-
-    const handleGroupClick = (event, id) => {
-        if (event.target.type !== "button") {
-            history.push(`/groups/${id}`);
-        }
+    const handlTab = (activeTab) => {
+        if (activeTab !== friendTab) dispatch(setFriendTab(activeTab))
     }
 
     useEffect(() => {
-        dispatch(getGroupsReq());
-        dispatch(getUsersReq())
+        dispatch(setFriendTab('my-friends'));
+        // dispatch(getFriendsReq())
     }, []);
-
-    const friendsRender = users.map((user) => {
-
-        return (
-            <Card body className="card__custom list-item-card" id={user._id} key={user._id} onClick={(event) => handleGroupClick(event, user._id)}>
-                <CardTitle className="flex-space-between">
-                    <div className="group-title card_item__custom">
-                        {user.nickName}
-                        <span className="card-item-article">nickname</span>
-                    </div>
-                    {/* <div className="group-tags card_item__custom">
-                        <span className="card-item-article">tags</span>
-                    </div>
-                    <div className="users card_item__custom">
-                        <AccessibleForwardIcon />
-                        <span className="card-item-article">users</span>
-                    </div> */}
-                </CardTitle>
-
-            </Card>
-        )
-    })
 
     return (
         <div className="content-width">
             <div className="group-header flex-space-between">
                 <h1>Friends</h1>
             </div>
-            <CreatingForm group />
-            <div style={{ display: "flex", flexDirection: "column-reverse" }}>
-                {friendsRender}
-            </div>
+            <Nav tabs>
+                <NavItem>
+                    <NavLink
+                        onClick={() => handlTab('my-friends')}
+                        active={friendTab === 'my-friends'}
+                    > My friends </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink
+                        onClick={() => handlTab('add-new-friend')}
+                        active={friendTab === 'add-new-friend'}
+                    > Add new friend </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink
+                        onClick={() => handlTab('incoming-reqs')}
+                        disabled
+                        active={friendTab === 'incoming-reqs'}
+                    > Incoming Reqs </NavLink>
+                </NavItem>
+
+
+            </Nav>
+            <AddNewFriend className={friendTab === 'add-new-friend' ? '' : 'invisible'} />
+            <MyFriends className={friendTab === 'my-friends' ? '' : 'invisible'} />
 
         </div>
     )

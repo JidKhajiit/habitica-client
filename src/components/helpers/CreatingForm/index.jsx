@@ -17,10 +17,10 @@ import { showAlert } from '../../../redux/actions/appActionCreator';
 
 export default ({ users = useSelector(state => state.users.users), group, task, groupId }) => {
     const dispatch = useDispatch();
-    const { personalInfo: { nickName: myUserNickName } } = useSelector((state => state.myUser))
+    const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector((state => state.myUser))
     const type = group ? 'Group' :
         task ? 'Task' : 'Item';
-    const restmen = group ? users.filter((user) => user.nickName !== myUserNickName).map((user) => ({ _id: user._id })) : users.map((user) => ({ _id: user._id }));
+    const restmen = group ? users.filter((user) => user._id !== myUserId).map((user) => ({ _id: user._id })) : users.map((user) => ({ _id: user._id }));
     const initInputValues = {
         title: '',
         description: '',
@@ -38,8 +38,6 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [inputValues, setInputValues] = useState(initInputValues);
-    const [gotUsers, setGotUsers] = useState(false);
-    const [myUserId, setMyUserId] = useState(null)
 
     const handleChange = (prop) => (event) => {
         setInputValues({ ...inputValues, [prop]: event.target.value });
@@ -65,14 +63,23 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
     const sendRequest = () => {
         const { workers, title, tags } = inputValues
         if (title && group || title && workers.length && task) {
-            const requestData = group ? {
-                data: { ...inputValues, users: [...workers, {_id: myUserId}], tags: [...tags.split(' ')] },
-                type: type.toLowerCase()
-            } : {
+            let requestData;
+            if (group) {
+                console.log('input', inputValues.workers)
+
+                requestData = {
+                    data: { ...inputValues, users: [...inputValues.workers.map((user) => user._id), myUserId], tags: [...tags.split(' ')] },
+                    type: type.toLowerCase()
+                }
+                delete requestData.data.workers;
+                console.log('output',requestData)
+            } else {
+                requestData = {
                     data: { ...inputValues, groupId },
                     type: type.toLowerCase()
                 }
-            if (group) delete requestData.data.workers;
+            }
+
             delete requestData.data.restmen;
 
             dispatch(createTaskOrGroupReq(requestData));
@@ -87,7 +94,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
             } else {
                 dispatch(showAlert("Need to add at least one worker."));
             }
-            
+
         }
     }
 
@@ -101,20 +108,8 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
         console.log(users)
         const restmen = group ? users.filter((user) => user.nickName !== myUserNickName).map((user) => ({ _id: user._id })) : users.map((user) => ({ _id: user._id })); // repeat
         setInputValues({ ...inputValues, restmen })
-        setGotUsers(true)
 
     }, [users])
-
-    useEffect(() => {
-        if (group && gotUsers === true) {
-            const myUser = users.find(user => user.nickName === myUserNickName)
-            if (myUser) {
-                // moveUser(myUser._id, 'restmen', 'workers');
-                setMyUserId(myUser._id);
-            }
-            setGotUsers(false);
-        }
-    }, [gotUsers])
 
 
     return (
@@ -127,14 +122,14 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                     <InputGroupButtonDropdown addonType="append" isOpen={dropdownOpen} toggle={toggleDropDown}>
                         <DropdownToggle caret className="group-button-size">Add workers</DropdownToggle>
                         <DropdownMenu>
-                            {inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >{users.find((item) => item._id == user._id).nickName}</DropdownItem>)}
+                            {inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >{users.find((item) => item._id === user._id)?users.find((item) => item._id === user._id).nickName:'Anon'}</DropdownItem>)}
                         </DropdownMenu>
                     </InputGroupButtonDropdown>
                 </InputGroup>
                 <InputGroup className="">
                     <Input className="input-size" type="textarea" value={inputValues.description} onChange={handleChange('description')} name="description" placeholder="Description..." />
                     <Paper elevation={0} className="form-control group-input-area group-button-size">
-                        {group ? <div ><span>{myUserNickName}</span> <hr/></div> : <></>}
+                        {group ? <div ><span>{myUserNickName}</span> <hr /></div> : <></>}
                         {inputValues.workers.map((worker) => <div key={worker._id}><span>{users.find((item) => item._id == worker._id).nickName}</span><div onClick={() => moveUser(worker._id, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
                     </Paper>
                 </InputGroup>

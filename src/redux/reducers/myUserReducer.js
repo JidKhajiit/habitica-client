@@ -5,19 +5,16 @@ let user, personalInfo;
 
 if (localStorage.getItem('token')) {
     user = jwt_decode(localStorage.getItem('token'));
-    const { login, nickName, firstName, lastName } = user;
+    console.log('user', user)
+    const { _id, nickName } = user;
     personalInfo = {
-        login,
-        nickName,
-        firstName,
-        lastName
+        _id,
+        nickName
     }
 } else {
     personalInfo = {
-        login: "",
-        nickName: "Anonimous",
-        firstName: "",
-        lastName: ""
+        _id: null,
+        nickName: "Anonimous"
     };
 }
 
@@ -35,14 +32,10 @@ export default (state = initialState, action) => {
         case SET_USER:
             const user = jwt_decode(action.payload);
             localStorage.setItem('token', action.payload);
-            console.log('user', user);
-            console.log('add token', localStorage.getItem('token'))
-            const { login, nickName, firstName, lastName } = user;
+            const { _id, nickName } = user;
             const personalInfo = {
-                login,
-                nickName,
-                firstName,
-                lastName
+                _id,
+                nickName
             }
             return { ...state, personalInfo, token: action.payload }
         case SET_AUTH_LOADING: {

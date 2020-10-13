@@ -1,4 +1,4 @@
-import { SET_ALERT } from '../types'
+import { SET_ALERT, SET_FRIEND_TAB } from '../types'
 
 
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
         message: null,
         isVisible: false,
     },
-
+    friendTab: 'my-friends'
 
 
 }
@@ -19,9 +19,9 @@ export default (state = initialState, action) => {
         case SET_ALERT: {
             return { ...state, alert: action.payload }
         }
-        // case SET_MODAL: {
-        //     return { ...state, modal: action.payload}
-        // }
+        case SET_FRIEND_TAB: {
+            return { ...state, friendTab: action.payload}
+        }
         default: return state
     }
 }

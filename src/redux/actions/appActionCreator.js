@@ -1,6 +1,7 @@
 import {
     SHOW_ALERT,
-    SET_ALERT
+    SET_ALERT,
+    SET_FRIEND_TAB
 } from '../types';
 
 export const showAlert = (message) => {
@@ -22,12 +23,12 @@ export const setAlert = (isVisible, message) => {
 
 }
 
-// export const showModal = (message) => {
-//     return {
-//         type: SHOW_MODAL,
-//         payload: message
-//     }
-// }
+export const setFriendTab = (activeTab) => {
+    return {
+        type: SET_FRIEND_TAB,
+        payload: activeTab
+    }
+}
 
 // export const setModal = (payload) => {
 //     const payload = (!isVisible || !message) ? {

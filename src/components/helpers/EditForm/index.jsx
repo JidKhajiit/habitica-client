@@ -9,9 +9,8 @@ import {
     DropdownItem
 } from 'reactstrap';
 import CloseIcon from '@material-ui/icons/Close';
-import AddIcon from '@material-ui/icons/Add';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editItem, setEditingTaskId } from '../../../redux/actions/tasksActionCreator';
 import { showAlert } from '../../../redux/actions/appActionCreator';
@@ -19,6 +18,7 @@ import { setEditingGroupId } from '../../../redux/actions/groupActionCreator';
 
 export default ({ users = useSelector(state => state.users.users), group, task, className }) => {
     const dispatch = useDispatch();
+    const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector((state => state.myUser))
     const type = group ? 'Group' :
         task ? 'Task' : 'Item';
     const initInputValues = task ? {
@@ -30,8 +30,8 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
         title: group.title,
         tags: group.tags.join(' '),
         description: group.description,
-        restmen: users.map((user) => ({ _id: user._id })).filter((user) => !group.users.some(workerId => workerId === user._id)),
-        workers: group.users.map((workerId) => ({ _id: workerId }))
+        restmen: users.map((user) => ({ _id: user._id })).filter((user) => !group.users.some(workerId => workerId === user._id) ),
+        workers: group.users.map((workerId) => ({ _id: workerId })).filter((user) => user._id !== myUserId)
     } : {
                 title: '',
                 tags: '',
@@ -80,7 +80,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
         console.log(inputValues)
         if (inputValues.title && inputValues.workers.length) {
             const requestData = group ? {
-                data: { ...inputValues, users: [...inputValues.workers], tags: [...inputValues.tags.split(' ')] },
+                data: { ...inputValues, users: [...inputValues.workers.map((user) => user._id), myUserId], tags: [...inputValues.tags.split(' ')] },
                 id: group._id
             } : {
                     data: { ...inputValues },
@@ -133,6 +133,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                 <InputGroup className="">
                     <Input className="input-size" type="textarea" value={inputValues.description} onChange={handleChange('description')} name="description" placeholder="Description..." />
                     <Paper elevation={0} className="form-control group-input-area group-button-size">
+                        {group ? <div ><span>{myUserNickName}</span> <hr/></div> : <></>}
                         {inputValues.workers.map((worker) => <div key={worker._id}><span>{users.find((item) => item._id == worker._id).nickName}</span><div onClick={() => moveUser(worker._id, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
                     </Paper>
                 </InputGroup>

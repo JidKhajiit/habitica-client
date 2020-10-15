@@ -13,16 +13,13 @@ export default ({ className }) => {
     const [foundedUsers, setFoundedUsers] = useState([]);
     const [inputValue, setInputValue] = useState('');
 
-    const history = useHistory();
-
-
     const handleButtonFind = async () => {
         // if (inputValue) {
             try {
-                const responce = await getUsers(inputValue);
-                setFoundedUsers(responce);
+                const response = await getUsers(inputValue);
+                setFoundedUsers(response);
 
-                console.log(responce)
+                console.log(response)
             } catch (err) {
                 console.log(err)
             }
@@ -43,7 +40,7 @@ export default ({ className }) => {
                 <Input value={inputValue} onKeyUp={(event) => event.key === "Enter" && handleButtonFind()} onChange={(event) => setInputValue(event.target.value)} placeholder="Enter the username to add a new friend" />
                 <InputGroupAddon addonType="append"><Button onClick={handleButtonFind} color="secondary">Find</Button></InputGroupAddon>
             </InputGroup>
-            { foundedUsers && foundedUsers.map((user) => <UserCard key={user._id} type='add' user={user} />)}
+            { foundedUsers && foundedUsers.map((user) => <UserCard rerender={handleButtonFind} key={user._id} type='add' user={user} />)}
         </>
     )
 }

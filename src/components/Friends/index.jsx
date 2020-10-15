@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Card, CardTitle, Input, InputGroup, InputGroupAddon, Nav, NavItem, NavLink } from 'reactstrap';
+import { Nav, NavItem, NavLink } from 'reactstrap';
 import './index.scss';
 import '../../app.scss';
 import { useHistory } from 'react-router-dom';
 import MyFriends from './MyFriends';
-import MyNavItem from '../smallComponents/NavItem';
 import { setFriendTab } from '../../redux/actions/appActionCreator';
 import AddNewFriend from './AddNewFriend';
+import OutgoingReqs from './OutgoingReqs';
+import IncomingReqs from './IncomingReqs';
 
 
 export default props => {
@@ -45,17 +46,24 @@ export default props => {
                 </NavItem>
                 <NavItem>
                     <NavLink
+                        onClick={() => handlTab('outgoing-reqs')}
+                        active={friendTab === 'outgoing-reqs'}
+                    > Outgoing Reqs </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink
                         onClick={() => handlTab('incoming-reqs')}
-                        disabled
                         active={friendTab === 'incoming-reqs'}
                     > Incoming Reqs </NavLink>
                 </NavItem>
 
 
             </Nav>
-            <AddNewFriend className={friendTab === 'add-new-friend' ? '' : 'invisible'} />
-            <MyFriends className={friendTab === 'my-friends' ? '' : 'invisible'} />
 
+            {friendTab === 'add-new-friend' && <AddNewFriend />}
+            {friendTab === 'my-friends' && <MyFriends />}
+            {friendTab === 'outgoing-reqs' && <OutgoingReqs />}
+            {friendTab === 'incoming-reqs' && <IncomingReqs />}
         </div>
     )
 }

@@ -1,9 +1,15 @@
-import { SET_GROUPS, SET_OPENED_GROUP, SET_EDITING_GROUP_ID } from "../types";
+import { 
+    SET_GROUPS,
+    SET_OPENED_GROUP,
+    SET_EDITING_GROUP_ID,
+    SET_EDITING_GROUP_USERS
+} from "../types";
 
 const initialState = {
     groups: [],
     openedGroup: null,
-    editingGroupId: null
+    editingGroupId: null,
+    editingGroupUsers: []
 
 }
 
@@ -19,6 +25,9 @@ export default (state = initialState, action) => {
         case SET_EDITING_GROUP_ID:
 
             return { ...state, editingGroupId: payload }
+        case SET_EDITING_GROUP_USERS:
+
+            return { ...state, editingGroupUsers: payload }
         default: return state
     }
 }

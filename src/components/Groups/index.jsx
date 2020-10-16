@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CardTitle } from 'reactstrap';
 
@@ -11,10 +11,12 @@ import CreatingForm from '../helpers/CreatingForm';
 import { getUsersReq } from '../../redux/actions/usersActionCreator';
 import ListItemCard from '../helpers/ListItemCard';
 import EditForm from '../helpers/EditForm';
+import { getFriendsReq } from '../../providers/friendsProvider';
 
 export default props => {
     const dispatch = useDispatch();
-    const { groups: groupsArr, editingGroupId } = useSelector(state => state.groups);
+    const { groups: groupsArr, editingGroupId, editingGroupUsers } = useSelector(state => state.groups);
+    const [myFriends, setMyFriends] = useState([]);
     const history = useHistory();
 
     const handleGroupClick = (event, id) => {
@@ -23,15 +25,20 @@ export default props => {
         }
     }
 
-    useEffect(() => {
+    const getFriends = async () => {
+        const response = await getFriendsReq();
+        setMyFriends(response)
+    }
 
+    useEffect(() => {
         dispatch(getGroupsReq());
-        dispatch(getUsersReq())
+        getFriends();
+        dispatch(getUsersReq());
     }, []);
 
     const groupsRender = groupsArr.map((group) => {
-        if (group._id === editingGroupId) {
-            return <EditForm group={group} key={group._id}/>
+        if (group._id === editingGroupId && editingGroupUsers.length) {
+            return <EditForm group={group}  key={group._id}/>
         } else {
 
             const activeTasksCounter = group.tasks.all ?
@@ -78,7 +85,7 @@ export default props => {
                 <h1>Groups</h1>
                 {/* <Button className="add-button"><AddIcon />New Group</Button> */}
             </div>
-            <CreatingForm group />
+            <CreatingForm group users={myFriends}/>
             <div style={{ display: "flex", flexDirection: "column-reverse" }}>
                 {groupsRender}
             </div>

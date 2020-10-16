@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 
 export default props => {
-
-    const dispatch = useDispatch();
 
     return (
 

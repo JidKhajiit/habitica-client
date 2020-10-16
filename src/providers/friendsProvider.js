@@ -10,18 +10,18 @@ export const getUsers = (partOfNickName) => {
     }).then(response => response.data)
 }
 
-export const createReqOfFrendshipReq = (id) => {
+export const createBidForFrendshipReq = (id) => {
     const token = localStorage.getItem('token');
-    return axios.post(`${URL}friend-req/`, { id }, {
+    return axios.post(`${URL}friendship/`, { id }, {
         headers: {
             authorization: token
         }
     }).then(response => response.data)
 }
 
-export const deleteReqOfFriendshipReq = async (id) => {
+export const deleteBidForFriendshipReq = async (id) => {
     const token = localStorage.getItem('token');
-    const response = await axios.delete(`${URL}friend-req/delete/${id}`, {
+    const response = await axios.delete(`${URL}friendship/delete/${id}`, {
         headers: {
             authorization: token
         }
@@ -39,9 +39,9 @@ export const getFriendsReq = async () => {
     return response.data
 }
 
-export const outgoingReqsOfFriendshipReq = async () => {
+export const outgoingBidForFriendshipReq = async () => {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`${URL}friend-req/outgoing`, {
+    const response = await axios.get(`${URL}friendship/outgoing`, {
         headers: {
             authorization: token
         }
@@ -49,9 +49,9 @@ export const outgoingReqsOfFriendshipReq = async () => {
     return response.data
 }
 
-export const incomingReqsOfFriendshipReq = async () => {
+export const incomingBidForFriendshipReq = async () => {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`${URL}friend-req/incoming`, {
+    const response = await axios.get(`${URL}friendship/incoming`, {
         headers: {
             authorization: token
         }
@@ -61,11 +61,22 @@ export const incomingReqsOfFriendshipReq = async () => {
 
 export const acceptFriendshipReq = async (id) => {
     const token = localStorage.getItem('token');
-    const response = await axios.patch(`${URL}friend-req/accept`, {id},{
+    const response = await axios.patch(`${URL}friendship/accept`, { id }, {
         headers: {
             authorization: token
         }
     })
-    console.log(response)
+
+    return response.data
+}
+
+export const deleteFriendReq = async (id) => {
+    const token = localStorage.getItem('token');
+    const response = await axios.patch(`${URL}friendship/del-friend`, { id }, {
+        headers: {
+            authorization: token
+        }
+    })
+
     return response.data
 }

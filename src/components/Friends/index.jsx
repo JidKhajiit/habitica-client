@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import './index.scss';
 import '../../app.scss';
-import { useHistory } from 'react-router-dom';
 import MyFriends from './MyFriends';
 import { setFriendTab } from '../../redux/actions/appActionCreator';
 import AddNewFriend from './AddNewFriend';
@@ -15,7 +14,6 @@ export default props => {
     const dispatch = useDispatch();
 
     const { friendTab } = useSelector((state => state.app))
-    const history = useHistory();
 
     const handlTab = (activeTab) => {
         if (activeTab !== friendTab) dispatch(setFriendTab(activeTab))

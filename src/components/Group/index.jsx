@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import CreatingForm from '../helpers/CreatingForm';
 import TasksList from '../helpers/TasksList';
 import { MySpinner } from '../smallComponents/Spinner';
-import { getGroupReq, setOpenedGroup } from '../../redux/actions/groupActionCreator';
+import { getGroupReq } from '../../redux/actions/groupActionCreator';
 import { setEditingTaskId } from '../../redux/actions/tasksActionCreator';
 
 export default props => {

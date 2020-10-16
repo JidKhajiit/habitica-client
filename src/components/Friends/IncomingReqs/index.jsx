@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import '../../../app.scss';
 import UserCard from '../../helpers/UserCard';
-import { incomingReqsOfFriendshipReq } from '../../../providers/friendsProvider';
+import { incomingBidForFriendshipReq } from '../../../providers/friendsProvider';
 
 
 export default ({ className }) => {
     const [users, setUsers] = useState([]);
 
     const getIncomingReqsOfFriendship = async () => {
-        const incomingReqs = await incomingReqsOfFriendshipReq()
+        const incomingReqs = await incomingBidForFriendshipReq()
         setUsers(incomingReqs);
     }
 

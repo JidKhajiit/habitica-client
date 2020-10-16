@@ -4,7 +4,7 @@ import './index.scss'
 import '../../../app.scss'
 import { useDispatch } from 'react-redux';
 import { deleteItem, setEditingTaskId } from '../../../redux/actions/tasksActionCreator';
-import { setEditingGroupId } from '../../../redux/actions/groupActionCreator';
+import { setEditingGroupId, getEditingGroupUsers, setEditingGroupUsers } from '../../../redux/actions/groupActionCreator';
 
 const ListItemCard = ({
     id,
@@ -24,6 +24,8 @@ const ListItemCard = ({
         if(type === "task") {
             dispatch(setEditingTaskId(id))
         } else {
+            dispatch(setEditingGroupUsers())
+            dispatch(getEditingGroupUsers(id))
             dispatch(setEditingGroupId(id))
         }
     }

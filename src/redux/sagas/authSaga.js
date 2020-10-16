@@ -47,7 +47,7 @@ function *RegistrationRequest(action) {
 
 function *CheckAuthUserRequest(action) {
   try {
-    const res = yield call(axios, {
+    yield call(axios, {
       method: 'get',
       url: `${URL}auth/verify`,
       headers: { authorization: action.payload },

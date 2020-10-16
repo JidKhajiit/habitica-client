@@ -64,6 +64,7 @@ export default props => {
                         type={inputValues.showPassword ? 'text' : 'password'}
                         value={inputValues.password}
                         onChange={handleChange('password')}
+                        onKeyUp={(event => event.key === "Enter" && handleSupmitButton())}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton

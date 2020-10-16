@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../../app.scss';
 import UserCard from '../../helpers/UserCard';
-import { outgoingReqsOfFriendshipReq } from '../../../providers/friendsProvider';
+import { outgoingBidForFriendshipReq } from '../../../providers/friendsProvider';
 
 
 export default ({ className }) => {
@@ -9,7 +9,7 @@ export default ({ className }) => {
     const [users, setUsers] = useState([]);
 
     const getOutgoingReqsOfFriendship = async () => {
-        const outgoingReqs = await outgoingReqsOfFriendshipReq()
+        const outgoingReqs = await outgoingBidForFriendshipReq()
         setUsers(outgoingReqs);
     }
 

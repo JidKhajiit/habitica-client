@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { CardTitle, Card, Button } from 'reactstrap';
 import './index.scss'
 import '../../../app.scss'
-import { createReqOfFrendshipReq, deleteReqOfFriendshipReq, acceptFriendshipReq } from '../../../providers/friendsProvider';
+import { createBidForFrendshipReq, deleteBidForFriendshipReq, acceptFriendshipReq, deleteFriendReq } from '../../../providers/friendsProvider';
 import { setFriendTab } from '../../../redux/actions/appActionCreator';
 
 export default ({ user, type, rerender }) => {
@@ -22,22 +22,22 @@ export default ({ user, type, rerender }) => {
         }
     }
 
-    const handleDeleteButton = (event, id) => {
-        if (event.target.type !== "button") {
-            // dispatch(getFriendsReq())
-        }
+    const handleDeleteFriendButton = async () => {
+
+        await deleteFriendReq(user._id);
+        rerender()
     }
 
-    const handleAddButton = async () => {
+    const handleAddFriendButton = async () => {
         // if (event.target.type !== "button") {
-        await createReqOfFrendshipReq(user._id)
+        await createBidForFrendshipReq(user._id)
         rerender()
         // }
     }
 
-    const handleCancelReqButton = async () => {
+    const handleCancelBidButton = async () => {
         try {
-            await deleteReqOfFriendshipReq(user._id)
+            await deleteBidForFriendshipReq(user._id)
             rerender()
         } catch (err) {
             console.log(err)
@@ -45,7 +45,7 @@ export default ({ user, type, rerender }) => {
 
     }
 
-    const handleAcceptReqButton = async () => {
+    const handleAcceptBidButton = async () => {
         try {
             await acceptFriendshipReq(user._id)
             rerender()
@@ -63,20 +63,20 @@ export default ({ user, type, rerender }) => {
                     <span className="card-item-article">nickname</span>
                 </div>
                 {type === "friend" && <>
-                    <Button size="sm" color="success" className="edit-button" onClick={handleEditButton}>Message</Button>
-                    <Button size="sm" color="danger" className="delete-button" onClick={handleDeleteButton}>Delete</Button>
+                    <Button size="sm" color="success" className="edit-button" disabled onClick={handleEditButton}>Message</Button>
+                    <Button size="sm" color="danger" className="delete-button" onClick={handleDeleteFriendButton}>Delete</Button>
                 </>}
                 {type === 'add' && user.status !== 'incoming req is exists' && <>
-                    <Button size="sm" color="success" disabled={user.status === 'outgoing req is exists'} onClick={handleAddButton}>Add</Button>
+                    <Button size="sm" color="success" disabled={user.status === 'outgoing req is exists'} onClick={handleAddFriendButton}>Add</Button>
                 </>}
                 {type === 'outgoing-req' && <>
-                    <Button size="sm" color="danger" onClick={handleCancelReqButton}>Cancel</Button>
+                    <Button size="sm" color="danger" onClick={handleCancelBidButton}>Cancel</Button>
                 </>}
                 {type === 'incoming-req' && <>
-                    <Button size="sm" color="danger" onClick={handleCancelReqButton}>Cancel</Button>
+                    <Button size="sm" color="danger" onClick={handleCancelBidButton}>Cancel</Button>
                 </>}
                 {(type === 'incoming-req' || user.status === 'incoming req is exists') && <>
-                    <Button size="sm" color="success" onClick={handleAcceptReqButton}>Accept</Button>
+                    <Button size="sm" color="success" onClick={handleAcceptBidButton}>Accept</Button>
                 </>}
 
             </CardTitle>

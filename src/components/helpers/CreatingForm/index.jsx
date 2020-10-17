@@ -38,6 +38,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [inputValues, setInputValues] = useState(initInputValues);
+    const [slideUp, setSlideUp] = useState('invisible');
 
     const handleChange = (prop) => (event) => {
         setInputValues({ ...inputValues, [prop]: event.target.value });
@@ -57,6 +58,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
     const setVisibility = isVisible => isVisible ? '' : ' invisible';
 
     const changeFormVisibility = () => {
+        setSlideUp('slideUp')
         setIsFormVisible(!isFormVisible);
     }
 
@@ -113,8 +115,8 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
 
 
     return (
-        <>
-            <Card className={setVisibility(isFormVisible)}>
+        <div style={{overflow: "hidden"}}>
+            <Card id='anim_block' className={`slider ${isFormVisible ? 'slideDown' : slideUp}`}>
                 <InputGroup className="new-task-area">
 
                     <Input className="input-size" value={inputValues.title} onChange={handleChange('title')} name="title" placeholder={`${type} title...`} />
@@ -140,7 +142,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                 <Button onClick={() => setInputValues(initInputValues)} className={'add-button' + setVisibility(isFormVisible)}>Clean</Button>
                 <Button onClick={sendRequest} className={'add-button' + setVisibility(isFormVisible)}>Create<KeyboardBackspaceIcon className="rotate-icon" /></Button>
             </div>
-        </>
+        </div>
 
     )
 }

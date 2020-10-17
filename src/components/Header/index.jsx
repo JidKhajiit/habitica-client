@@ -19,7 +19,7 @@ export default props => {
             <Nav tabs>
                 <div key="1">
                     <MyNavItem href="/home" children="Home" />
-                    <MyNavItem href="#" children="Tasks" disabled />
+                    <MyNavItem href="/tasks" children="Tasks" />
                     <MyNavItem href="/groups" children="Groups" />
                     <MyNavItem href="/friends" children="Friends" />
                     <MyNavItem href="#" children="Another Link" disabled />

@@ -1,0 +1,44 @@
+.groups-card.card.card-body {
+
+    .card-title {
+        .users {
+            width: 6%;
+        }
+    }
+
+    .group-description {
+        .description {
+            width: 100%;
+        }
+
+        .active-tasks {
+            width: 8%;
+            text-align: center;
+
+            .card-item-article {
+                left: -2px;
+            }
+        }
+    }
+}
+
+.group-header {
+    align-items: flex-end;
+
+    h1 {
+        display: inline;
+        margin-right: 5px;
+        position: relative;
+        bottom: -2px;
+        margin-bottom: 0;
+    }
+}
+
+.flex-space-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+

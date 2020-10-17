@@ -11,6 +11,7 @@ import Header from './components/Header/';
 import Group from './components/Group';
 import MyAlert from './components/helpers/MyAlert';
 import Friends from './components/Friends';
+import Tasks from './components/Tasks';
 
 
 
@@ -20,6 +21,7 @@ const routesWithHeader = () => {
       <Header />
       <Switch>
         <Route path='/home' component={Home} />
+        <Route path='/tasks' component={Tasks} />
         <Route exact path='/groups' component={Groups} />
         <Route path='/groups/:id' render={({ match }) => {
           const { params: { id } } = match;

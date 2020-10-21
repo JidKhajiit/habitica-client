@@ -13,12 +13,14 @@ const ListItemCard = ({
     onClick,
     type,
     groupId,
-    completed
+    completed,
 }) => {
     const dispatch = useDispatch();
     const [modal, setModal] = useState(false);
 
-    const toggle = () => setModal(!modal);
+    const toggle = () => {
+        setModal(!modal);
+    }
 
     const handleEditButton = () => {
         if(type === "task") {
@@ -36,7 +38,7 @@ const ListItemCard = ({
     }
 
     return (
-        <Card body id={id} key={id} onClick={onClick} className={"card__custom list-item-card " + className}>
+        <Card body id={id} key={id} onClick={onClick} className={"card__custom list-item-card hover_recolor purple-theme_back " + className}>
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader >Are you sure?</ModalHeader>
                 <ModalBody>
@@ -47,9 +49,9 @@ const ListItemCard = ({
                     <Button color="secondary" onClick={toggle}>Cancel</Button>
                 </ModalFooter>
             </Modal>
-            <div className={`custom-card__control-button card-${type}`}>
-                {!completed ? <Button size="sm" color="success" className="edit-button" onClick={handleEditButton}>Edit</Button> : <></>}
-                <Button size="sm" color="danger" className="delete-button" onClick={toggle}>Delete</Button>
+            <div className={`custom-card__control-buttons`}>
+                {!completed ? <Button size="sm" color="success" className="edit-button purple-theme_success" onClick={handleEditButton}>Edit</Button> : <></>}
+                <Button size="sm" color="danger" className="delete-button purple-theme_danger" onClick={toggle}>Delete</Button>
             </div>
             {children}
         </Card>

@@ -12,12 +12,15 @@ import Group from './components/Group';
 import MyAlert from './components/helpers/MyAlert';
 import Friends from './components/Friends';
 import Tasks from './components/Tasks';
+import './styles/colorTheme.scss';
+import './styles/splitAnimate.scss';
+import Footer from './components/Footer';
 
 
 
 const routesWithHeader = () => {
   return (
-    <>
+    <div id='global-grid-box'>
       <Header />
       <Switch>
         <Route path='/home' component={Home} />
@@ -30,7 +33,8 @@ const routesWithHeader = () => {
         <Route exact path='/friends' component={Friends} />
         <Redirect to="/home" />
       </Switch>
-    </>
+      <Footer />
+    </div>
   )
 }
 function App() {

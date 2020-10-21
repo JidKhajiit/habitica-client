@@ -16,7 +16,7 @@ export default props => {
 
     return (
         <>
-            <Nav tabs>
+            <Nav tabs className="purple-theme_one">
                 <div key="1">
                     <MyNavItem href="/home" children="Home" />
                     <MyNavItem href="/tasks" children="Tasks" />
@@ -25,8 +25,8 @@ export default props => {
                     <MyNavItem href="#" children="Another Link" disabled />
                 </div>
                 <div>
-                    <MyNavItem href='#' children={nickName} disabled />
-                    <Button onClick={handleLogOutButton} className="nav-item nav-link">Sign Out</Button>
+                    <MyNavItem href='#' children={nickName} style={{color: 'white'}} disabled />
+                    <Button onClick={handleLogOutButton} className="nav-item ">Sign Out</Button>
                 </div>
             </Nav>
         </>

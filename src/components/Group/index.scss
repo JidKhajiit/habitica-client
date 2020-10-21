@@ -1,7 +1,63 @@
-.task-card.card.card-body, .card.card-body.card__custom.group_card {
+.slider-element.tasks-area {
+    position: relative;
+    top: -196px;
+    height: calc(100vh - 84px + 258px);
 
+    .tasks-list {
+        .reverse {
+            display: flex;
+            flex-direction: column-reverse;
+        }
 
+        overflow-y: scroll;
+        overflow-x: hidden;
+        height: calc(100% - 600px);
+    }
 
+    &.slideDown {
+        top: 0;
+        .tasks-list {
+            height: calc(100% - 796px);
+        }
+    }
+
+    .group-input-area.form-control.group-button-size,
+    .form-control.textarea_heigth {
+        resize: none;
+        height: 100px;
+    }
+
+    &.slideDown {
+        animation-name: tasksSlideDown;
+        -webkit-animation-name: tasksSlideDown;
+
+        animation-duration: 0.7s;
+        -webkit-animation-duration: 0.7s;
+
+        animation-timing-function: ease;
+        -webkit-animation-timing-function: ease;
+
+        visibility: visible !important;
+    }
+
+    &.slideUp {
+        animation-name: tasksSlideUp;
+        -webkit-animation-name: tasksSlideUp;
+
+        animation-duration: 0.7s;
+        -webkit-animation-duration: 0.7s;
+
+        animation-timing-function: ease;
+        -webkit-animation-timing-function: ease;
+
+        visibility: visible !important;
+    }
+
+}
+
+.task-card.card.card-body,
+.card.card-body.card__custom.group_card {
+    z-index: 3;
     .card_item__custom {
         margin-bottom: 16px;
 
@@ -11,16 +67,18 @@
 
         &:last-child {
             margin-bottom: 0;
-          }
+        }
     }
 
     .card-title {
-
         .users {
             width: 20%;
         }
     }
 
+    .custom-card__control-buttons {
+        right: 4px;
+    }
 }
 
 .body.card_item__custom {
@@ -53,5 +111,43 @@
         position: relative;
         bottom: -2px;
         margin-bottom: 0;
+    }
+}
+
+
+
+@keyframes tasksSlideUp {
+    0% {
+        transform: translateY(196px);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@-webkit-keyframes tasksSlideUp {
+    0% {
+        -webkit-transform: translateY(196px);
+    }
+    100% {
+        -webkit-transform: translateY(0%);
+    }
+}
+
+@keyframes tasksSlideDown {
+    0% {
+        transform: translateY(-196px);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@-webkit-keyframes tasksSlideDown {
+    0% {
+        -webkit-transform: translateY(-196px);
+    }
+    100% {
+        -webkit-transform: translateY(0%);
     }
 }

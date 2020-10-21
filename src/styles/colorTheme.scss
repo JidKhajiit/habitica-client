@@ -1,0 +1,52 @@
+.purple-theme_back {
+    &.card__custom.card-body {
+        background-color: #f1f1f1;
+        &.hover_recolor:hover {
+            background-color: #d3d0d0;
+            .card_item__custom {
+                background-color: #f1f1f1;
+            }
+          }
+    }
+    
+    color: #444444;
+
+    .card_item__custom {
+        background-color:white;
+    }
+}
+
+.purple-theme_one {
+    background: #523f6d 100% 0 no-repeat;
+    color: white;
+
+    .nav-link.active {
+        background: #413256;
+        color: white;
+    }
+}
+
+.purple-theme_success {
+    // background-color: #a3b745;
+    // border-color: #a3b745;
+    background-color: #28a745;
+    border-color: #28a745;
+
+    &.btn:focus {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+}
+
+.purple-theme_danger {
+    // background-color: #d46f15;
+    // border-color: #d46f15;
+    background-color: #dc3545;
+    border-color: #dc3545;
+
+
+    &.btn:focus {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+}

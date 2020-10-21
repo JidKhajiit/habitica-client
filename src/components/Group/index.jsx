@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Button } from 'reactstrap';
-
 import './index.scss';
 import '../../app.scss';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
@@ -15,6 +14,8 @@ import { setEditingTaskId } from '../../redux/actions/tasksActionCreator';
 export default props => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const [slideUp, setSlideUp] = useState('');
+    const [isShowForm, setIsShowForm] = useState(false);
     const { openedGroup: currentGroup } = useSelector(state => state.groups);
     const { groupId } = props;
 
@@ -22,6 +23,11 @@ export default props => {
         dispatch(setEditingTaskId());
         dispatch(getGroupReq(groupId));
     }, []);
+
+    const startAnimation = () => {
+        if (!slideUp) setSlideUp('slideUp');
+        setIsShowForm(!isShowForm);
+    }
 
     const handleBackButton = () => {
         history.push('/groups');
@@ -34,7 +40,7 @@ export default props => {
                 <h1>Group</h1>
                 <Button onClick={handleBackButton} className="back-button"><KeyboardBackspaceIcon />Back</Button>
             </div>
-            <Card body className="card__custom group_card">
+            <Card body className="card__custom group_card purple-theme_back">
                 <div className="card_item__custom">
                     <h5>{currentGroup.title}</h5>
                     <span className="card-item-article">group title</span>
@@ -56,14 +62,20 @@ export default props => {
                     </div>
                 </div>
             </Card>
-
-            <CreatingForm task groupId={groupId} users={currentGroup.users} />
-
-            <TasksList tasks={currentGroup.tasks} users={currentGroup.users}/>
-            <div className="active-tasks card_item__custom">
-                <span className="card-item-article">active tasks </span>
-                {currentGroup.tasks.filter((task) => task.completed === false).length} of {currentGroup.tasks.length}
+            <div className={`tasks-area slider-element content-width ${isShowForm ? 'slideDown' : slideUp}`}>
+                <CreatingForm slider={startAnimation} task groupId={groupId} users={currentGroup.users} />
+                <div className='tasks-list'>
+                    <div className='reverse'>
+                        <TasksList tasks={currentGroup.tasks} users={currentGroup.users} />
+                    </div>
+                </div>
+                
+                <div className="active-tasks card_item__custom">
+                    <span className="card-item-article">active tasks </span>
+                    {currentGroup.tasks.filter((task) => task.completed === false).length} of {currentGroup.tasks.length}
+                </div>
             </div>
-        </div> : <MySpinner fullSize/>
+
+        </div> : <MySpinner fullSize />
     )
 }

@@ -10,13 +10,13 @@ import { useHistory } from 'react-router-dom';
 import { getUsersReq } from '../../redux/actions/usersActionCreator';
 import ListItemCard from '../helpers/ListItemCard';
 import EditForm from '../helpers/EditForm';
-import { getFriendsReq } from '../../providers/friendsProvider';
+// import { getFriendsReq } from '../../providers/friendsProvider';
 import { Search } from '@material-ui/icons';
 
 export default props => {
     const dispatch = useDispatch();
     const { groups: groupsArr, editingGroupId, editingGroupUsers } = useSelector(state => state.groups);
-    const [myFriends, setMyFriends] = useState([]);
+    // const [myFriends, setMyFriends] = useState([]);
     const history = useHistory();
 
     const handleGroupClick = (event, id) => {
@@ -25,14 +25,14 @@ export default props => {
         }
     }
 
-    const getFriends = async () => {
-        const response = await getFriendsReq();
-        setMyFriends(response)
-    }
+    // const getFriends = async () => {
+    //     const response = await getFriendsReq();
+    //     setMyFriends(response)
+    // }
 
     useEffect(() => {
         dispatch(getGroupsReq());
-        getFriends();
+        // getFriends();
         dispatch(getUsersReq());
     }, []);
 

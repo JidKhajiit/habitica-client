@@ -1,9 +1,71 @@
-.groups-card.card.card-body {
+.slider-element.groups-area {
+    position: relative;
+    top: -258px;
+    height: calc(100vh - 84px + 258px);
 
+    .groups-list {
+        .reverse {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        overflow-y: scroll;
+        overflow-x: hidden;
+        height: calc(100% - 292px);
+    }
+
+    &.slideDown {
+        top: 0;
+        .groups-list {
+            height: calc(100% - 550px);
+        }
+    }
+    .group-input-area.form-control.group-button-size,
+    .form-control.textarea_heigth {
+        resize: none;
+        height: 156px;
+    }
+
+    &.slideDown {
+        animation-name: groupsSlideDown;
+        -webkit-animation-name: groupsSlideDown;
+
+        animation-duration: 0.7s;
+        -webkit-animation-duration: 0.7s;
+
+        animation-timing-function: ease;
+        -webkit-animation-timing-function: ease;
+
+        visibility: visible !important;
+    }
+
+    &.slideUp {
+        animation-name: groupsSlideUp;
+        -webkit-animation-name: groupsSlideUp;
+
+        animation-duration: 0.7s;
+        -webkit-animation-duration: 0.7s;
+
+        animation-timing-function: ease;
+        -webkit-animation-timing-function: ease;
+
+        visibility: visible !important;
+    }
+}
+
+.groups-card.card.card-body {
     .card-title {
         .users {
-            width: 6%;
+            width: 75px;
         }
+    }
+
+    .group-tags {
+        width: 300px;
+    }
+
+    .card-item {
+        min-height: 130px;
     }
 
     .group-description {
@@ -12,13 +74,17 @@
         }
 
         .active-tasks {
-            width: 8%;
+            width: 80px;
             text-align: center;
 
             .card-item-article {
                 left: -2px;
             }
         }
+    }
+
+    .custom-card__control-buttons {
+        right: 83px;
     }
 }
 
@@ -42,3 +108,63 @@
 }
 
 
+
+@keyframes groupsSlideDown {
+    0% {
+        transform: translateY(-258px);
+    }
+    // 50% {
+    //     transform: translateY(4%);
+    // }
+    // 65% {
+    //     transform: translateY(-1%);
+    // }
+    // 80% {
+    //     transform: translateY(1%);
+    // }
+    // 95% {
+    //     transform: translateY(-1%);
+    // }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@-webkit-keyframes groupsSlideDown {
+    0% {
+        -webkit-transform: translateY(-258px);
+    }
+    // 50% {
+    //     -webkit-transform: translateY(4%);
+    // }
+    // 65% {
+    //     -webkit-transform: translateY(-1%);
+    // }
+    // 80% {
+    //     -webkit-transform: translateY(1%);
+    // }
+    // 95% {
+    //     -webkit-transform: translateY(-1%);
+    // }
+    100% {
+        -webkit-transform: translateY(0%);
+    }
+}
+
+@keyframes groupsSlideUp {
+    0% {
+        transform: translateY(258px);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@-webkit-keyframes groupsSlideUp {
+    0% {
+        -webkit-transform: translateY(258px);
+    }
+    100% {
+        -webkit-transform: translateY(0%);
+    }
+}

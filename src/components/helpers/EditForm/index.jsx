@@ -31,7 +31,7 @@ export default ({ users = useSelector(state => state.groups.editingGroupUsers), 
         title: group.title,
         tags: group.tags.join(' '),
         description: group.description,
-        restmen: users.map((user) => ({ _id: user._id })).filter((user) => !group.users.some(workerId => workerId === user._id) ),
+        restmen: users.map((user) => ({ _id: user._id })).filter((user) => !group.users.some(workerId => workerId === user._id)),
         workers: group.users.map((workerId) => ({ _id: workerId })).filter((user) => user._id !== myUserId)
     } : {
                 title: '',
@@ -43,25 +43,6 @@ export default ({ users = useSelector(state => state.groups.editingGroupUsers), 
     const groupId = task ? task.groupId : group._id;
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [inputValues, setInputValues] = useState(initInputValues);
-    console.log('input', inputValues)
-    // useEffect(() => {
-    //     // if(task) {
-    //     setInputValues({
-    //         ...inputValues,
-    //         restmen: users
-    //             .map((user) => ({ _id: user._id }))
-    //             .filter((user) => {
-    //                 if (task) {
-    //                     return !task.workers
-    //                         .some(worker => worker._id === user._id)
-    //                 } else {
-    //                     return !group.users
-    //                         .some(workerId => workerId === user._id)
-    //                 }
-
-    //             })
-    //     })
-    // }, [users])
 
     const handleChange = (prop) => (event) => {
         setInputValues({ ...inputValues, [prop]: event.target.value });
@@ -79,7 +60,8 @@ export default ({ users = useSelector(state => state.groups.editingGroupUsers), 
 
     const sendRequest = () => {
         console.log(inputValues)
-        if (inputValues.title && inputValues.workers.length) {
+        const { title, workers } = inputValues;
+        if ((title && group) || (title && workers.length && task)) {
             const requestData = group ? {
                 data: { ...inputValues, users: [...inputValues.workers.map((user) => user._id), myUserId], tags: [...inputValues.tags.split(' ')] },
                 id: group._id
@@ -118,21 +100,22 @@ export default ({ users = useSelector(state => state.groups.editingGroupUsers), 
 
     return (
         <div>
-            <Card body className="task-card card__custom list-item-card">
+            <Card body className="task-card card__custom list-item-card purple-theme_back">
                 <InputGroup className="new-task-area">
                     <Input className="input-size" value={inputValues.title} onChange={handleChange('title')} name="title" placeholder={`${type} title...`} />
                     {ifGroup()}
                     <InputGroupButtonDropdown addonType="append" isOpen={dropdownOpen} toggle={toggleDropDown}>
                         <DropdownToggle caret className="group-button-size">Add workers</DropdownToggle>
                         <DropdownMenu>
-                            {inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >{users.find((item) => item._id === user._id).nickName}</DropdownItem>)}
+                            {inputValues.restmen.length ? inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >{users.find((item) => item._id === user._id).nickName}</DropdownItem>) :
+                            <DropdownItem disabled>{`No more ${group ? 'friends' : 'users'}`}</DropdownItem>}
                         </DropdownMenu>
                     </InputGroupButtonDropdown>
                 </InputGroup>
                 <InputGroup className="">
-                    <Input className="input-size" type="textarea" value={inputValues.description} onChange={handleChange('description')} name="description" placeholder="Description..." />
+                    <Input className="input-size textarea_heigth" type="textarea" value={inputValues.description} onChange={handleChange('description')} name="description" placeholder="Description..." />
                     <Paper elevation={0} className="form-control group-input-area group-button-size">
-                        {group && <div ><span>{myUserNickName}</span> <hr/></div> }
+                        {group && <div ><span>{myUserNickName}</span> <hr /></div>}
                         {inputValues.workers.map((worker) => <div key={worker._id}><span>{users.find((item) => item._id === worker._id).nickName}</span><div onClick={() => moveUser(worker._id, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
                     </Paper>
                 </InputGroup>

@@ -1,4 +1,4 @@
-.custom-card__control-button {
+.custom-card__control-buttons {
     position: absolute;
     top: 2px;
     .btn {
@@ -10,20 +10,14 @@
             box-shadow: none
         }
 
-        &.edit-button:focus {
-            background-color: #28a745;
-            border-color: #28a745;
-        }
+        // &.edit-button:focus {
+        //     background-color: #28a745;
+        //     border-color: #28a745;
+        // }
 
-        &.delete-button:focus {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
-    }
-    &.card-task {
-        right: 24px;
-    }
-    &.card-group {
-        right: 72px;
+        // &.delete-button:focus {
+        //     background-color: #dc3545;
+        //     border-color: #dc3545;
+        // }
     }
 }

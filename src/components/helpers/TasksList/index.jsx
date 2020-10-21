@@ -52,5 +52,5 @@ export default ({ tasks, users }) => {
     }) : null
 
 
-    return <div style={{ display: "flex", flexDirection: "column-reverse" }}>{tasksRender}</div>
+    return <>{tasksRender}</>
 }

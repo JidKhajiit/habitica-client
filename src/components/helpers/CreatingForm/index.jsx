@@ -1,6 +1,7 @@
 import { Paper } from '@material-ui/core';
 import './index.scss';
-import { Card, Button, InputGroup, Input } from 'reactstrap';
+import { Card, Button, InputGroup, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
 import {
     InputGroupButtonDropdown,
     DropdownToggle,
@@ -12,12 +13,15 @@ import AddIcon from '@material-ui/icons/Add';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTaskOrGroupReq } from '../../../redux/actions/tasksActionCreator';
+import { createTaskOrGroupReq, setEditingTaskId } from '../../../redux/actions/tasksActionCreator';
 import { showAlert } from '../../../redux/actions/appActionCreator';
+import { setEditingGroupId } from '../../../redux/actions/groupActionCreator';
 
-export default ({ users = useSelector(state => state.users.users), group, task, groupId }) => {
+export default ({ users = useSelector(state => state.users.users), group, task, groupId, slider }) => {
     const dispatch = useDispatch();
-    const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector((state => state.myUser))
+    const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector(state => state.myUser);
+    const { editingGroupId } = useSelector(state => state.groups);
+    const { editingTaskId } = useSelector(state => state.tasks);
     const type = group ? 'Group' :
         task ? 'Task' : 'Item';
     const restmen = group ? users.filter((user) => user._id !== myUserId).map((user) => ({ _id: user._id })) : users.map((user) => ({ _id: user._id }));
@@ -38,7 +42,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [inputValues, setInputValues] = useState(initInputValues);
-    const [slideUp, setSlideUp] = useState('invisible');
+    const [modal, setModal] = useState(false);
 
     const handleChange = (prop) => (event) => {
         setInputValues({ ...inputValues, [prop]: event.target.value });
@@ -52,19 +56,35 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
             [toArr]: [...inputValues[toArr], ...inputValues[fromArr].filter((user) => user._id === id)],
             [fromArr]: inputValues[fromArr].filter((user) => user._id !== id)
         });
-        console.log(inputValues)
     }
 
     const setVisibility = isVisible => isVisible ? '' : ' invisible';
 
+    const showModal = () => {
+        if (editingGroupId || editingTaskId) {
+            toggle()
+        } else {
+            changeFormVisibility()
+        }
+    }
+
     const changeFormVisibility = () => {
-        setSlideUp('slideUp')
+        toggle(false);
+        if (!isFormVisible) {
+            dispatch(setEditingGroupId())
+            dispatch(setEditingTaskId())
+        }
         setIsFormVisible(!isFormVisible);
+        slider();
+    }
+
+    const toggle = (value = !modal) => {
+        setModal(value);
     }
 
     const sendRequest = () => {
         const { workers, title, tags } = inputValues
-        if (title && group || title && workers.length && task) {
+        if ((title && group) || (title && workers.length && task)) {
             let requestData;
             if (group) {
                 console.log('input', inputValues.workers)
@@ -74,7 +94,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                     type: type.toLowerCase()
                 }
                 delete requestData.data.workers;
-                console.log('output',requestData)
+                console.log('output', requestData)
             } else {
                 requestData = {
                     data: { ...inputValues, groupId },
@@ -107,16 +127,22 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
     }
 
     useEffect(() => {
-        console.log(users)
-        const restmen = group ? users.filter((user) => user.nickName !== myUserNickName).map((user) => ({ _id: user._id })) : users.map((user) => ({ _id: user._id })); // repeat
+        const restmen = group ?
+            users.filter((user) => user.nickName !== myUserNickName)
+                .map((user) => ({ _id: user._id })) :
+            users.map((user) => ({ _id: user._id })); // repeat
         setInputValues({ ...inputValues, restmen })
 
     }, [users])
 
+    useEffect(() => {
+        if ((editingGroupId || editingTaskId) && isFormVisible) changeFormVisibility()
+
+    }, [editingGroupId, editingTaskId])
 
     return (
-        <div style={{overflow: "hidden"}}>
-            <Card id='anim_block' className={`slider ${isFormVisible ? 'slideDown' : slideUp}`}>
+        <div style={{ overflow: "hidden" }}>
+            <Card body className='card__custom list-item-card purple-theme_back'>
                 <InputGroup className="new-task-area">
 
                     <Input className="input-size" value={inputValues.title} onChange={handleChange('title')} name="title" placeholder={`${type} title...`} />
@@ -124,24 +150,44 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                     <InputGroupButtonDropdown addonType="append" isOpen={dropdownOpen} toggle={toggleDropDown}>
                         <DropdownToggle caret className="group-button-size">Add workers</DropdownToggle>
                         <DropdownMenu>
-                            {inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >{users.find((item) => item._id === user._id)?users.find((item) => item._id === user._id).nickName:'Anon'}</DropdownItem>)}
+                            {
+                                inputValues.restmen.length ? 
+                                    inputValues.restmen
+                                        .map((user) => 
+                                            <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >
+                                                {users.find((item) => item._id === user._id) ? users.find((item) => item._id === user._id).nickName : 'Anon'}
+                                            </DropdownItem>) :
+                                    <DropdownItem disabled>{`No more ${group ? 'friends' : 'users'}`}</DropdownItem>
+                            }
                         </DropdownMenu>
                     </InputGroupButtonDropdown>
                 </InputGroup>
                 <InputGroup className="">
-                    <Input className="input-size" type="textarea" value={inputValues.description} onChange={handleChange('description')} name="description" placeholder="Description..." />
+                    <Input className="input-size textarea_heigth" type="textarea" value={inputValues.description} onChange={handleChange('description')} name="description" placeholder="Description..." />
                     <Paper elevation={0} className="form-control group-input-area group-button-size">
                         {group ? <div ><span>{myUserNickName}</span> <hr /></div> : <></>}
-                        {inputValues.workers.map((worker) => <div key={worker._id}><span>{users.find((item) => item._id == worker._id).nickName}</span><div onClick={() => moveUser(worker._id, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
+                        {inputValues.workers.map((worker) => <div key={worker._id}><span>{users.find((item) => item._id === worker._id).nickName}</span><div onClick={() => moveUser(worker._id, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
                     </Paper>
                 </InputGroup>
             </Card>
             <div className="flex-center">
-                <Button onClick={changeFormVisibility} className={'add-button' + setVisibility(!isFormVisible)}><AddIcon />New {type}</Button>
+                <Button onClick={showModal} className={'add-button' + setVisibility(!isFormVisible)}><AddIcon />New {type}</Button>
                 <Button onClick={changeFormVisibility} className={'add-button' + setVisibility(isFormVisible)}><KeyboardBackspaceIcon />Close</Button>
                 <Button onClick={() => setInputValues(initInputValues)} className={'add-button' + setVisibility(isFormVisible)}>Clean</Button>
                 <Button onClick={sendRequest} className={'add-button' + setVisibility(isFormVisible)}>Create<KeyboardBackspaceIcon className="rotate-icon" /></Button>
             </div>
+
+
+            <Modal isOpen={modal} toggle={toggle}>
+                <ModalHeader >Warning!</ModalHeader>
+                <ModalBody>
+                    if you continue, all changes will be deleted and can't be restored.
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={changeFormVisibility}>Ok</Button>{' '}
+                    <Button color="secondary" onClick={() => toggle()}>Cancel</Button>
+                </ModalFooter>
+            </Modal>
         </div>
 
     )

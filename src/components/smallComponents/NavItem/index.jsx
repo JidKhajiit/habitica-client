@@ -8,7 +8,8 @@ const MyNavItem = ({
     href,
     className: userClassName = "",
     children,
-    disabled = false
+    disabled = false,
+    style
 }) => {
     const history = useHistory();
     const activeHeaderTab = history.location.pathname;
@@ -19,12 +20,13 @@ const MyNavItem = ({
     }
 
     return (
-        <NavItem id={id} className={userClassName}>
+        <NavItem id={id} className={userClassName} >
             <NavLink 
                 disabled={disabled}
                 active={isActive}
                 href='#'
                 onClick={handleLinkClick}
+                style={style}
             >
                 {children}
             </NavLink>

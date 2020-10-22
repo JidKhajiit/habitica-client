@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../../app.scss';
-import UserCard from '../../helpers/UserCard';
+import UserCard from '../../smallComponents/UserCard';
 import { outgoingBidForFriendshipReq } from '../../../providers/friendsProvider';
 
 

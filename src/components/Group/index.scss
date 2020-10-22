@@ -1,9 +1,10 @@
 .slider-element.tasks-area {
     position: relative;
-    top: -196px;
-    height: calc(100vh - 84px + 258px);
+    top: -193px;
+    height: calc(100vh - 84px + 255px);
 
-    .tasks-list {
+    .items-list {
+        
         .reverse {
             display: flex;
             flex-direction: column-reverse;
@@ -16,7 +17,7 @@
 
     &.slideDown {
         top: 0;
-        .tasks-list {
+        .items-list {
             height: calc(100% - 796px);
         }
     }
@@ -118,7 +119,7 @@
 
 @keyframes tasksSlideUp {
     0% {
-        transform: translateY(196px);
+        transform: translateY(193px);
     }
     100% {
         transform: translateY(0%);
@@ -127,7 +128,7 @@
 
 @-webkit-keyframes tasksSlideUp {
     0% {
-        -webkit-transform: translateY(196px);
+        -webkit-transform: translateY(193px);
     }
     100% {
         -webkit-transform: translateY(0%);
@@ -136,7 +137,7 @@
 
 @keyframes tasksSlideDown {
     0% {
-        transform: translateY(-196px);
+        transform: translateY(-193px);
     }
     100% {
         transform: translateY(0%);
@@ -145,7 +146,7 @@
 
 @-webkit-keyframes tasksSlideDown {
     0% {
-        -webkit-transform: translateY(-196px);
+        -webkit-transform: translateY(-193px);
     }
     100% {
         -webkit-transform: translateY(0%);

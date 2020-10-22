@@ -1,6 +1,5 @@
 import { Paper } from '@material-ui/core';
 import './index.scss';
-import '../../../app.scss'
 import { Card, Button, InputGroup, Input } from 'reactstrap';
 import {
     InputGroupButtonDropdown,
@@ -12,13 +11,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { editItem, setEditingTaskId } from '../../../redux/actions/tasksActionCreator';
-import { showAlert } from '../../../redux/actions/appActionCreator';
-import { setEditingGroupId } from '../../../redux/actions/groupActionCreator';
+import { editItem, setEditingTaskId } from '../../redux/actions/tasksActionCreator';
+import { showAlert } from '../../redux/actions/appActionCreator';
+import { setEditingGroupId } from '../../redux/actions/groupActionCreator';
 
-export default ({ users = useSelector(state => state.groups.editingGroupUsers), group, task, className }) => {
+export default ({ users = useSelector(state => state.groups.editingGroupUsers), group, task }) => {
     const dispatch = useDispatch();
-    console.log('users', users)
     const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector((state => state.myUser))
     const type = group ? 'Group' :
         task ? 'Task' : 'Item';
@@ -34,12 +32,12 @@ export default ({ users = useSelector(state => state.groups.editingGroupUsers), 
         restmen: users.map((user) => ({ _id: user._id })).filter((user) => !group.users.some(workerId => workerId === user._id)),
         workers: group.users.map((workerId) => ({ _id: workerId })).filter((user) => user._id !== myUserId)
     } : {
-                title: '',
-                tags: '',
-                description: '',
-                restmen: users.map((user) => ({ _id: user._id })),
-                workers: []
-            }
+            title: '',
+            tags: '',
+            description: '',
+            restmen: [],
+            workers: []
+        }
     const groupId = task ? task.groupId : group._id;
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [inputValues, setInputValues] = useState(initInputValues);
@@ -59,7 +57,6 @@ export default ({ users = useSelector(state => state.groups.editingGroupUsers), 
     }
 
     const sendRequest = () => {
-        console.log(inputValues)
         const { title, workers } = inputValues;
         if ((title && group) || (title && workers.length && task)) {
             const requestData = group ? {
@@ -99,7 +96,7 @@ export default ({ users = useSelector(state => state.groups.editingGroupUsers), 
     }
 
     return (
-        <div>
+        <div >
             <Card body className="task-card card__custom list-item-card purple-theme_back">
                 <InputGroup className="new-task-area">
                     <Input className="input-size" value={inputValues.title} onChange={handleChange('title')} name="title" placeholder={`${type} title...`} />
@@ -108,7 +105,7 @@ export default ({ users = useSelector(state => state.groups.editingGroupUsers), 
                         <DropdownToggle caret className="group-button-size">Add workers</DropdownToggle>
                         <DropdownMenu>
                             {inputValues.restmen.length ? inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >{users.find((item) => item._id === user._id).nickName}</DropdownItem>) :
-                            <DropdownItem disabled>{`No more ${group ? 'friends' : 'users'}`}</DropdownItem>}
+                                <DropdownItem disabled>{`No more ${group ? 'friends' : 'users'}`}</DropdownItem>}
                         </DropdownMenu>
                     </InputGroupButtonDropdown>
                 </InputGroup>

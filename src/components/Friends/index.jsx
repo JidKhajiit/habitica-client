@@ -29,26 +29,26 @@ export default props => {
             <div className="group-header flex-space-between">
                 <h1>Friends</h1>
             </div>
-            <Nav tabs>
-                <NavItem>
+            <Nav tabs className="purple-theme_one">
+                <NavItem className='pointer'>
                     <NavLink
                         onClick={() => handlTab('my-friends')}
                         active={friendTab === 'my-friends'}
                     > My friends </NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem className='pointer'>
                     <NavLink
                         onClick={() => handlTab('add-new-friend')}
                         active={friendTab === 'add-new-friend'}
                     > Add new friend </NavLink>
-                </NavItem>
-                <NavItem>
+                </NavItem >
+                <NavItem className='pointer'>
                     <NavLink
                         onClick={() => handlTab('outgoing-reqs')}
                         active={friendTab === 'outgoing-reqs'}
                     > Outgoing Reqs </NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem className='pointer'>
                     <NavLink
                         onClick={() => handlTab('incoming-reqs')}
                         active={friendTab === 'incoming-reqs'}

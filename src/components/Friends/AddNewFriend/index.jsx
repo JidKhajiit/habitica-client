@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import '../../../app.scss';
 import { getUsers } from '../../../providers/friendsProvider';
-import UserCard from '../../helpers/UserCard';
+import UserCard from '../../smallComponents/UserCard';
 
 
 export default ({ className }) => {

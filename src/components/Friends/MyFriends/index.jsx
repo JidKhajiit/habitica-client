@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import '../../../app.scss';
-import UserCard from '../../helpers/UserCard';
+import UserCard from '../../smallComponents/UserCard';
 import { getFriendsReq } from '../../../providers/friendsProvider';
 
 

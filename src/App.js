@@ -9,7 +9,7 @@ import Home from './components/Home/';
 import Groups from './components/Groups/';
 import Header from './components/Header/';
 import Group from './components/Group';
-import MyAlert from './components/helpers/MyAlert';
+import MyAlert from './components/smallComponents/MyAlert';
 import Friends from './components/Friends';
 import Tasks from './components/Tasks';
 import './styles/colorTheme.scss';

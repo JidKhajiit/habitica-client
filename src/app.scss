@@ -5,27 +5,18 @@
   grid-template-rows: 42px 1fr 42px;
   grid-gap: 7px;
   overflow: hidden;
-  grid-template-areas: 
-  "header"
-  "content"
-  "footer";
+  background-color: #ffefd5;
+  grid-template-areas:
+    "header"
+    "content"
+    "footer";
 }
-
-
-
-
-
-
-
-
-
-
 
 .card.auth {
   width: 100%;
   max-width: 400px;
   margin-top: 200px;
-  grid-area: 'content';
+  grid-area: "content";
 }
 
 .MuiContainer-root.card {
@@ -37,7 +28,8 @@
   margin: 8px 0;
 }
 
-.MuiTypography-root.MuiLink-root.MuiLink-underlineHover.MuiTypography-colorPrimary {
+.MuiTypography-root.MuiLink-root.MuiLink-underlineHover.MuiTypography-colorPrimary,
+.pointer {
   &:hover {
     cursor: pointer;
   }
@@ -115,10 +107,6 @@
   }
 }
 
-.position_center {
-  margin: 0 auto !important;
-}
-
 .flex-space-between {
   display: flex;
   flex-direction: row;
@@ -160,9 +148,7 @@
   margin: 0 auto;
 }
 
-
 .rotate-icon {
-
   transform: rotate(180deg);
 }
 
@@ -181,22 +167,28 @@
   color: red;
 
   &:hover {
-  opacity: 1;
+    opacity: 1;
   }
+}
 
-  // &:before {
-  // transform: rotate(45deg);
-  // }
-  // &:after {
-  //   transform: rotate(-45deg);
-  // }
-  // &:before, &:after {
-  //   position: absolute;
-  //   left: 13px;
-  //   top: 2px;
-  //   content: ' ';
-  //   height: 14px;
-  //   width: 2px;
-  //   background-color: red;
-  // }
+.card__custom.list-item-card.card.card-body div:last-child {
+  margin-bottom: 0;
+}
+
+.items-list {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: #e3d8ee !important;
+  padding: 3px;
+  position: relative;
+
+  .background__text {
+    font-weight: normal;
+    font-size: 33px;
+    position: -webkit-sticky;
+    position: sticky;
+    margin: 0 auto;
+    bottom: 0 ;
+    color: #444444;
+    z-index: 0;
+  }
 }

@@ -1,9 +1,9 @@
 .slider-element.groups-area {
     position: relative;
-    top: -258px;
+    top: -257px;
     height: calc(100vh - 84px + 258px);
 
-    .groups-list {
+    .items-list {
         .reverse {
             display: flex;
             flex-direction: column-reverse;
@@ -12,11 +12,12 @@
         overflow-y: scroll;
         overflow-x: hidden;
         height: calc(100% - 292px);
+
     }
 
     &.slideDown {
         top: 0;
-        .groups-list {
+        .items-list {
             height: calc(100% - 550px);
         }
     }
@@ -111,7 +112,7 @@
 
 @keyframes groupsSlideDown {
     0% {
-        transform: translateY(-258px);
+        transform: translateY(-257px);
     }
     // 50% {
     //     transform: translateY(4%);
@@ -132,7 +133,7 @@
 
 @-webkit-keyframes groupsSlideDown {
     0% {
-        -webkit-transform: translateY(-258px);
+        -webkit-transform: translateY(-257px);
     }
     // 50% {
     //     -webkit-transform: translateY(4%);
@@ -153,7 +154,7 @@
 
 @keyframes groupsSlideUp {
     0% {
-        transform: translateY(258px);
+        transform: translateY(257px);
     }
     100% {
         transform: translateY(0%);
@@ -162,7 +163,7 @@
 
 @-webkit-keyframes groupsSlideUp {
     0% {
-        -webkit-transform: translateY(258px);
+        -webkit-transform: translateY(257px);
     }
     100% {
         -webkit-transform: translateY(0%);

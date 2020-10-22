@@ -5,7 +5,7 @@ import './index.scss';
 import '../../app.scss';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import { useHistory } from 'react-router-dom';
-import CreatingForm from '../helpers/CreatingForm';
+import CreatingForm from '../CreatingForm';
 import TasksList from '../helpers/TasksList';
 import { MySpinner } from '../smallComponents/Spinner';
 import { getGroupReq } from '../../redux/actions/groupActionCreator';
@@ -64,12 +64,14 @@ export default props => {
             </Card>
             <div className={`tasks-area slider-element content-width ${isShowForm ? 'slideDown' : slideUp}`}>
                 <CreatingForm slider={startAnimation} task groupId={groupId} users={currentGroup.users} />
-                <div className='tasks-list'>
+                <div className='items-list'>
+
                     <div className='reverse'>
+                        <span className='background__text'>Tasks</span>
                         <TasksList tasks={currentGroup.tasks} users={currentGroup.users} />
                     </div>
                 </div>
-                
+
                 <div className="active-tasks card_item__custom">
                     <span className="card-item-article">active tasks </span>
                     {currentGroup.tasks.filter((task) => task.completed === false).length} of {currentGroup.tasks.length}

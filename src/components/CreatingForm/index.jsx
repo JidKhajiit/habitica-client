@@ -13,9 +13,9 @@ import AddIcon from '@material-ui/icons/Add';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTaskOrGroupReq, setEditingTaskId } from '../../../redux/actions/tasksActionCreator';
-import { showAlert } from '../../../redux/actions/appActionCreator';
-import { setEditingGroupId } from '../../../redux/actions/groupActionCreator';
+import { createTaskOrGroupReq, setEditingTaskId } from '../../redux/actions/tasksActionCreator';
+import { showAlert } from '../../redux/actions/appActionCreator';
+import { setEditingGroupId } from '../../redux/actions/groupActionCreator';
 
 export default ({ users = useSelector(state => state.users.users), group, task, groupId, slider }) => {
     const dispatch = useDispatch();
@@ -31,14 +31,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
         restmen,
         workers: []
     }
-    if (group) {
-        initInputValues.tags = '';
-        // const myIndex = initInputValues.restmen.indexOf({_id: group._id})
-        // console.log(group)
-        // console.log(initInputValues.restmen)
-        // console.log(myIndex)
-        // initInputValues.restmen.splice(initInputValues.restmen, 1)
-    }
+    if (group) initInputValues.tags = '';
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [inputValues, setInputValues] = useState(initInputValues);
@@ -120,17 +113,16 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
         }
     }
 
-    const ifGroup = () => {
+    const tagsRender = () => {
         return group ?
             <Input className="input-size" value={inputValues.tags} onChange={handleChange('tags')} name="tags" placeholder='tags...' /> :
             <div></div>
     }
 
     useEffect(() => {
-        const restmen = group ?
-            users.filter((user) => user.nickName !== myUserNickName)
-                .map((user) => ({ _id: user._id })) :
-            users.map((user) => ({ _id: user._id })); // repeat
+        let restmen = group ?
+            users.filter((user) => user.nickName !== myUserNickName) : users;
+            restmen.map((user) => ({ _id: user._id }));
         setInputValues({ ...inputValues, restmen })
 
     }, [users])
@@ -141,12 +133,12 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
     }, [editingGroupId, editingTaskId])
 
     return (
-        <div style={{ overflow: "hidden" }}>
+        <div className='creating-area'>
             <Card body className='card__custom list-item-card purple-theme_back'>
                 <InputGroup className="new-task-area">
 
                     <Input className="input-size" value={inputValues.title} onChange={handleChange('title')} name="title" placeholder={`${type} title...`} />
-                    {ifGroup()}
+                    {tagsRender()}
                     <InputGroupButtonDropdown addonType="append" isOpen={dropdownOpen} toggle={toggleDropDown}>
                         <DropdownToggle caret className="group-button-size">Add workers</DropdownToggle>
                         <DropdownMenu>

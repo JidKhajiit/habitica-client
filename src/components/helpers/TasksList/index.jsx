@@ -5,8 +5,7 @@ import { checkTask } from '../../../redux/actions/tasksActionCreator';
 import ListItemCard from '../ListItemCard';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import EditForm from '../EditForm';
-import '../../../app.scss'
+import EditForm from '../../EditForm';
 
 export default ({ tasks, users }) => {
     const dispatch = useDispatch();

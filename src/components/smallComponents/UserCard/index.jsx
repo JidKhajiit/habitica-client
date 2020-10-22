@@ -10,29 +10,24 @@ export default ({ user, type, rerender }) => {
     const dispatch = useDispatch();
     console.log(type)
 
-    const handleCardClick = (task) => {
+    const handleCardClick = () => {
         if (user.status === 'outgoing req is exists') {
             dispatch(setFriendTab('outgoing-reqs'));
         }
     }
 
     const handleEditButton = (event, id) => {
-        if (event.target.type !== "button") {
-            // dispatch(getFriendsReq())
-        }
+        //chat
     }
 
     const handleDeleteFriendButton = async () => {
-
         await deleteFriendReq(user._id);
         rerender()
     }
 
     const handleAddFriendButton = async () => {
-        // if (event.target.type !== "button") {
         await createBidForFrendshipReq(user._id)
         rerender()
-        // }
     }
 
     const handleCancelBidButton = async () => {
@@ -42,7 +37,6 @@ export default ({ user, type, rerender }) => {
         } catch (err) {
             console.log(err)
         }
-
     }
 
     const handleAcceptBidButton = async () => {
@@ -52,11 +46,10 @@ export default ({ user, type, rerender }) => {
         } catch (err) {
             console.log(err)
         }
-
     }
 
     return (
-        <Card body className="card__custom list-item-card" id={user._id} key={user._id} onClick={handleCardClick}>
+        <Card body className="card__custom list-item-card user-card hover_recolor purple-theme_back" id={user._id} key={user._id} onClick={handleCardClick}>
             <CardTitle className="flex-space-between">
                 <div className="group-title card_item__custom">
                     {user.nickName}

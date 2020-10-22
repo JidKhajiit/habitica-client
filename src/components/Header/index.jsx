@@ -18,8 +18,8 @@ export default props => {
         <>
             <Nav tabs className="purple-theme_one">
                 <div key="1">
-                    <MyNavItem href="/home" children="Home" />
-                    <MyNavItem href="/tasks" children="Tasks" />
+                    <MyNavItem href="/home" children="Home" disabled/>
+                    <MyNavItem href="/tasks" children="Tasks" disabled/>
                     <MyNavItem href="/groups" children="Groups" />
                     <MyNavItem href="/friends" children="Friends" />
                     <MyNavItem href="#" children="Another Link" disabled />

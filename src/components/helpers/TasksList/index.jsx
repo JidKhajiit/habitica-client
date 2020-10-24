@@ -21,7 +21,7 @@ export default ({ tasks, users }) => {
         } else {
             const workers = task.workers.map((worker) => <div key={worker._id}>{users.find((user) => user._id === worker._id).nickName}</div>)
             return (
-                <ListItemCard className="task-card flex-space-between" completed={task.completed} groupId={task.groupId} type="task" id={task._id} key={task._id}>
+                <ListItemCard className="task-card flex-space-between hover_recolor " completed={task.completed} groupId={task.groupId} type="task" id={task._id} key={task._id}>
                     <InputGroupAddon onClick={() => handleCheckBox(task)} addonType="prepend">
                         <InputGroupText>
                             {task.completed ? <CheckCircleIcon/> : <CheckCircleOutlineIcon/>}

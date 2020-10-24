@@ -1,16 +1,19 @@
 import { all, fork } from 'redux-saga/effects';
-import authSaga from './authSaga';
-import tasksSaga from './tasksSaga';
-import groupsSaga from './groupsSaga';
-import usersSaga from './usersSaga';
-import appSaga from './appSaga';
+import authSaga from './aboutData/authSaga';
+import tasksSaga from './aboutData/tasksSaga';
+import groupsSaga from './aboutComponent/groupsSaga';
+import usersSaga from './aboutData/usersSaga';
+import appSaga from './aboutComponent/appSaga';
+import groupsAndTasks from './aboutData/groupsOrTasks';
 
 export default function *rootSaga() {
   yield all([
     fork(authSaga),
+    fork(appSaga),
+    fork(usersSaga),
     fork(tasksSaga),
     fork(groupsSaga),
-    fork(usersSaga),
-    fork(appSaga)
+    fork(groupsAndTasks)
+
   ]);
 }

@@ -5,8 +5,21 @@ import {
     SET_OPENED_GROUP,
     SET_EDITING_GROUP_ID,
     GET_GROUP_USERS_REQ,
-    SET_EDITING_GROUP_USERS
+    SET_EDITING_GROUP_USERS,
+    GET_DATA_FOR_GROUPS,
+    SET_HOVERED_GROUP
 } from '../types';
+
+
+export const setHoveredGroup = payload => ({
+    type: SET_HOVERED_GROUP,
+    payload
+})
+
+export const getDataForGroups = (payload) => ({
+    type: GET_DATA_FOR_GROUPS,
+    payload
+})
 
 
 export const setEditingGroupUsers = (payload = []) => {

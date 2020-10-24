@@ -11,9 +11,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { editItem, setEditingTaskId } from '../../redux/actions/tasksActionCreator';
+import { setEditingTaskId } from '../../redux/actions/tasksActionCreator';
 import { showAlert } from '../../redux/actions/appActionCreator';
 import { setEditingGroupId } from '../../redux/actions/groupActionCreator';
+import { editItem } from '../../redux/actions/groupsOrTasksActionCreator';
 
 export default ({ users = useSelector(state => state.groups.editingGroupUsers), group, task }) => {
     const dispatch = useDispatch();
@@ -105,7 +106,7 @@ export default ({ users = useSelector(state => state.groups.editingGroupUsers), 
                         <DropdownToggle caret className="group-button-size">Add workers</DropdownToggle>
                         <DropdownMenu>
                             {inputValues.restmen.length ? inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >{users.find((item) => item._id === user._id).nickName}</DropdownItem>) :
-                                <DropdownItem disabled>{`No more ${group ? 'friends' : 'users'}`}</DropdownItem>}
+                                <DropdownItem disabled>{`No more ${group ? 'friends' : 'members'}`}</DropdownItem>}
                         </DropdownMenu>
                     </InputGroupButtonDropdown>
                 </InputGroup>

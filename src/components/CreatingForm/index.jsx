@@ -13,9 +13,10 @@ import AddIcon from '@material-ui/icons/Add';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTaskOrGroupReq, setEditingTaskId } from '../../redux/actions/tasksActionCreator';
+import { setEditingTaskId } from '../../redux/actions/tasksActionCreator';
 import { showAlert } from '../../redux/actions/appActionCreator';
 import { setEditingGroupId } from '../../redux/actions/groupActionCreator';
+import { createItemReq } from '../../redux/actions/groupsOrTasksActionCreator';
 
 export default ({ users = useSelector(state => state.users.users), group, task, groupId, slider }) => {
     const dispatch = useDispatch();
@@ -97,7 +98,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
 
             delete requestData.data.restmen;
 
-            dispatch(createTaskOrGroupReq(requestData));
+            dispatch(createItemReq(requestData));
             changeFormVisibility();
             setInputValues(initInputValues);
         } else {

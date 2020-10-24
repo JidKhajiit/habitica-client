@@ -1,9 +1,9 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
-import { setUser, setAuth, setIsAuthLoading } from '../actions/myUserActionCreator';
-import  { CREATE_USER_REQ, AUTH_USER_REQ, CHECK_AUTH_USER  } from '../types';
+import { setUser, setAuth, setIsAuthLoading } from '../../actions/myUserActionCreator';
+import  { CREATE_USER_REQ, AUTH_USER_REQ, CHECK_AUTH_USER  } from '../../types';
 import axios from 'axios';
-import { URL } from '../../config/constants';
-import { showAlert } from '../actions/appActionCreator';
+import { URL } from '../../../config/constants';
+import { showAlert } from '../../actions/appActionCreator';
 
 
 function *AuthorizationRequest(action) {
@@ -16,7 +16,6 @@ function *AuthorizationRequest(action) {
 
     yield put(setUser(res.data));
     yield put(setAuth(true));
-    // yield put(switchLoginFormController(false));
   } catch (error) {
     yield put(showAlert(error.request.response));
     console.log('her', error.request.response);
@@ -31,21 +30,15 @@ function *RegistrationRequest(action) {
       data: action.payload,
     });
 
-    // if (res.msg) {
-        
-    // //   yield put(renderMessage(res.msg));
-    // }
-
     yield put(setUser(res.data));
     yield put(setAuth(true));
-    // yield put(switchLoginFormController(false)); //
   } catch (error) {
     yield put(showAlert(error.request.response));
     console.log('error', error.request.response);
   }
 }
 
-function *CheckAuthUserRequest(action) {
+function *CheckUserAuthRequest(action) {
   try {
     yield call(axios, {
       method: 'get',
@@ -67,5 +60,5 @@ function *CheckAuthUserRequest(action) {
 export default function *watchAuth() {
   yield takeEvery(AUTH_USER_REQ, AuthorizationRequest);
   yield takeEvery(CREATE_USER_REQ, RegistrationRequest);
-  yield takeEvery(CHECK_AUTH_USER, CheckAuthUserRequest);
+  yield takeEvery(CHECK_AUTH_USER, CheckUserAuthRequest);
 }

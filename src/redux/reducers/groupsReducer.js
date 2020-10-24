@@ -2,14 +2,16 @@ import {
     SET_GROUPS,
     SET_OPENED_GROUP,
     SET_EDITING_GROUP_ID,
-    SET_EDITING_GROUP_USERS
+    SET_EDITING_GROUP_USERS,
+    SET_HOVERED_GROUP
 } from "../types";
 
 const initialState = {
     groups: [],
     openedGroup: null,
     editingGroupId: null,
-    editingGroupUsers: []
+    editingGroupUsers: [],
+    hoveredGroupId: null
 
 }
 
@@ -28,6 +30,8 @@ export default (state = initialState, action) => {
         case SET_EDITING_GROUP_USERS:
 
             return { ...state, editingGroupUsers: payload }
+        case SET_HOVERED_GROUP:
+            return { ...state, hoveredGroupId: payload }
         default: return state
     }
 }

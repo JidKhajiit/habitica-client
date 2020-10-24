@@ -1,17 +1,15 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
-import { CREATE_TASK_OR_GROUP_REQ, CHECK_TASK_REQ, DELETE_ITEM_REQ, EDIT_ITEM_REQ } from '../types';
+import { CREATE_TASK_OR_GROUP_REQ, DELETE_ITEM_REQ, EDIT_ITEM_REQ } from '../../types';
 import axios from 'axios';
-import { URL } from '../../config/constants';
-import { setGroups, getGroupReq, getGroupsReq, setEditingGroupId } from '../actions/groupActionCreator.js';
-import { setEditingTaskId } from '../actions/tasksActionCreator';
-import { showAlert } from '../actions/appActionCreator';
+import { URL } from '../../../config/constants';
+import { setGroups, getGroupReq, getGroupsReq, setEditingGroupId } from '../../actions/groupActionCreator.js';
+import { setEditingTaskId } from '../../actions/tasksActionCreator';
+import { showAlert } from '../../actions/appActionCreator';
 
 const token = localStorage.getItem('token');
 
-function* CreatingItemRequest({ payload: { data, type } }) {
-
+function* CreateItemRequest({ payload: { data, type } }) {
     try {
-
         const res = yield call(axios, {
             method: 'post',
             url: `${URL}${type}s/new-${type}`,
@@ -30,31 +28,12 @@ function* CreatingItemRequest({ payload: { data, type } }) {
         }
     } catch (error) {
         yield put(showAlert(error.request.response));
-        console.log('her', error.request.response);
-    }
-}
-
-function* checkTaskReq({ payload: { _id, completed, groupId } }) {
-    try {
-        yield call(axios, {
-            method: 'patch',
-            url: `${URL}tasks/check/${_id}`,
-            data: { completed: !completed },
-            headers: {
-                authorization: token
-            }
-        });
-        yield put(getGroupReq(groupId));
-
-    } catch (error) {
-        yield put(showAlert(error.request.response));
-        console.log('her', error.request.response);
+        console.log('error', error.request.response);
     }
 }
 
 function* editItemReq({ payload: { id, data, type, groupId } }) {
     try {
-        console.log(data)
         yield call(axios, {
             method: 'patch',
             url: `${URL}${type}s/${id}`,
@@ -72,7 +51,7 @@ function* editItemReq({ payload: { id, data, type, groupId } }) {
         }
     } catch (error) {
         yield put(showAlert(error.request.response));
-        console.log('her', error.request.response);
+        console.log('error', error.request.response);
     }
 }
 
@@ -94,14 +73,13 @@ function* deleteItemReq({ payload }) {
 
     } catch (error) {
         yield put(showAlert(error.request.response));
-        console.log('her', error.request.response);
+        console.log('error', error.request.response);
     }
 }
 
 
 export default function* watchAuth() {
-    yield takeEvery(CREATE_TASK_OR_GROUP_REQ, CreatingItemRequest);
-    yield takeEvery(CHECK_TASK_REQ, checkTaskReq);
+    yield takeEvery(CREATE_TASK_OR_GROUP_REQ, CreateItemRequest);
     yield takeEvery(DELETE_ITEM_REQ, deleteItemReq);
     yield takeEvery(EDIT_ITEM_REQ, editItemReq);
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getGroupsReq, setEditingGroupId } from '../../redux/actions/groupActionCreator';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDataForGroups, getGroupsReq, setEditingGroupId } from '../../redux/actions/groupActionCreator';
 import './index.scss';
 import '../../app.scss';
 
@@ -9,24 +9,21 @@ import { getUsersReq } from '../../redux/actions/usersActionCreator';
 import { getFriendsReq } from '../../providers/friendsProvider';
 import { Card } from '@material-ui/core';
 import GroupsList from './GroupsList';
+import GroupInfo from './GroupInfo';
 
 export default props => {
     const dispatch = useDispatch();
 
-    const [myFriends, setMyFriends] = useState([]);
+    const { groups: groupsArr, editingGroupId, editingGroupUsers } = useSelector(state => state.groups);
+    const { myFriends } = useSelector(state => state.users);
+    const currentGroup = editingGroupId ? groupsArr.find((group) => group._id === editingGroupId) : {};
     const [slideUp, setSlideUp] = useState('');
     const [isShowForm, setIsShowForm] = useState(false);
 
-    const getFriends = async () => {
-        const response = await getFriendsReq();
-        setMyFriends(response)
-    }
-
     useEffect(() => {
+        
         dispatch(setEditingGroupId())
-        dispatch(getGroupsReq());
-        getFriends();
-        dispatch(getUsersReq());
+        dispatch(getDataForGroups());
     }, []);
 
     const startAnimation = () => {
@@ -35,19 +32,22 @@ export default props => {
     }
 
     return (
-        <div className={`groups-area slider-element content-width ${isShowForm ? 'slideDown' : slideUp}`}>
-            {/* <div className="group-header flex-space-between">
-                
-            </div> */}
-            <CreatingForm group slider={startAnimation} users={myFriends} />
-            <Card className='items-list card__custom list-item-card purple-theme_back'>
-            
-                <div className='reverse'>
-                    <span className='background__text'>Groups</span>
-                    <GroupsList />
+        <div>
+            <div className='groups__elements_flex'>
+                <div className={`groups-area slider-element ${isShowForm ? 'slideDown' : slideUp}`}>
+                    <CreatingForm group slider={startAnimation} users={myFriends} />
+                    <Card className='items-list card__custom list-item-card purple-theme_back'>
+
+                        <div className='reverse'>
+                            <span className='background__text'>Groups</span>
+                            <GroupsList />
+                        </div>
+
+                    </Card>
                 </div>
+                <div className='groups__group-info-area'>{<GroupInfo currentGroup={groupsArr[groupsArr.length - 1]}/>}</div>
+            </div>
             
-            </Card>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import { put, takeEvery, delay } from 'redux-saga/effects';
-import { SHOW_ALERT } from '../types';
-import { setAlert } from '../actions/appActionCreator';
+import { SHOW_ALERT } from '../../types';
+import { setAlert } from '../../actions/appActionCreator';
 
 
 function* ShowAlert({payload}) {
@@ -9,10 +9,9 @@ function* ShowAlert({payload}) {
         yield delay(4000);
         yield put(setAlert());
         
-        // yield put(switchLoginFormController(false));
     } catch (error) {
         // yield put(renderMessage(error.request.response));
-        console.log('her', error.message);
+        console.log('error', error.message);
     }
 }
 

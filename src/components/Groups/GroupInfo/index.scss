@@ -1,0 +1,40 @@
+.groups__active-group {
+    width: 100%;
+    max-width: 450px;
+    height: fit-content;
+
+    .group_card {
+        display: grid;
+        grid-gap: 16px;
+        grid-template-columns:  repeat(2, calc(50% - 8px));
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+        "title title"
+        "description description"
+        "tags users";
+
+        .group__tags, .group__users {
+            height: 100%;
+        }
+
+        .group__title {
+            grid-area: title;
+        }
+
+        .group__description {
+            grid-area: description;
+        }
+
+        .group__tags {
+            grid-area: tags;
+        }
+
+        .group__users {
+            grid-area: users;
+        }
+    }
+}
+
+h5, p {
+    margin: 0;
+}

@@ -31,7 +31,7 @@ export const deleteBidForFriendshipReq = async (id) => {
 
 export const getFriendsReq = async () => {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`${URL}users/nicks/friends`, {
+    const response = await axios.get(`${URL}users/my-friends/nicks`, {
         headers: {
             authorization: token
         }

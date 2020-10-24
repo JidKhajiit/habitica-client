@@ -1,7 +1,10 @@
 .slider-element.groups-area {
+    width: 100%;
+    max-width: 600px;
     position: relative;
     top: -257px;
     height: calc(100vh - 84px + 258px);
+    margin-right: 10px;
 
     .items-list {
         .reverse {
@@ -54,7 +57,17 @@
     }
 }
 
+.groups__elements_flex {
+    max-width: 1060px;
+    width: 100%;
+
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
 .groups-card.card.card-body {
+
     .card-title {
         .users {
             width: 75px;
@@ -69,20 +82,17 @@
         min-height: 130px;
     }
 
-    .group-description {
-        .description {
-            width: 100%;
-        }
+    // .group-description {
+    //     .description {
+    //         width: 100%;
+    //     }
 
         .active-tasks {
             width: 80px;
             text-align: center;
 
-            .card-item-article {
-                left: -2px;
-            }
         }
-    }
+    // }
 
     .custom-card__control-buttons {
         right: 83px;
@@ -108,6 +118,14 @@
     width: 100%;
 }
 
+.groups__group-info-area {
+    max-width: 450px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
 
 
 @keyframes groupsSlideDown {

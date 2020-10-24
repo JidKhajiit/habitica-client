@@ -3,16 +3,18 @@ import { Button, Modal, Card, ModalHeader, ModalBody, ModalFooter } from 'reacts
 import './index.scss'
 import '../../../app.scss'
 import { useDispatch } from 'react-redux';
-import { deleteItem, setEditingTaskId } from '../../../redux/actions/tasksActionCreator';
-import { setEditingGroupId, getEditingGroupUsers, setEditingGroupUsers } from '../../../redux/actions/groupActionCreator';
+import { setEditingTaskId } from '../../../redux/actions/tasksActionCreator';
+import { setEditingGroupId, getEditingGroupUsers, setEditingGroupUsers, setHoveredGroup } from '../../../redux/actions/groupActionCreator';
+import { deleteItem } from '../../../redux/actions/groupsOrTasksActionCreator';
 
 const ListItemCard = ({
     id,
     className,
     children,
     onClick,
+    onMouseEnter,
     type,
-    groupId,
+    groupId = id,
     completed,
 }) => {
     const dispatch = useDispatch();
@@ -29,6 +31,7 @@ const ListItemCard = ({
             dispatch(setEditingGroupUsers())
             dispatch(getEditingGroupUsers(id))
             dispatch(setEditingGroupId(id))
+            dispatch(setHoveredGroup(id))
         }
     }
 
@@ -38,7 +41,7 @@ const ListItemCard = ({
     }
 
     return (
-        <Card body id={id} key={id} onClick={onClick} className={"card__custom list-item-card hover_recolor purple-theme_back " + className}>
+        <Card body id={id} key={id} onClick={onClick} onMouseEnter={onMouseEnter} className={"card__custom list-item-card purple-theme_back " + className}>
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader >Are you sure?</ModalHeader>
                 <ModalBody>

@@ -1,8 +1,8 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
-import { GET_USERS_REQ } from '../types';
+import { GET_USERS_REQ } from '../../types';
 import axios from 'axios';
-import { URL } from '../../config/constants';
-import { setUsers } from '../actions/usersActionCreator.js';
+import { URL } from '../../../config/constants';
+import { setUsers } from '../../actions/usersActionCreator.js';
 
 function* GetUsersRequest() {
     const token = localStorage.getItem('token');
@@ -18,10 +18,8 @@ function* GetUsersRequest() {
         });
 
         yield put(setUsers(res.data));
-        // yield put(switchLoginFormController(false));
     } catch (error) {
-        // yield put(renderMessage(error.request.response));
-        console.log('her', error.request.response);
+        console.log('error', error.request.response);
     }
 }
 

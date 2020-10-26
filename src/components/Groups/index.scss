@@ -24,7 +24,7 @@
             height: calc(100% - 550px);
         }
     }
-    .group-input-area.form-control.group-button-size,
+    .group-input-area.form-control.control-buttons_width,
     .form-control.textarea_heigth {
         resize: none;
         height: 156px;
@@ -125,6 +125,10 @@
     flex-direction: column;
     justify-content: center;
     height: 100vh;
+
+    .custom-card__control-buttons {
+        right: 27px;
+    }
 }
 
 

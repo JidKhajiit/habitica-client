@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
 
 import ListItemCard from '../../helpers/ListItemCard';
-import EditForm from '../../EditForm';
+import EditForm from '../../EditTaskForm';
 import { setHoveredGroup } from '../../../redux/actions/groupActionCreator';
 
 
@@ -34,8 +34,7 @@ export default props => {
                 'empty';
 
             return (
-                <Card body className='groups-card hover_recolor card__custom list-item-card purple-theme_back' id={group._id} onMouseEnter={() => handleGroupHover(group._id)} key={group._id} type="group" >  
-                {/* onClick={(event) => handleGroupClick(event, group._id)} */}
+                <Card body className='groups-card hover_recolor card__custom list-item-card purple-theme_back' id={group._id} onClick={(event) => handleGroupClick(event, group._id)} onMouseEnter={() => handleGroupHover(group._id)} key={group._id} type="group" >  
                     <CardTitle className="flex-space-between">
                         <div className="group-title card_item__custom">
                             {group.title}

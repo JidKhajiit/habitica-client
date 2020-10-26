@@ -141,7 +141,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                     <Input className="input-size" value={inputValues.title} onChange={handleChange('title')} name="title" placeholder={`${type} title...`} />
                     {tagsRender()}
                     <InputGroupButtonDropdown addonType="append" isOpen={dropdownOpen} toggle={toggleDropDown}>
-                        <DropdownToggle caret className="group-button-size">Add workers</DropdownToggle>
+                        <DropdownToggle caret className="control-buttons_width">Add workers</DropdownToggle>
                         <DropdownMenu>
                             {
                                 inputValues.restmen.length ? 
@@ -157,7 +157,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                 </InputGroup>
                 <InputGroup className="">
                     <Input className="input-size textarea_heigth" type="textarea" value={inputValues.description} onChange={handleChange('description')} name="description" placeholder="Description..." />
-                    <Paper elevation={0} className="form-control group-input-area group-button-size">
+                    <Paper elevation={0} className="form-control group-input-area control-buttons_width">
                         {group ? <div ><span>{myUserNickName}</span> <hr /></div> : <></>}
                         {inputValues.workers.map((worker) => <div key={worker._id}><span>{users.find((item) => item._id === worker._id).nickName}</span><div onClick={() => moveUser(worker._id, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
                     </Paper>

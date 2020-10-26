@@ -13,6 +13,10 @@
         overflow-y: scroll;
         overflow-x: hidden;
         height: calc(100% - 600px);
+
+        .custom-card__control-buttons {
+            right: 4px;
+        }
     }
 
     &.slideDown {
@@ -22,7 +26,7 @@
         }
     }
 
-    .group-input-area.form-control.group-button-size,
+    .group-input-area.form-control,
     .form-control.textarea_heigth {
         resize: none;
         height: 100px;
@@ -56,6 +60,12 @@
 
 }
 
+.card.card-body.card__custom.group_card {
+    min-height: 190px;
+}
+
+
+
 .task-card.card.card-body,
 .card.card-body.card__custom.group_card {
     z-index: 3;
@@ -75,10 +85,6 @@
         .users {
             width: 20%;
         }
-    }
-
-    .custom-card__control-buttons {
-        right: 27px;
     }
 }
 

@@ -5,7 +5,8 @@ import { useHistory } from 'react-router-dom';
 import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
 import './index.scss'
 import ListItemCard from '../../helpers/ListItemCard';
-import EditForm from '../../EditForm';
+import EditGroupForm from '../../EditGroupForm';
+
 
 
 export default ({ currentGroup }) => {
@@ -24,7 +25,7 @@ export default ({ currentGroup }) => {
 
     const renderGroup = () => {
         if (group._id === editingGroupId && editingGroupUsers.length) {
-            return <EditForm group={group} key={group._id} />
+            return <EditGroupForm group={group} key={group._id} />
         } else {
 
             const activeTasksCounter = group.tasks.all ?

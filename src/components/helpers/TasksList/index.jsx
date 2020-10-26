@@ -5,7 +5,7 @@ import { checkTask } from '../../../redux/actions/tasksActionCreator';
 import ListItemCard from '../ListItemCard';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import EditForm from '../../EditForm';
+import EditTaskForm from '../../EditTaskForm';
 
 export default ({ tasks, users }) => {
     const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export default ({ tasks, users }) => {
 
     const tasksRender = tasks && tasks.length ? tasks.map((task) => {
         if (task._id === editingTaskId) {
-            return <EditForm  users={users} task={task} key={task._id}/>
+            return <EditTaskForm  users={users} task={task} key={task._id}/>
         } else {
             const workers = task.workers.map((worker) => <div key={worker._id}>{users.find((user) => user._id === worker._id).nickName}</div>)
             return (

@@ -1,9 +1,12 @@
-import { 
+import {
     SET_GROUPS,
     SET_OPENED_GROUP,
     SET_EDITING_GROUP_ID,
     SET_EDITING_GROUP_USERS,
-    SET_HOVERED_GROUP
+    SET_HOVERED_GROUP,
+    SET_SEARCH_TEXT_FOR_GROUPS,
+    SET_FILTER_USERS_FOR_GROUPS,
+    SET_FILTER_TAGS_FOR_GROUPS
 } from "../types";
 
 const initialState = {
@@ -11,7 +14,10 @@ const initialState = {
     openedGroup: null,
     editingGroupId: null,
     editingGroupUsers: [],
-    hoveredGroupId: null
+    hoveredGroupId: null,
+    searchText: '',
+    filterUsers: [],
+    filterTags: []
 
 }
 
@@ -32,6 +38,12 @@ export default (state = initialState, action) => {
             return { ...state, editingGroupUsers: payload }
         case SET_HOVERED_GROUP:
             return { ...state, hoveredGroupId: payload }
+        case SET_SEARCH_TEXT_FOR_GROUPS:
+            return { ...state, searchText: payload }
+        case SET_FILTER_USERS_FOR_GROUPS:
+            return { ...state, filterUsers: payload }
+        case SET_FILTER_TAGS_FOR_GROUPS:
+            return { ...state, filterTags: payload }
         default: return state
     }
 }

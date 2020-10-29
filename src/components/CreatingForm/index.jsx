@@ -1,8 +1,14 @@
 import { Paper } from '@material-ui/core';
 import './index.scss';
-import { Card, Button, InputGroup, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
 import {
+    Card,
+    Button,
+    InputGroup,
+    Input,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
     InputGroupButtonDropdown,
     DropdownToggle,
     DropdownMenu,
@@ -18,14 +24,23 @@ import { showAlert } from '../../redux/actions/appActionCreator';
 import { setEditingGroupId } from '../../redux/actions/groupActionCreator';
 import { createItemReq } from '../../redux/actions/groupsOrTasksActionCreator';
 
-export default ({ users = useSelector(state => state.users.users), group, task, groupId, slider }) => {
+export default ({
+    users = useSelector(state => state.users.users),
+    group,
+    task,
+    groupId,
+    slider
+}) => {
     const dispatch = useDispatch();
     const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector(state => state.myUser);
     const { editingGroupId } = useSelector(state => state.groups);
     const { editingTaskId } = useSelector(state => state.tasks);
     const type = group ? 'Group' :
         task ? 'Task' : 'Item';
-    const restmen = group ? users.filter((user) => user._id !== myUserId).map((user) => ({ _id: user._id })) : users.map((user) => ({ _id: user._id }));
+    const restmen = group ?
+        users.filter((user) => user._id !== myUserId).map((user) => ({ _id: user._id })) :
+        users.map((user) => ({ _id: user._id }));
+        
     const initInputValues = {
         title: '',
         description: '',
@@ -123,7 +138,7 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
     useEffect(() => {
         let restmen = group ?
             users.filter((user) => user.nickName !== myUserNickName) : users;
-            restmen.map((user) => ({ _id: user._id }));
+        restmen.map((user) => ({ _id: user._id }));
         setInputValues({ ...inputValues, restmen })
 
     }, [users])
@@ -144,9 +159,9 @@ export default ({ users = useSelector(state => state.users.users), group, task, 
                         <DropdownToggle caret className="control-buttons_width">Add workers</DropdownToggle>
                         <DropdownMenu>
                             {
-                                inputValues.restmen.length ? 
+                                inputValues.restmen.length ?
                                     inputValues.restmen
-                                        .map((user) => 
+                                        .map((user) =>
                                             <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >
                                                 {users.find((item) => item._id === user._id) ? users.find((item) => item._id === user._id).nickName : 'Anon'}
                                             </DropdownItem>) :

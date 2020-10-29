@@ -1,0 +1,23 @@
+.search {
+    max-width: 600px;
+    z-index: 3;
+    margin: 0 0 6px 0;
+
+    button {
+        background-color: white;
+        border: 1px solid #ced4da;
+        height: 38px;
+        &:hover {
+            background-color: rgba(255, 255, 255, 0);
+        }
+        &:focus {
+            background-color: rgba(255, 255, 255, 0.616);
+            border: 1px solid #ced4da;
+            box-shadow: none;
+        }
+        .MuiSvgIcon-root {
+            color: #6c757d;
+        }
+        
+    }
+}

@@ -21,7 +21,6 @@ export default props => {
 
     useEffect(() => {
         dispatch(setFriendTab('my-friends'));
-        // dispatch(getFriendsReq())
     }, []);
 
     return (

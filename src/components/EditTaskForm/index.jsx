@@ -13,12 +13,10 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setEditingTaskId } from '../../redux/actions/tasksActionCreator';
 import { showAlert } from '../../redux/actions/appActionCreator';
-import { setEditingGroupId } from '../../redux/actions/groupActionCreator';
 import { editItem } from '../../redux/actions/groupsOrTasksActionCreator';
 
 export default ({ users = useSelector(state => state.groups.editingGroupUsers), task }) => {
     const dispatch = useDispatch();
-    const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector((state => state.myUser))
     const type = 'Task';
     const initInputValues = {
         title: task.title,

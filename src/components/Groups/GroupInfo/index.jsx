@@ -1,8 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Card, CardTitle } from 'reactstrap';
+import { Card } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
 import './index.scss'
 import ListItemCard from '../../helpers/ListItemCard';
 import EditGroupForm from '../../EditGroupForm';

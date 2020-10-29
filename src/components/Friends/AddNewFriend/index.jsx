@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import '../../../app.scss';
 import { getUsers } from '../../../providers/friendsProvider';
@@ -24,10 +24,6 @@ export default ({ className }) => {
         // }
 
     }
-
-    useEffect(() => {
-        // dispatch(getFriendsReq())
-    }, []);
 
 
     return (

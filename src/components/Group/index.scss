@@ -60,14 +60,14 @@
 
 }
 
-.card.card-body.card__custom.group_card {
+.card.card-body.card__custom.group__info {
     min-height: 190px;
 }
 
 
 
 .task-card.card.card-body,
-.card.card-body.card__custom.group_card {
+.card.card-body.card__custom.group__info {
     z-index: 3;
     .card_item__custom {
         margin-bottom: 16px;

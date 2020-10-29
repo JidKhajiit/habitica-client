@@ -1,17 +1,19 @@
 import { Paper } from '@material-ui/core';
 import './index.scss';
-import { Card, Button, InputGroup, Input } from 'reactstrap';
 import {
     InputGroupButtonDropdown,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem
+    DropdownItem, 
+    Card, 
+    Button, 
+    InputGroup, 
+    Input
 } from 'reactstrap';
 import CloseIcon from '@material-ui/icons/Close';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setEditingTaskId } from '../../redux/actions/tasksActionCreator';
 import { showAlert } from '../../redux/actions/appActionCreator';
 import { setEditingGroupId } from '../../redux/actions/groupActionCreator';
 import { editItem } from '../../redux/actions/groupsOrTasksActionCreator';
@@ -20,6 +22,7 @@ export default ({ group }) => {
     const users = useSelector(state => state.groups.editingGroupUsers);
     const dispatch = useDispatch();
     const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector((state => state.myUser))
+
     const initInputValues = {
         title: group.title,
         tags: group.tags.join(' '),
@@ -27,14 +30,13 @@ export default ({ group }) => {
         restmen: users.map((user) => ({ _id: user._id })).filter((user) => !group.users.some(workerId => workerId === user._id)),
         workers: group.users.map((workerId) => ({ _id: workerId })).filter((user) => user._id !== myUserId)
     } 
-    const groupId = group._id;
+
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [inputValues, setInputValues] = useState(initInputValues);
 
     const handleChange = (prop) => (event) => {
         setInputValues({ ...inputValues, [prop]: event.target.value });
     };
-
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
 
     const moveUser = (id, fromArr, toArr) => {
@@ -46,8 +48,8 @@ export default ({ group }) => {
     }
 
     const sendRequest = () => {
-        const { title, description, workers } = inputValues;
-        if (title && group) {
+        const { title, description } = inputValues;
+        if (group && title) {
             const requestData = {
                 data: { title, description, ...inputValues, users: [...inputValues.workers.map((user) => user._id), myUserId], tags: [...inputValues.tags.split(' ')] },
                 id: group._id,
@@ -77,7 +79,7 @@ export default ({ group }) => {
                         <DropdownToggle caret className="control-buttons_width">Add workers</DropdownToggle>
                         <DropdownMenu>
                             {inputValues.restmen.length ? inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >{users.find((item) => item._id === user._id).nickName}</DropdownItem>) :
-                                <DropdownItem disabled>{`No more friends`}</DropdownItem>}
+                                <DropdownItem disabled>No more friends</DropdownItem>}
                         </DropdownMenu>
                     </InputGroupButtonDropdown>
                 </InputGroup>

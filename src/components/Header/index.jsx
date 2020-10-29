@@ -16,7 +16,7 @@ export default props => {
 
     return (
         <>
-            <Nav tabs className="purple-theme_one">
+            <Nav tabs className="purple-theme_one header__nav">
                 <div key="1">
                     <MyNavItem href="/home" children="Home" disabled/>
                     <MyNavItem href="/tasks" children="Tasks" disabled/>

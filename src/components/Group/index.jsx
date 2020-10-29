@@ -40,7 +40,7 @@ export default props => {
                 <h1>Group</h1>
                 <Button onClick={handleBackButton} className="back-button"><KeyboardBackspaceIcon />Back</Button>
             </div>
-            <Card body className="card__custom group_card purple-theme_back">
+            <Card body className="card__custom group__info purple-theme_back">
                 <div className="card_item__custom">
                     <h5>{currentGroup.title}</h5>
                     <span className="card-item-article">group title</span>

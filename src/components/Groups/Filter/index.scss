@@ -1,0 +1,24 @@
+.groups__filter {
+    .input-group-append {
+        width: 50%;
+        button {
+            width: 100%;
+        }
+    }
+
+    .MuiPaper-root {
+        height: 156px;
+        max-width: 100% !important;
+        overflow: auto;
+
+        > div {
+            position: relative;
+
+            .close-cross-div {
+                position: absolute;
+                top: 1px;
+                right: 8px;
+            }
+        }
+    }
+}

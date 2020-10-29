@@ -13,6 +13,7 @@ import MyAlert from './components/smallComponents/MyAlert';
 import Friends from './components/Friends';
 import Tasks from './components/Tasks';
 import './styles/colorTheme.scss';
+import './app.scss'
 import Footer from './components/Footer';
 
 

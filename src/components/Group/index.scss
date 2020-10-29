@@ -26,7 +26,7 @@
         }
     }
 
-    .group-input-area.form-control,
+    .members-list.form-control,
     .form-control.textarea_heigth {
         resize: none;
         height: 100px;
@@ -60,16 +60,16 @@
 
 }
 
-.card.card-body.card__custom.group__info {
+.card.card-body.card_custom.group__info {
     min-height: 190px;
 }
 
 
 
 .task-card.card.card-body,
-.card.card-body.card__custom.group__info {
+.card.card-body.card_custom.group__info {
     z-index: 3;
-    .card_item__custom {
+    .card__item_custom {
         margin-bottom: 16px;
 
         &.task-title {
@@ -88,7 +88,7 @@
     }
 }
 
-.body.card_item__custom {
+.body.card__item_custom {
     width: 100%;
 }
 

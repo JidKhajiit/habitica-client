@@ -6,6 +6,7 @@ import ListItemCard from '../ListItemCard';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import EditTaskForm from '../../EditTaskForm';
+import '../../../app.scss'
 
 export default ({ tasks, users }) => {
     const dispatch = useDispatch();
@@ -22,7 +23,7 @@ export default ({ tasks, users }) => {
             const workers = task.workers.map((worker) => <div key={worker._id}>{users.find((user) => user._id === worker._id).nickName}</div>)
             return (
                 <ListItemCard
-                    className="task-card flex-space-between hover_recolor "
+                    className="task-card flex-space-between list-item-card hover_recolor "
                     completed={task.completed}
                     groupId={task.groupId}
                     type="task"
@@ -36,19 +37,19 @@ export default ({ tasks, users }) => {
                     </InputGroupAddon>
                     <div className="left-item">
                         <CardTitle className="flex-space-between">
-                            <div className="task-title card_item__custom">
+                            <div className="task-title card__item_custom">
                                 {task.title}
                                 <span className="card-item-article">task title</span>
                             </div>
                         </CardTitle>
                         <div className="task-body flex-space-between">
-                            <div className="body card_item__custom">
+                            <div className="body card__item_custom">
                                 {task.description}
                                 <span className="card-item-article">description</span>
                             </div>
                         </div>
                     </div>
-                    <div className="right-item users card_item__custom">
+                    <div className="right-item users card__item_custom">
                         <span>{workers}</span>
                         <span className="card-item-article">workers</span>
                     </div>

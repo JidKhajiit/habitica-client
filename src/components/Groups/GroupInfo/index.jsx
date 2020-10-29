@@ -33,20 +33,20 @@ export default ({ currentGroup }) => {
 
             return (
                 <ListItemCard id={group._id} type='group' className="group_card">
-                    <div className="card_item__custom group__title">
+                    <div className="card__item_custom group__title">
                         <h5>{group.title}</h5>
                         <span className="card-item-article">group title</span>
                     </div>
-                    <div className="card_item__custom group__description">
+                    <div className="card__item_custom group__description">
                         <p >{group.description}</p>
                         <span className="card-item-article">description</span>
                     </div>
-                    <div className="group__tags card_item__custom">
+                    <div className="group__tags card__item_custom">
                         {group.tags.map(tag => <div key={tag}>{tag}</div>)}
                         <span className="card-item-article">tags</span>
                     </div>
 
-                    <div className="card_item__custom group__users">
+                    <div className="card__item_custom group__users">
                         {group.users.map((userId) => <div key={userId}>{users.find((user) => user._id === userId).nickName}</div>)}
                         <span className="card-item-article">users</span>
                     </div>

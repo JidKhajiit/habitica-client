@@ -1,17 +1,6 @@
 .edit-group-form {
-    .form-control.textarea_heigth {
+    .textarea_heigth, .edit-group-form__friends-area {
         resize: none;
         height: 156px;
-    }
-
-    .edit-group-form__friends-area.form-control {
-        height: 156px;
-        div {
-            display: inline;
-        }
-        & > div {
-            display: block;
-            position: relative;
-        }
     }
 }

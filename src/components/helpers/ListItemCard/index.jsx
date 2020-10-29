@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Modal, Card, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './index.scss'
-import '../../../app.scss'
 import { useDispatch } from 'react-redux';
 import { setEditingTaskId } from '../../../redux/actions/tasksActionCreator';
 import { setEditingGroupId, getEditingGroupUsers, setEditingGroupUsers, setHoveredGroup } from '../../../redux/actions/groupActionCreator';
@@ -41,7 +40,7 @@ const ListItemCard = ({
     }
 
     return (
-        <Card body id={id} key={id} onClick={onClick} onMouseEnter={onMouseEnter} className={"card__custom list-item-card purple-theme_back " + className}>
+        <Card body id={id} key={id} onClick={onClick} onMouseEnter={onMouseEnter} className={"card_custom list-item-card purple-theme_back " + className}>
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader >Are you sure?</ModalHeader>
                 <ModalBody>

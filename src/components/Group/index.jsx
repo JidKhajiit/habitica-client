@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Button } from 'reactstrap';
 import './index.scss';
-import '../../app.scss';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import { useHistory } from 'react-router-dom';
 import CreatingForm from '../CreatingForm';
@@ -35,49 +34,51 @@ export default props => {
 
 
     return (
-        currentGroup && currentGroup._id === groupId ? <div className="content-width">
-            <div className="group-header flex-space-between">
-                <h1>Group</h1>
-                <Button onClick={handleBackButton} className="back-button"><KeyboardBackspaceIcon />Back</Button>
-            </div>
-            <Card body className="card__custom group__info purple-theme_back">
-                <div className="card_item__custom">
-                    <h5>{currentGroup.title}</h5>
-                    <span className="card-item-article">group title</span>
+        currentGroup && currentGroup._id === groupId ?
+            <div className="content-width">
+                <div className="group-header flex-space-between">
+                    <h1>Group</h1>
+                    <Button onClick={handleBackButton} className="back-button"><KeyboardBackspaceIcon />Back</Button>
                 </div>
-                <div className="flex-space-between">
-                    <div className="left-item">
-                        <div className="card_item__custom">
-                            <p >{currentGroup.description}</p>
-                            <span className="card-item-article">description</span>
+                <Card body className="card_custom group__info purple-theme_back">
+                    <div className="card__item_custom">
+                        <h5>{currentGroup.title}</h5>
+                        <span className="card-item-article">group title</span>
+                    </div>
+                    <div className="flex-space-between">
+                        <div className="left-item">
+                            <div className="card__item_custom">
+                                <p >{currentGroup.description}</p>
+                                <span className="card-item-article">description</span>
+                            </div>
+                            <div className="task-tags card__item_custom">
+                                {currentGroup.tags.join(' ')}
+                                <span className="card-item-article">tags</span>
+                            </div>
                         </div>
-                        <div className="task-tags card_item__custom">
-                            {currentGroup.tags.join(' ')}
-                            <span className="card-item-article">tags</span>
+                        <div className="right-item card__item_custom">
+                            {currentGroup.users.map((user) => <div key={user._id}>{user.nickName}</div>)}
+                            <span className="card-item-article">users</span>
                         </div>
                     </div>
-                    <div className="right-item card_item__custom">
-                        {currentGroup.users.map((user) => <div key={user._id}>{user.nickName}</div>)}
-                        <span className="card-item-article">users</span>
+                </Card>
+                <div className={`tasks-area slider-element content-width ${isShowForm ? 'slideDown' : slideUp}`}>
+                    <CreatingForm slider={startAnimation} task groupId={groupId} users={currentGroup.users} />
+                    <div className='items-list'>
+
+                        <div className='reverse'>
+                            <span className='background__text'>Tasks</span>
+                            <TasksList tasks={currentGroup.tasks} users={currentGroup.users} />
+                        </div>
+                    </div>
+
+                    <div className="active-tasks card__item_custom">
+                        <span className="card-item-article">active tasks </span>
+                        {currentGroup.tasks.filter((task) => task.completed === false).length} of {currentGroup.tasks.length}
                     </div>
                 </div>
-            </Card>
-            <div className={`tasks-area slider-element content-width ${isShowForm ? 'slideDown' : slideUp}`}>
-                <CreatingForm slider={startAnimation} task groupId={groupId} users={currentGroup.users} />
-                <div className='items-list'>
 
-                    <div className='reverse'>
-                        <span className='background__text'>Tasks</span>
-                        <TasksList tasks={currentGroup.tasks} users={currentGroup.users} />
-                    </div>
-                </div>
-
-                <div className="active-tasks card_item__custom">
-                    <span className="card-item-article">active tasks </span>
-                    {currentGroup.tasks.filter((task) => task.completed === false).length} of {currentGroup.tasks.length}
-                </div>
-            </div>
-
-        </div> : <MySpinner fullSize />
+            </div> :
+            <MySpinner fullSize />
     )
 }

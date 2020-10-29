@@ -28,7 +28,7 @@ export default ({ currentGroup }) => {
 
 
     return (
-        <Card body className="card__custom search purple-theme_back">
+        <Card body className="card_custom search purple-theme_back">
             <InputGroup className="">
                 <Input
                     className="input-size"

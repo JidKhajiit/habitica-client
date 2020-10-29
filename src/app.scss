@@ -12,8 +12,9 @@
     "footer";
 }
 
-.control-buttons_width {
-  width: 180px;
+.form__left-area {
+  max-width: 180px;
+  width: 100%;
 }
 
 .card.auth {
@@ -44,7 +45,7 @@
   outline: none;
 }
 
-.card__custom.card-body {
+.card_custom.card-body {
   // background-color: rgb(215, 190, 240);
   text-align: left;
   margin: 3px 0;
@@ -63,7 +64,7 @@
     height: 100%;
   }
 
-  .card_item__custom {
+  .card__item_custom {
     // background-color: rgb(243, 217, 250);
     margin: 0 4px 0 4px;
     padding: 2px 2px 2px 5px;
@@ -111,6 +112,13 @@
   }
 }
 
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}
+
 .flex-space-between {
   display: flex;
   flex-direction: row;
@@ -131,13 +139,6 @@
   flex-direction: row;
   justify-content: center;
   width: 100%;
-}
-
-.card-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  text-align: center;
 }
 
 @media (min-width: 1280px) {
@@ -175,7 +176,7 @@
   }
 }
 
-.card__custom.list-item-card.card.card-body div:last-child {
+.card_custom.list-item-card.card.card-body div:last-child {
   margin-bottom: 0;
 }
 
@@ -191,8 +192,22 @@
     position: -webkit-sticky;
     position: sticky;
     margin: 0 auto;
-    bottom: 0 ;
+    bottom: 0;
     color: #444444;
     z-index: 0;
   }
+}
+
+.list-with-del {
+  div {
+    display: inline;
+  }
+  & > div {
+    display: block;
+    position: relative;
+  }
+}
+
+hr {
+  margin: 0;
 }

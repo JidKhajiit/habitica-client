@@ -10,7 +10,7 @@ import {
 } from "../types";
 
 const initialState = {
-    groups: [],
+    groups: null,
     openedGroup: null,
     editingGroupId: null,
     editingGroupUsers: [],

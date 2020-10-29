@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
-import '../../../app.scss';
 import { getUsers } from '../../../providers/friendsProvider';
+import { MySpinner } from '../../smallComponents/Spinner';
 import UserCard from '../../smallComponents/UserCard';
 
 
@@ -10,19 +10,14 @@ export default ({ className }) => {
     const [inputValue, setInputValue] = useState('');
 
     const handleButtonFind = async () => {
-        // if (inputValue) {
-            try {
-                const response = await getUsers(inputValue);
-                setFoundedUsers(response);
+        try {
+            const response = await getUsers(inputValue);
+            setFoundedUsers(response);
 
-                console.log(response)
-            } catch (err) {
-                console.log(err)
-            }
-        // } else {
-        //     setFoundedUsers([])
-        // }
-
+            console.log(response)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
 
@@ -32,7 +27,7 @@ export default ({ className }) => {
                 <Input value={inputValue} onKeyUp={(event) => event.key === "Enter" && handleButtonFind()} onChange={(event) => setInputValue(event.target.value)} placeholder="Enter the username to add a new friend" />
                 <InputGroupAddon addonType="append"><Button onClick={handleButtonFind} color="secondary">Find</Button></InputGroupAddon>
             </InputGroup>
-            { foundedUsers && foundedUsers.map((user) => <UserCard rerender={handleButtonFind} key={user._id} type='add' user={user} />)}
+            { foundedUsers ? foundedUsers.map((user) => <UserCard rerender={handleButtonFind} key={user._id} type='add' user={user} />) : <MySpinner fullSize />}
         </>
     )
 }

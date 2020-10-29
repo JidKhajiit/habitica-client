@@ -4,6 +4,7 @@ import { Card, CardTitle } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
 import { setHoveredGroup } from '../../../redux/actions/groupActionCreator';
+import { MySpinner } from '../../smallComponents/Spinner';
 
 export default ({groupsArr}) => {
 
@@ -22,13 +23,13 @@ export default ({groupsArr}) => {
         if (!editingGroupId) dispatch(setHoveredGroup(id));
     }
 
-    const renderGroups = groupsArr.map((group) => {
+    const renderGroups = groupsArr && groupsArr.map((group) => {
         const activeTasksCounter = group.tasks.all ?
             `${group.tasks.active} of ${group.tasks.all}` :
             'empty';
         return (
             <Card body
-                className='groups-card hover_recolor card__custom list-item-card purple-theme_back'
+                className='groups-card hover_recolor card_custom list-item-card purple-theme_back'
                 id={group._id}
                 onClick={(event) => handleGroupClick(event, group._id)}
                 onMouseEnter={() => handleGroupHover(group._id)}
@@ -36,20 +37,20 @@ export default ({groupsArr}) => {
                 type="group"
             >
                 <CardTitle className="flex-space-between">
-                    <div className="group-title card_item__custom">
+                    <div className="group-title card__item_custom">
                         {group.title}
                         <span className="card-item-article">group title</span>
                     </div>
-                    {/* <div className="group-tags card_item__custom">
+                    {/* <div className="group-tags card__item_custom">
                             {group.tags.join(' ')}
                             <span className="card-item-article">tags</span>
                         </div> */}
-                    <div className="users card_item__custom">
+                    <div className="users card__item_custom">
                         <AccessibleForwardIcon />
                         <span>{group.users.length}</span>
                         <span className="card-item-article">members</span>
                     </div>
-                    <div className="active-tasks card_item__custom">
+                    <div className="active-tasks card__item_custom">
                         <span className="card-item-article">activities</span>
                         {activeTasksCounter}
                     </div>
@@ -59,8 +60,8 @@ export default ({groupsArr}) => {
     })
 
     return (
-        < >
+        groupsArr ? < >
             {renderGroups}
-        </>
+        </> : <MySpinner fullSize />
     )
 }

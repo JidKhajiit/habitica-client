@@ -2,7 +2,6 @@ import React from 'react'
 import { useDispatch } from 'react-redux';
 import { CardTitle, Card, Button } from 'reactstrap';
 import './index.scss'
-import '../../../app.scss'
 import { createBidForFrendshipReq, deleteBidForFriendshipReq, acceptFriendshipReq, deleteFriendReq } from '../../../providers/friendsProvider';
 import { setFriendTab } from '../../../redux/actions/appActionCreator';
 
@@ -49,9 +48,9 @@ export default ({ user, type, rerender }) => {
     }
 
     return (
-        <Card body className="card__custom list-item-card user-card hover_recolor purple-theme_back" id={user._id} key={user._id} onClick={handleCardClick}>
+        <Card body className="card_custom list-item-card user-card hover_recolor purple-theme_back" id={user._id} key={user._id} onClick={handleCardClick}>
             <CardTitle className="flex-space-between">
-                <div className="group-title card_item__custom">
+                <div className="group-title card__item_custom">
                     {user.nickName}
                     <span className="card-item-article">nickname</span>
                 </div>

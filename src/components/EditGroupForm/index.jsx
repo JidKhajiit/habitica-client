@@ -70,13 +70,13 @@ export default ({ group }) => {
 
     return (
         <div >
-            <Card body className="card__custom edit-group-form purple-theme_back">
+            <Card body className="card_custom edit-group-form purple-theme_back">
                 <Input className="input-size" value={inputValues.title} onChange={handleChange('title')} name="title" placeholder='Group title...' />
                 <InputGroup className="">
                     
                     <Input className="input-size" value={inputValues.tags} onChange={handleChange('tags')} name="tags" placeholder='tags...' />
-                    <InputGroupButtonDropdown addonType="append" isOpen={dropdownOpen} toggle={toggleDropDown}>
-                        <DropdownToggle caret className="control-buttons_width">Add workers</DropdownToggle>
+                    <InputGroupButtonDropdown addonType="append" className='form__left-area' isOpen={dropdownOpen} toggle={toggleDropDown}>
+                        <DropdownToggle caret className="form__left-area">Add workers</DropdownToggle>
                         <DropdownMenu>
                             {inputValues.restmen.length ? inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >{users.find((item) => item._id === user._id).nickName}</DropdownItem>) :
                                 <DropdownItem disabled>No more friends</DropdownItem>}
@@ -85,7 +85,7 @@ export default ({ group }) => {
                 </InputGroup>
                 <InputGroup className="">
                     <Input className="input-size textarea_heigth" type="textarea" value={inputValues.description} onChange={handleChange('description')} name="description" placeholder="Description..." />
-                    <Paper elevation={0} className="form-control edit-group-form__friends-area control-buttons_width">
+                    <Paper elevation={0} className="form-control edit-group-form__friends-area list-with-del form__left-area">
                         <div ><span>{myUserNickName}</span> <hr /></div>
                         {inputValues.workers.map((worker) => <div key={worker._id}><span>{users.find((item) => item._id === worker._id).nickName}</span><div onClick={() => moveUser(worker._id, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
                     </Paper>

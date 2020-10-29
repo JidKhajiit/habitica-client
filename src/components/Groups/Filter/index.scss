@@ -1,4 +1,32 @@
 .groups__filter {
+    .filter__top-element.card_custom {
+        cursor: context-menu;
+        z-index: 3;
+        padding-bottom: 0;
+        padding-top: 15px;
+        margin-bottom: 0;
+        border-bottom: 0;
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+    }
+
+    .filter__bottom-element.card_custom {
+        z-index: 1;
+        padding-top: 0;
+        margin-top: 0;
+        border-top: 0;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+    }
+
+    h5 {
+        margin: 0 auto;
+
+        svg {
+            position: relative;
+            bottom: 2px;
+        }
+    }
     .input-group-append {
         width: 50%;
         button {
@@ -21,4 +49,6 @@
             }
         }
     }
+
+
 }

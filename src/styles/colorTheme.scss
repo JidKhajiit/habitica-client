@@ -1,9 +1,9 @@
 .purple-theme_back {
-    &.card__custom.card-body {
+    &.card_custom.card-body {
         background-color: #f1f1f1;
         &.hover_recolor:hover {
             background-color: #d3d0d0;
-            .card_item__custom {
+            .card__item_custom {
                 background-color: #f1f1f1;
             }
           }
@@ -11,7 +11,7 @@
     
     color: #444444;
 
-    .card_item__custom {
+    .card__item_custom {
         background-color:white;
     }
 }

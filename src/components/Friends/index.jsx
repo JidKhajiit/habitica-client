@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Nav, NavItem, NavLink } from 'reactstrap';
-import './index.scss';
-import '../../app.scss';
 import MyFriends from './MyFriends';
 import { setFriendTab } from '../../redux/actions/appActionCreator';
 import AddNewFriend from './AddNewFriend';

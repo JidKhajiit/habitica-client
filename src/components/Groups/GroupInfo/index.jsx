@@ -11,6 +11,7 @@ import EditGroupForm from '../../EditGroupForm';
 export default ({ currentGroup }) => {
     const history = useHistory();
     const { groups: groupsArr, editingGroupId, editingGroupUsers, hoveredGroupId } = useSelector(state => state.groups);
+    console.log(hoveredGroupId)
     const group = hoveredGroupId ? groupsArr.find(group => group._id === hoveredGroupId) : currentGroup;
     const { users } = useSelector(state => state.users);
 

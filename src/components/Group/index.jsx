@@ -63,7 +63,7 @@ export default props => {
                     </div>
                 </Card>
                 <div className={`tasks-area slider-element content-width ${isShowForm ? 'slideDown' : slideUp}`}>
-                    <CreatingForm slider={startAnimation} task groupId={groupId} users={currentGroup.users} />
+                    <CreatingForm slide={startAnimation} task groupId={groupId} users={currentGroup.users} />
                     <div className='items-list'>
 
                         <div className='reverse'>

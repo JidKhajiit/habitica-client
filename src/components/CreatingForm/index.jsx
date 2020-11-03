@@ -31,6 +31,7 @@ export default ({
     groupId,
     slide
 }) => {
+    console.log('slide', slide);
     const dispatch = useDispatch();
     const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector(state => state.myUser);
     const { editingGroupId } = useSelector(state => state.groups);

@@ -51,7 +51,7 @@ export default ({ group }) => {
         const { title, description } = inputValues;
         if (group && title) {
             const requestData = {
-                data: { title, description, ...inputValues, users: [...inputValues.workers.map((user) => user._id), myUserId], tags: [...inputValues.tags.split(' ')] },
+                data: { title, description, users: [...inputValues.workers.map((user) => user._id), myUserId], tags: [...inputValues.tags.split(' ')] },
                 id: group._id,
                 type: 'group'
             }

@@ -232,13 +232,13 @@
 }
 
 .filter__animate {
-    top: -204px;
+    top: -203px;
     position: relative;
 }
 
 @keyframes filterSlideDown {
     0% {
-        transform: translateY(-204px);
+        transform: translateY(-203px);
     }
     100% {
         transform: translateY(0%);
@@ -247,7 +247,7 @@
 
 @-webkit-keyframes filterSlideDown {
     0% {
-        -webkit-transform: translateY(-204px);
+        -webkit-transform: translateY(-203px);
     }
     100% {
         -webkit-transform: translateY(0%);
@@ -256,7 +256,7 @@
 
 @keyframes filterSlideUp {
     0% {
-        transform: translateY(204px);
+        transform: translateY(203px);
     }
     100% {
         transform: translateY(0%);
@@ -265,7 +265,7 @@
 
 @-webkit-keyframes filterSlideUp {
     0% {
-        -webkit-transform: translateY(204px);
+        -webkit-transform: translateY(203px);
     }
     100% {
         -webkit-transform: translateY(0%);

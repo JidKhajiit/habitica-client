@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Paper } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import './index.scss'
 import {
     InputGroupButtonDropdown,
@@ -14,34 +13,25 @@ import {
     Input
 } from 'reactstrap';
 import { useEffect } from 'react';
-import { setFilterTagsForGroups, setFilterUsersForGroups } from '../../../redux/actions/groupActionCreator';
+import { setFilterTagsForGroups, setFilterToggleForGroups, setFilterUsersForGroups } from '../../../redux/actions/groupActionCreator';
 import TuneIcon from '@material-ui/icons/Tune';
 
 
 export default ({ slide, slideUp, isShowForm }) => {
     const dispatch = useDispatch();
-    const history = useHistory();
-    // const { groups: groupsArr, hoveredGroupId } = useSelector(state => state.groups);
-    const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector((state => state.myUser))
+    // const { personalInfo: { nickName: myUserNickName } } = useSelector((state => state.myUser))
+    const { filterUsersToggle, filterTagsToggle } = useSelector((state => state.groups));
+    const toggles = { filterUsersToggle, filterTagsToggle }
     const { myFriends } = useSelector(state => state.users);
     const [inputValues, setInputValues] = useState({
         notTargetUsers: myFriends,
         targetUsers: [],
+        usersSwitch: true,
         tags: '',
-        targetTags: []
+        targetTags: [],
+        tagsSwitch: true
     });
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    // const [slideUp, setSlideUp] = useState('');
-    // const [isShowForm, setIsShowForm] = useState(false);
-
-    // const handleChangeItem = (prop) => (event) => {
-    //     setInputValues({ ...inputValues, [prop]: event.target.value });
-    // };
-
-    // const startAnimation = () => {
-    //     if (!slideUp) setSlideUp('slideUp');
-    //     setIsShowForm(!isShowForm);
-    // }
 
     const transformTags = () => {
         if (inputValues.tags) {
@@ -67,6 +57,8 @@ export default ({ slide, slideUp, isShowForm }) => {
     }
 
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
+
+    const toggleSwitch = (target) => () => dispatch(setFilterToggleForGroups(target, !toggles[target]));
 
     const moveUser = (id, fromArr, toArr) => {
         const newTargetUsers = fromArr === 'targetUsers' ?
@@ -106,11 +98,32 @@ export default ({ slide, slideUp, isShowForm }) => {
                 </InputGroup>
                 <InputGroup className="">
                     <Paper elevation={0} className="form-control">
-                        {inputValues.targetTags.map((tag) => <div key={tag}><span>{tag}</span><div className='close-cross-div' onClick={() => handleDelTag(tag)}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
+                        <div class="switch-container">
+                            <span >{filterTagsToggle ? 'Include each' : 'Include at list one'}</span>
+                            <div class="switch">
+                                <input id="switch-1" type="checkbox" onClick={toggleSwitch('filterTagsToggle')} checked={filterTagsToggle} class="switch-input" />
+                                <label for="switch-1" class="switch-label">Include each</label>
+                            </div>
+                            <hr />
+                        </div>
+                        <div>
+                            {inputValues.targetTags.map((tag) => <div key={tag}><span>{tag}</span><div className='close-cross-div' onClick={() => handleDelTag(tag)}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
+                        </div>
                     </Paper>
                     <Paper elevation={0} className="form-control">
-                        <div ><span>{myUserNickName}</span> <hr /></div>
-                        {inputValues.targetUsers.map((worker) => <div key={worker._id}><span>{worker.nickName}</span><div className='close-cross-div' onClick={() => moveUser(worker._id, 'targetUsers', 'notTargetUsers')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
+                        <div class="switch-container">
+                            <span >{filterUsersToggle ? 'Include each' : 'Include at list one'}</span>
+                            <div class="switch">
+                                <input id="switch-2" type="checkbox" onClick={toggleSwitch('filterUsersToggle')} checked={filterUsersToggle} class="switch-input" />
+                                <label for="switch-2" class="switch-label">Include each</label>
+                            </div>
+                            <hr />
+                        </div>
+                        <div>
+                            {/* <div ><span>{myUserNickName}</span> <hr /></div> */}
+                            {inputValues.targetUsers.map((worker) => <div key={worker._id}><span>{worker.nickName}</span><div className='close-cross-div' onClick={() => moveUser(worker._id, 'targetUsers', 'notTargetUsers')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
+                        </div>
+
                     </Paper>
                 </InputGroup>
             </Card>

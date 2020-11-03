@@ -11,7 +11,7 @@ export default ({groupsArr}) => {
 
     const history = useHistory();
     const dispatch = useDispatch();
-    const { groups: editingGroupId } = useSelector(state => state.groups);
+    const { editingGroupId } = useSelector(state => state.groups);
 
     const handleGroupClick = (event, id) => {
         if (event.target.type !== "button") {
@@ -20,7 +20,12 @@ export default ({groupsArr}) => {
     }
 
     const handleGroupHover = (id) => {
-        if (!editingGroupId) dispatch(setHoveredGroup(id));
+        console.log(editingGroupId)
+        if (!editingGroupId) {
+            console.log('azaza');
+          dispatch(setHoveredGroup(id));  
+        }
+        
     }
 
     const renderGroups = groupsArr && groupsArr.map((group) => {

@@ -10,9 +10,15 @@ import {
     SET_HOVERED_GROUP,
     SET_SEARCH_TEXT_FOR_GROUPS,
     SET_FILTER_USERS_FOR_GROUPS,
-    SET_FILTER_TAGS_FOR_GROUPS
+    SET_FILTER_TAGS_FOR_GROUPS,
+    SET_FILTER_TOGGLE_FOR_GROUPS
 } from '../types';
 
+
+export const setFilterToggleForGroups = (toggle, state) => ({
+    type: SET_FILTER_TOGGLE_FOR_GROUPS,
+    payload: { toggle, state }
+})
 
 export const setFilterTagsForGroups = payload => ({
     type: SET_FILTER_TAGS_FOR_GROUPS,

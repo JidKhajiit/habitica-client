@@ -1,7 +1,8 @@
-.search {
+.search.card_custom.card-body {
     max-width: 600px;
     z-index: 3;
-    margin: 0 0 6px 0;
+    margin: 3px 0 6px 0;
+    padding: 7px;
 
     button {
         background-color: white;

@@ -16,6 +16,7 @@ function* GetDataForGroupsRequest() {
                 authorization: token
             }
         });
+        console.log('groups', groupsResponse.data)
         const usersResponse = yield call(axios, {
             method: 'get',
             url: `${URL}users/nicks`,
@@ -23,6 +24,7 @@ function* GetDataForGroupsRequest() {
                 authorization: token
             }
         });
+        console.log('users', usersResponse.data)
         const myFriendsResponse = yield call(axios, {
             method: 'get',
             url: `${URL}users/my-friends/nicks`,
@@ -30,6 +32,7 @@ function* GetDataForGroupsRequest() {
                 authorization: token
             }
         });
+        console.log('friends', myFriendsResponse.data)
 
         yield put(setUsers(usersResponse.data));
         yield put(setGroups(groupsResponse.data));

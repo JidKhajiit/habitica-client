@@ -14,7 +14,6 @@ export default ({ className }) => {
             const response = await getUsers(inputValue);
             setFoundedUsers(response);
 
-            console.log(response)
         } catch (err) {
             console.log(err)
         }

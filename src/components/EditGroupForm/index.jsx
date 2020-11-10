@@ -22,36 +22,38 @@ export default ({ group }) => {
     const users = useSelector(state => state.groups.editingGroupUsers);
     const dispatch = useDispatch();
     const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector((state => state.myUser))
-
+    console.log('users', users, 'workers', group.users )
     const initInputValues = {
         title: group.title,
         tags: group.tags.join(' '),
         description: group.description,
-        restmen: users.map((user) => ({ _id: user._id })).filter((user) => !group.users.some(workerId => workerId === user._id)),
-        workers: group.users.map((workerId) => ({ _id: workerId })).filter((user) => user._id !== myUserId)
+        restmen: users.filter((user) => !group.users.some(worker => worker.userId === user.userId)),
+        workers: users.filter((user) => group.users.some(worker => worker.userId === user.userId && worker.userId !== myUserId)),
     } 
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [inputValues, setInputValues] = useState(initInputValues);
-
+    // console.log('input', inputValues)
     const handleChange = (prop) => (event) => {
         setInputValues({ ...inputValues, [prop]: event.target.value });
     };
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
 
     const moveUser = (id, fromArr, toArr) => {
+        console.log('from', inputValues[fromArr].filter((user) => user.userId === id))
         setInputValues({
             ...inputValues,
-            [toArr]: [...inputValues[toArr], ...inputValues[fromArr].filter((user) => user._id === id)],
-            [fromArr]: inputValues[fromArr].filter((user) => user._id !== id)
+            [toArr]: [...inputValues[toArr], ...inputValues[fromArr].filter((user) => user.userId === id)],
+            [fromArr]: inputValues[fromArr].filter((user) => user.userId !== id)
         });
     }
 
     const sendRequest = () => {
         const { title, description } = inputValues;
+        console.log('out', inputValues.workers)
         if (group && title) {
             const requestData = {
-                data: { title, description, users: [...inputValues.workers.map((user) => user._id), myUserId], tags: [...inputValues.tags.split(' ')] },
+                data: { title, description, users: [...inputValues.workers, { userId: myUserId, role: 'test' }], tags: [...inputValues.tags.split(' ')] },
                 id: group._id,
                 type: 'group'
             }
@@ -78,7 +80,8 @@ export default ({ group }) => {
                     <InputGroupButtonDropdown addonType="append" className='form__left-area' isOpen={dropdownOpen} toggle={toggleDropDown}>
                         <DropdownToggle caret className="form__left-area">Add workers</DropdownToggle>
                         <DropdownMenu>
-                            {inputValues.restmen.length ? inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >{users.find((item) => item._id === user._id).nickName}</DropdownItem>) :
+                            {/* {console.log('rest', inputValues.restmen)} */}
+                            {inputValues.restmen.length ? inputValues.restmen.map((user) => <DropdownItem onClick={() => moveUser(user.userId, 'restmen', 'workers')} key={user.userId} >{user.nickName}</DropdownItem>) :
                                 <DropdownItem disabled>No more friends</DropdownItem>}
                         </DropdownMenu>
                     </InputGroupButtonDropdown>
@@ -87,7 +90,8 @@ export default ({ group }) => {
                     <Input className="input-size textarea_heigth" type="textarea" value={inputValues.description} onChange={handleChange('description')} name="description" placeholder="Description..." />
                     <Paper elevation={0} className="form-control edit-group-form__friends-area list-with-del form__left-area">
                         <div ><span>{myUserNickName}</span> <hr /></div>
-                        {inputValues.workers.map((worker) => <div key={worker._id}><span>{users.find((item) => item._id === worker._id).nickName}</span><div onClick={() => moveUser(worker._id, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
+                        {/* {console.log('work', inputValues.workers)} */}
+                        {inputValues.workers.map((worker) => <div key={worker.userId}><span>{worker.nickName}</span><div onClick={() => moveUser(worker.userId, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
                     </Paper>
                 </InputGroup>
             </Card>

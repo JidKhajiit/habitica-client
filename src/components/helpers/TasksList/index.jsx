@@ -17,10 +17,11 @@ export default ({ tasks, users }) => {
     }
 
     const tasksRender = tasks && tasks.length ? tasks.map((task) => {
+        console.log(task)
         if (task._id === editingTaskId) {
             return <EditTaskForm users={users} task={task} key={task._id} />
         } else {
-            const workers = task.workers.map((worker) => <div key={worker._id}>{users.find((user) => user._id === worker._id).nickName}</div>)
+            const workers = task.workers.map((worker) => <div key={worker.userId}>{users.find((user) => user.userId === worker.userId).nickName}</div>)
             return (
                 <ListItemCard
                     className="task-card flex-space-between list-item-card hover_recolor "

@@ -5,7 +5,6 @@ let user, personalInfo;
 
 if (localStorage.getItem('token')) {
     user = jwt_decode(localStorage.getItem('token'));
-    console.log('user', user)
     const { _id, nickName } = user;
     personalInfo = {
         _id,

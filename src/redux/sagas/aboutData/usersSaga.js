@@ -6,7 +6,6 @@ import { setUsers } from '../../actions/usersActionCreator.js';
 
 function* GetUsersRequest() {
     const token = localStorage.getItem('token');
-    console.log('token', token)
     try {
 
         const res = yield call(axios, {

@@ -35,7 +35,6 @@ const ListItemCard = ({
     }
 
     const handleDeleteButton = () => {
-        console.log(id)
         dispatch(deleteItem({ id, type, groupId }))
     }
 

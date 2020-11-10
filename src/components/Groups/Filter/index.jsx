@@ -62,14 +62,14 @@ export default ({ slide, slideUp, isShowForm }) => {
 
     const moveUser = (id, fromArr, toArr) => {
         const newTargetUsers = fromArr === 'targetUsers' ?
-            inputValues[fromArr].filter((user) => user._id !== id) :
-            [...inputValues[toArr], ...inputValues[fromArr].filter((user) => user._id === id)]
+            inputValues[fromArr].filter((user) => user.userId !== id) :
+            [...inputValues[toArr], ...inputValues[fromArr].filter((user) => user.userId === id)]
         setInputValues({
             ...inputValues,
-            [toArr]: [...inputValues[toArr], ...inputValues[fromArr].filter((user) => user._id === id)],
-            [fromArr]: inputValues[fromArr].filter((user) => user._id !== id)
+            [toArr]: [...inputValues[toArr], ...inputValues[fromArr].filter((user) => user.userId === id)],
+            [fromArr]: inputValues[fromArr].filter((user) => user.userId !== id)
         });
-        const newTargetUsersIds = newTargetUsers.map(user => user._id);
+        const newTargetUsersIds = newTargetUsers.map(user => user.userId);
         dispatch(setFilterUsersForGroups(newTargetUsersIds));
     }
 
@@ -90,7 +90,7 @@ export default ({ slide, slideUp, isShowForm }) => {
                         <DropdownMenu>
                             {/* {inputValues.workers.map((worker) => <div key={worker._id}><span>{users.find((item) => item._id === worker._id).nickName}</span><div onClick={() => moveUser(worker._id, 'workers', 'restmen')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)} */}
                             {inputValues.notTargetUsers.length ?
-                                inputValues.notTargetUsers.map(user => <DropdownItem onClick={() => moveUser(user._id, 'notTargetUsers', 'targetUsers')} key={user._id}> {user.nickName} </DropdownItem>) :
+                                inputValues.notTargetUsers.map(user => <DropdownItem onClick={() => moveUser(user.userId, 'notTargetUsers', 'targetUsers')} key={user.userId}> {user.nickName} </DropdownItem>) :
                                 <DropdownItem disabled> No more friends </DropdownItem>}
 
                         </DropdownMenu>
@@ -98,11 +98,11 @@ export default ({ slide, slideUp, isShowForm }) => {
                 </InputGroup>
                 <InputGroup className="">
                     <Paper elevation={0} className="form-control">
-                        <div class="switch-container">
+                        <div className="switch-container">
                             <span >{filterTagsToggle ? 'Include each' : 'Include at list one'}</span>
-                            <div class="switch">
-                                <input id="switch-1" type="checkbox" onClick={toggleSwitch('filterTagsToggle')} checked={filterTagsToggle} class="switch-input" />
-                                <label for="switch-1" class="switch-label">Include each</label>
+                            <div className="switch">
+                                <input id="switch-1" type="checkbox" onChange={toggleSwitch('filterTagsToggle')} checked={filterTagsToggle} className="switch-input" />
+                                <label htmlFor="switch-1" className="switch-label">Include each</label>
                             </div>
                             <hr />
                         </div>
@@ -111,17 +111,17 @@ export default ({ slide, slideUp, isShowForm }) => {
                         </div>
                     </Paper>
                     <Paper elevation={0} className="form-control">
-                        <div class="switch-container">
+                        <div className="switch-container">
                             <span >{filterUsersToggle ? 'Include each' : 'Include at list one'}</span>
-                            <div class="switch">
-                                <input id="switch-2" type="checkbox" onClick={toggleSwitch('filterUsersToggle')} checked={filterUsersToggle} class="switch-input" />
-                                <label for="switch-2" class="switch-label">Include each</label>
+                            <div className="switch">
+                                <input id="switch-2" type="checkbox" onChange={toggleSwitch('filterUsersToggle')} checked={filterUsersToggle} className="switch-input" />
+                                <label htmlFor="switch-2" className="switch-label">Include each</label>
                             </div>
                             <hr />
                         </div>
                         <div>
                             {/* <div ><span>{myUserNickName}</span> <hr /></div> */}
-                            {inputValues.targetUsers.map((worker) => <div key={worker._id}><span>{worker.nickName}</span><div className='close-cross-div' onClick={() => moveUser(worker._id, 'targetUsers', 'notTargetUsers')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
+                            {inputValues.targetUsers.map((worker) => <div key={worker.userId}><span>{worker.nickName}</span><div className='close-cross-div' onClick={() => moveUser(worker.userId, 'targetUsers', 'notTargetUsers')}><CloseIcon className="close-cross" fontSize="small" /></div></div>)}
                         </div>
 
                     </Paper>

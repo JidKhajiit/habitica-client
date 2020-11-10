@@ -14,8 +14,18 @@ Array.prototype.hasAll = function (a) {
     else return true
 };
 
+Array.prototype.hasAllUsers = function (a) {
+    if (a && a.length) return a.every((item) => this.map(user => user.userId).includes(item));
+    else return true
+};
+
 Array.prototype.hasSome = function (a) {
     if (a && a.length) return a.some((item) => this.includes(item));
+    else return true
+};
+
+Array.prototype.hasSomeUsers = function (a) {
+    if (a && a.length) return a.some((item) => this.map(user => user.userId).includes(item));
     else return true
 };
 
@@ -32,7 +42,7 @@ export default props => {
 
     const filteredGroupsArr = groupsArr ? groupsArr
         .filter(group => group.title.includes(searchText))
-        .filter(group => filterUsersToggle ? group.users.hasAll(filterUsers) : group.users.hasSome(filterUsers))
+        .filter(group => filterUsersToggle ? group.users.hasAllUsers(filterUsers) : group.users.hasSomeUsers(filterUsers))
         .filter(group => filterTagsToggle ? group.tags.hasAll(filterTags) : group.tags.hasSome(filterTags)) :
         null
 

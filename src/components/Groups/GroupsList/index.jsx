@@ -20,9 +20,7 @@ export default ({groupsArr}) => {
     }
 
     const handleGroupHover = (id) => {
-        console.log(editingGroupId)
         if (!editingGroupId) {
-            console.log('azaza');
           dispatch(setHoveredGroup(id));  
         }
         

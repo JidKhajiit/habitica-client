@@ -5,13 +5,13 @@ import { useHistory } from 'react-router-dom';
 import './index.scss'
 import ListItemCard from '../../helpers/ListItemCard';
 import EditGroupForm from '../../EditGroupForm';
+import UsersList from '../../helpers/UsersList/usersList';
 
 
 
 export default ({ currentGroup }) => {
     const history = useHistory();
     const { groups: groupsArr, editingGroupId, editingGroupUsers, hoveredGroupId } = useSelector(state => state.groups);
-    console.log(hoveredGroupId)
     const group = hoveredGroupId ? groupsArr.find(group => group._id === hoveredGroupId) : currentGroup;
     const { users } = useSelector(state => state.users);
 
@@ -27,7 +27,7 @@ export default ({ currentGroup }) => {
         if (group._id === editingGroupId && editingGroupUsers.length) {
             return <EditGroupForm group={group} key={group._id} />
         } else {
-
+            console.log('test', group.users)
             const activeTasksCounter = group.tasks.all ?
                 `${group.tasks.active} of ${group.tasks.all}` :
                 'empty';
@@ -48,7 +48,7 @@ export default ({ currentGroup }) => {
                     </div>
 
                     <div className="card__item_custom group__users">
-                        {group.users.map((userId) => <div key={userId}>{users.find((user) => user._id === userId).nickName}</div>)}
+                        <UsersList users={group.users.map(user => ({...user, nickName: user.user.nickName}))} />
                         <span className="card-item-article">users</span>
                     </div>
 

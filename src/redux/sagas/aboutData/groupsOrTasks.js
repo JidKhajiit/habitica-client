@@ -22,7 +22,7 @@ function* CreateItemRequest({ payload: { data, type } }) {
         if (type === 'task') {
             yield put(getGroupReq(res.data.groupId));
         } else if (type === 'group') {
-            yield put(setGroups(res.data)); //????????
+            yield put(getGroupsReq()); //????????
         } else {
             throw new Error("Invalide object.");
         }

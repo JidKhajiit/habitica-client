@@ -9,6 +9,8 @@ import TasksList from '../helpers/TasksList';
 import { MySpinner } from '../smallComponents/Spinner';
 import { getGroupReq } from '../../redux/actions/groupActionCreator';
 import { setEditingTaskId } from '../../redux/actions/tasksActionCreator';
+import { mdiAccountCowboyHat } from '@mdi/js';
+import UsersList from '../helpers/UsersList/usersList';
 
 export default props => {
     const dispatch = useDispatch();
@@ -57,7 +59,7 @@ export default props => {
                             </div>
                         </div>
                         <div className="right-item card__item_custom">
-                            {currentGroup.users.map((user) => <div key={user._id}>{user.nickName}</div>)}
+                            <UsersList users={currentGroup.users} />
                             <span className="card-item-article">users</span>
                         </div>
                     </div>

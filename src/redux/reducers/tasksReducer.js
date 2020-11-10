@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
 
             return { ...state, tasks: payload }
         case SET_EDITING_TASK_ID:
-            // console.log(payload)
+
             return { ...state, editingTaskId: payload }
         default: return state
     }

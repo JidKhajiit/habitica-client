@@ -21,7 +21,7 @@ function* changeCheckStatusOfTaskWithIdReq({ payload: { _id, completed, groupId 
 
     } catch (error) {
         yield put(showAlert(error.request.response));
-        console.log('her', error.request.response);
+        console.log('error', error.request.response);
     }
 }
 

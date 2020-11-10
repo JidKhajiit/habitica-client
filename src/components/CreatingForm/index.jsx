@@ -31,7 +31,6 @@ export default ({
     groupId,
     slide
 }) => {
-    console.log('slide', slide);
     const dispatch = useDispatch();
     const { personalInfo: { nickName: myUserNickName, _id: myUserId } } = useSelector(state => state.myUser);
     const { editingGroupId } = useSelector(state => state.groups);
@@ -39,8 +38,8 @@ export default ({
     const type = group ? 'Group' :
         task ? 'Task' : 'Item';
     const restmen = group ?
-        users.filter((user) => user._id !== myUserId).map((user) => ({ _id: user._id })) :
-        users.map((user) => ({ _id: user._id }));
+        users.filter((user) => user.userId !== myUserId).map((user) => ({ userId: user.userId })) :
+        users.map((user) => ({ userId: user.userId }));
 
     const initInputValues = {
         title: '',
@@ -63,9 +62,10 @@ export default ({
     const moveUser = (id, fromArr, toArr) => {
         setInputValues({
             ...inputValues,
-            [toArr]: [...inputValues[toArr], ...inputValues[fromArr].filter((user) => user._id === id)],
-            [fromArr]: inputValues[fromArr].filter((user) => user._id !== id)
+            [toArr]: [...inputValues[toArr], ...inputValues[fromArr].filter((user) => user.userId === id)],
+            [fromArr]: inputValues[fromArr].filter((user) => user.userId !== id)
         });
+        // console.log(inputValues.workers)
     }
 
     const setVisibility = isVisible => isVisible ? '' : ' invisible';
@@ -94,21 +94,19 @@ export default ({
 
     const sendRequest = () => {
         const { workers, title, tags } = inputValues
+
         if ((title && group) || (title && workers.length && task)) {
             let requestData;
             if (group) {
-                console.log('input', inputValues.workers)
-
                 requestData = {
                     data: {
                         ...inputValues,
-                        users: [...inputValues.workers.map((user) => user._id), myUserId],
-                        tags: [...tags.split(' ')]
+                        users: [{ userId: myUserId, role: 'headman' }, ...inputValues.workers],
+                        tags: tags === '' ? [] : [...tags.split(' ')]
                     },
                     type: type.toLowerCase()
                 }
                 delete requestData.data.workers;
-                console.log('output', requestData)
             } else {
                 requestData = {
                     data: { ...inputValues, groupId },
@@ -122,7 +120,6 @@ export default ({
             changeFormVisibility();
             setInputValues(initInputValues);
         } else {
-            console.log('title', !title, 'workers', !workers.length)
             if (!title && !workers.length && task) {
                 dispatch(showAlert("Need to fill title and workers."));
             } else if (!title) {
@@ -149,7 +146,7 @@ export default ({
     useEffect(() => {
         let restmen = group ?
             users.filter((user) => user.nickName !== myUserNickName) : users;
-        restmen.map((user) => ({ _id: user._id }));
+        restmen.map((user) => ({ userId: user.userId }));
         setInputValues({ ...inputValues, restmen })
 
     }, [users])
@@ -185,10 +182,12 @@ export default ({
                                 inputValues.restmen.length ?
                                     inputValues.restmen
                                         .map((user) =>
-                                            <DropdownItem onClick={() => moveUser(user._id, 'restmen', 'workers')} key={user._id} >
+                                            <DropdownItem onClick={() => moveUser(user.userId, 'restmen', 'workers')} key={user.userId} >
                                                 {
-                                                    users.find((item) => item._id === user._id) ?
-                                                        users.find((item) => item._id === user._id).nickName :
+                                                    // users.find((item) => item._id === user._id) ?
+                                                    //     users.find((item) => item._id === user._id).nickName :
+                                                    users.find((item) => item.userId === user.userId) ?
+                                                        users.find((item) => item.userId === user.userId).nickName :
                                                         'Anon'
                                                 }
                                             </DropdownItem>) :
@@ -208,9 +207,9 @@ export default ({
                     />
                     <Paper elevation={0} className="form-control members-list list-with-del form__left-area">
                         {group ? <><span>{myUserNickName}</span> <hr /></> : <></>}
-                        {inputValues.workers.map((worker) => <div key={worker._id}>
-                            <span>{users.find((item) => item._id === worker._id).nickName}</span>
-                            <div onClick={() => moveUser(worker._id, 'workers', 'restmen')}>
+                        {inputValues.workers.map((worker) => <div key={worker.userId}>
+                            <span>{users.find((item) => item.userId === worker.userId).nickName}</span>
+                            <div onClick={() => moveUser(worker.userId, 'workers', 'restmen')}>
                                 <CloseIcon className="close-cross" fontSize="small" />
                             </div>
                         </div>)}

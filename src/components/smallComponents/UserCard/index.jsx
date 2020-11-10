@@ -7,7 +7,6 @@ import { setFriendTab } from '../../../redux/actions/appActionCreator';
 
 export default ({ user, type, rerender }) => {
     const dispatch = useDispatch();
-    console.log(type)
 
     const handleCardClick = () => {
         if (user.status === 'outgoing req is exists') {
